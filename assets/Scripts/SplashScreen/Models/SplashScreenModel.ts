@@ -17,9 +17,9 @@ export class SplashScreenModel implements ISplashScreenModel
     }
 
     startLoadProcess(): void {
-        this._progressCounter.onFinished = this.onCountFinished;
-        this._progressCounter.onUpdate = this.setCurrentLoadProgress;
-        this._progressCounter.startCounter(this.DEFAULT_LOAD_TIME)
+        this._progressCounter.onFinished = () => this.onCountFinished();
+        this._progressCounter.onUpdate = () => this.setCurrentLoadProgress();
+        this._progressCounter.startCounter(this.DEFAULT_LOAD_TIME);
     }
 
     private onCountFinished() {
@@ -28,7 +28,9 @@ export class SplashScreenModel implements ISplashScreenModel
 
     public setCurrentLoadProgress(): void
     {
-        let currentProgress = this._progressCounter.GetCurrentCount() / this.DEFAULT_LOAD_TIME;
+        let currentCount = this._progressCounter.GetCurrentCount();
+        let currentLimit = this._progressCounter.GetProgressLimit();
+        let currentProgress = currentCount / currentLimit;
         this.onProgressChangedEvent(currentProgress)
     }
 }

@@ -13,7 +13,7 @@ export class SplashScreenInstaller extends Component
     @property(SplashScreenView)
     public SplashScreenView: SplashScreenView = null!;
 
-    @property(SplashScreenView)
+    @property(CounterCoroutine)
     public Counter: CounterCoroutine = null!;
 
     private _splashScreenController: SplashScreenController = null!;

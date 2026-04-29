@@ -4,7 +4,7 @@ const { ccclass } = _decorator;
 @ccclass('CounterCoroutine')
 export class CounterCoroutine extends Component {
 
-    private readonly _interval: number = 1;
+    private static readonly STEPS_PER_SECOND : number = 20;
 
     private _currentProgress: number = 0;
 
@@ -12,12 +12,15 @@ export class CounterCoroutine extends Component {
 
     private _progressLimit: number;
 
+    private _interval: number;
+
     public onFinished: (() => void) | null = null;
 
     public onUpdate: (() => void) | null = null;
 
     public startCounter(progressLimit: number): void {
-        this._progressLimit = progressLimit;
+        this._progressLimit = progressLimit * CounterCoroutine.STEPS_PER_SECOND;
+        this._interval = 1 / CounterCoroutine.STEPS_PER_SECOND;
         this._currentProgress = 0;
         this._isRunning = true;
         this.nextTick();
@@ -53,6 +56,9 @@ export class CounterCoroutine extends Component {
         return this._currentProgress;
     }
 
+    public GetProgressLimit(): number {
+        return this._progressLimit;
+    }
     private onCounterFinished(): void {
         this._isRunning = false;
         this.onFinished?.();
