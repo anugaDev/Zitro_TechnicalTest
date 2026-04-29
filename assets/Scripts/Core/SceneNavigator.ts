@@ -1,5 +1,5 @@
 import {director} from 'cc';
-import {ISceneNavigator} from "db://assets/Scripts/Core/ISceneNavigator";
+import {ISceneNavigator} from './ISceneNavigator';
 
 export class SceneNavigator implements ISceneNavigator
 {
