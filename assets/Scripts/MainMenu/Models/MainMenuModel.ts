@@ -1,5 +1,5 @@
-import {IMainMenuModel} from "db://assets/Scripts/MainMenu/Models/IMainMenuModel";
 import { padZero } from '../../Utils/StringUtils';
+import {IMainMenuModel} from './IMainMenuModel';
 
 export class MainMenuModel implements IMainMenuModel
 {
@@ -39,9 +39,9 @@ export class MainMenuModel implements IMainMenuModel
 
     public getFormattedTime(): string
     {
-        const h = padZero(this._currentTime.getHours());
-        const m = padZero(this._currentTime.getMinutes());
-        const s = padZero(this._currentTime.getSeconds());
-        return `${h}:${m}:${s}`;
+        const hours = padZero(this._currentTime.getHours());
+        const minutes = padZero(this._currentTime.getMinutes());
+        const seconds = padZero(this._currentTime.getSeconds());
+        return `${hours}:${minutes}:${seconds}`;
     }
 }
