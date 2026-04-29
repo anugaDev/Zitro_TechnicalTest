@@ -21,11 +21,11 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 40
+      "__id__": 42
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 41
+      "__id__": 43
     },
     "_id": "bfe90ad6-502e-40eb-bf12-6dc29b11da8f"
   },
@@ -60,6 +60,12 @@
       },
       {
         "__id__": 39
+      },
+      {
+        "__id__": 40
+      },
+      {
+        "__id__": 41
       }
     ],
     "_prefab": null,
@@ -201,7 +207,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "TImeWatchText",
+    "_name": "ClockText",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -1483,25 +1489,59 @@
     "_id": "58jkM5HmJNxpiuWSjVQISa"
   },
   {
+    "__type__": "5c3c6uEhJFHGZwauqCRgml2",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "menuView": {
+      "__id__": 41
+    },
+    "_id": "62XNvM0YpO7ZO5oyw8gmEG"
+  },
+  {
+    "__type__": "dc06eYaEIFLkq3uNAFRdg1Z",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "ClockText": {
+      "__id__": 8
+    },
+    "QuizButton": {
+      "__id__": 17
+    },
+    "SlotButton": {
+      "__id__": 24
+    },
+    "_id": "2fy01afKpObKgJNoy/G+or"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "fileId": "bfe90ad6-502e-40eb-bf12-6dc29b11da8f"
   },
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 42
-    },
-    "shadows": {
-      "__id__": 43
-    },
-    "_skybox": {
       "__id__": 44
     },
-    "fog": {
+    "shadows": {
       "__id__": 45
     },
-    "octree": {
+    "_skybox": {
       "__id__": 46
+    },
+    "fog": {
+      "__id__": 47
+    },
+    "octree": {
+      "__id__": 48
     }
   },
   {
