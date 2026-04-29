@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Button, RichText } from 'cc';
+import { _decorator, Component, Button, RichText } from 'cc';
 import { IMainMenuView } from './IMainMenuView';
 
 const { ccclass, property } = _decorator;

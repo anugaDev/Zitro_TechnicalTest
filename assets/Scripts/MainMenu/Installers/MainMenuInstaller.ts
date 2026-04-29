@@ -6,8 +6,8 @@ import { SceneNavigator } from '../../Core/SceneNavigator';
 
 const { ccclass, property } = _decorator;
 
-@ccclass('MenuInstaller')
-export class MenuInstaller extends Component
+@ccclass('MainMenuInstaller')
+export class MainMenuInstaller extends Component
 {
     @property(MainMenuView)
     private menuView: MainMenuView = null!;
@@ -17,7 +17,7 @@ export class MenuInstaller extends Component
     protected onLoad(): void
     {
         const navigator = new SceneNavigator();
-        const model = new MainMenuModel('Player1');
+        const model = new MainMenuModel();
         this.controller = new MainMenuController(navigator, model, this.menuView);
         this.controller.init();
     }

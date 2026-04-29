@@ -1,6 +1,6 @@
-import { IMainMenuModel } from '../Models/IMainMenuModel';
-import { MainMenuModel } from '../Models/MainMenuModel';
+import {GlobalParameters} from "db://assets/Scripts/GlobalParameters";
 import { ISceneNavigator } from '../../Core/ISceneNavigator';
+import { IMainMenuModel } from '../Models/IMainMenuModel';
 import { IMainMenuView } from '../Views/IMainMenuView';
 
 export class MainMenuController
@@ -34,12 +34,12 @@ export class MainMenuController
     private onGoToQuiz(): void
     {
         this.dispose();
-        this.navigator.goTo(MainMenuModel.SCENE_QUIZ);
+        this.navigator.goTo(GlobalParameters.SCENE_QUIZ);
     }
 
     private onGoToSlot(): void
     {
         this.dispose();
-        this.navigator.goTo(MainMenuModel.SCENE_SLOT);
+        this.navigator.goTo(GlobalParameters.SCENE_SLOT);
     }
 }

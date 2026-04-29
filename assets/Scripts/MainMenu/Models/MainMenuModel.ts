@@ -3,10 +3,6 @@ import {IMainMenuModel} from './IMainMenuModel';
 
 export class MainMenuModel implements IMainMenuModel
 {
-    public static readonly SCENE_QUIZ = 'QuizGameScene';
-
-    public static readonly SCENE_SLOT = 'SlotGameScene';
-
     private _intervalId: ReturnType<typeof setInterval> | null = null;
 
     private _currentTime: Date;
