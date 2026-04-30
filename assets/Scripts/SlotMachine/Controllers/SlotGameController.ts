@@ -1,7 +1,6 @@
 import { ISlotGameModel } from '../Models/ISlotGameModel';
 import { ISlotGameView } from '../Views/ISlotGameView';
 
-
 export class SlotGameController {
 
     private readonly REEL_STAGGER_MS : number  = 2000;
