@@ -1,5 +1,6 @@
 import { _decorator, Component, Button, RichText, Node, Prefab, instantiate } from 'cc';
 import { IQuizGameView } from './IQuizGameView';
+import {AnswerButtonView} from "db://assets/Scripts/QujizGame/Views/AnswerButtonView";
 
 const { ccclass, property } = _decorator;
 
@@ -12,8 +13,8 @@ export class QuizGameView extends Component implements IQuizGameView {
     @property(Node)
     public AnswerLayout: Node = null!;
 
-    @property(Prefab)
-    public AnswerButtonPrefab: Prefab = null!;
+    @property(AnswerButtonView)
+    public AnswerButtonPrefab: AnswerButtonView = null!;
 
     @property(Button)
     public ExitButton: Button = null!;
@@ -69,21 +70,25 @@ export class QuizGameView extends Component implements IQuizGameView {
     public showQuestion(statement: string, answers: string[]): void {
         this.StatementText.string = statement;
         this.AnswerLayout.removeAllChildren();
-        this.setQuestions(answers);
+        this.setAnswers(answers);
     }
 
-    private setQuestions(answers: string[]) : void {
+    private setAnswers(answers: string[]) : void {
         answers.forEach((text, index) => {
-            const node = instantiate(this.AnswerButtonPrefab);
-            const lbl  = node.getComponentInChildren(RichText)!;
-            lbl.string = text;
-            node.getComponent(Button)!.node.on(
-                Button.EventType.CLICK,
-                () => this.onAnswerSelected?.(index),
-                this
-            );
-            this.AnswerLayout.addChild(node);
+            this.setAnswer(text, index);
         });
+    }
+
+    private setAnswer(answerText : string, index: number) : void {
+        const instantiatedButton = instantiate(this.AnswerButtonPrefab);
+        const lbl  = instantiatedButton.Label;
+        lbl.string = answerText;
+        instantiatedButton.Button.node.on(
+            Button.EventType.CLICK,
+            () => this.onAnswerSelected?.(index),
+            this
+        );
+        this.AnswerLayout.addChild(instantiatedButton.node);
     }
 
     public showFeedback(wasCorrect: boolean, correctText: string): void {

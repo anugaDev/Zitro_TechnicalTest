@@ -1,4 +1,5 @@
-import { _decorator, Component, resources } from 'cc';
+import { _decorator, Component } from 'cc';
+import { resources, JsonAsset } from 'cc';
 import { QuizGameModel } from '../Models/QuizGameModel';
 import { QuizGameView } from '../Views/QuizGameView';
 import { QuizGameController } from '../Controllers/QuizGameController';
@@ -16,12 +17,13 @@ export class QuizGameInstaller extends Component {
 
     protected onLoad(): void {
 
-        resources.load('questions', (err, jsonAsset: any) => {
+        resources.load('quizGameConfiguration', JsonAsset, (err, jsonAsset: JsonAsset) => {
             if (err) {
                 console.error('Failed to load questions.json:', err);
                 return;
             }
-            const questions: QuizQuestion[] = jsonAsset.json;
+
+            const questions = jsonAsset.json as QuizQuestion[];
             const navigator = new SceneNavigator();
             const model = new QuizGameModel();
             model.setQuestionsConfiguration(questions);
@@ -29,6 +31,7 @@ export class QuizGameInstaller extends Component {
             this.controller.init();
         });
     }
+
     protected onDestroy(): void {
         this.controller?.dispose();
     }
