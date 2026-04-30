@@ -1,0 +1,20 @@
+export interface IQuizGameView {
+
+    onAnswerSelected: ((index: number) => void) | null;
+
+    onPlayAgainPressed: (() => void) | null;
+
+    onNextPressed: (() => void) | null;
+
+    onExitPressed: (() => void) | null;
+
+    showQuestion(statement: string, answers: string[]): void;
+
+    showFeedback(wasCorrect: boolean, correctText: string): void;
+
+    showResults(score: number, total: number): void;
+
+    showQuestionPanel(): void;
+
+    unbindAll(): void;
+}

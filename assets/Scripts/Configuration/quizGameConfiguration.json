@@ -1,0 +1,82 @@
+[
+  {
+    "statement": "What is the capital of France?",
+    "answers": [
+      { "text": "Berlin", "isCorrect": false },
+      { "text": "Paris", "isCorrect": true  },
+      { "text": "Madrid", "isCorrect": false }
+    ]
+  },
+  {
+    "statement": "How many sides does a hexagon have?",
+    "answers": [
+      { "text": "5", "isCorrect": false },
+      { "text": "7", "isCorrect": false },
+      { "text": "6", "isCorrect": true  }
+    ]
+  },
+  {
+    "statement": "Which planet is known as the Red Planet?",
+    "answers": [
+      { "text": "Venus", "isCorrect": false },
+      { "text": "Mars", "isCorrect": true  },
+      { "text": "Saturn", "isCorrect": false }
+    ]
+  },
+  {
+    "statement": "What is 8 × 7?",
+    "answers": [
+      { "text": "54", "isCorrect": false },
+      { "text": "56", "isCorrect": true  },
+      { "text": "63", "isCorrect": false }
+    ]
+  },
+  {
+    "statement": "Which element has the chemical symbol 'O'?",
+    "answers": [
+      { "text": "Gold", "isCorrect": false },
+      { "text": "Osmium", "isCorrect": false },
+      { "text": "Oxygen", "isCorrect": true  }
+    ]
+  },
+  {
+    "statement": "Who wrote 'Don Quixote'?",
+    "answers": [
+      { "text": "Lope de Vega", "isCorrect": false },
+      { "text": "Miguel de Cervantes","isCorrect": true  },
+      { "text": "Federico García Lorca","isCorrect": false }
+    ]
+  },
+  {
+    "statement": "What is the largest ocean on Earth?",
+    "answers": [
+      { "text": "Atlantic", "isCorrect": false },
+      { "text": "Indian", "isCorrect": false },
+      { "text": "Pacific", "isCorrect": true  }
+    ]
+  },
+  {
+    "statement": "How many bones are in the adult human body?",
+    "answers": [
+      { "text": "206", "isCorrect": true  },
+      { "text": "186", "isCorrect": false },
+      { "text": "226", "isCorrect": false }
+    ]
+  },
+  {
+    "statement": "In which year did World War II end?",
+    "answers": [
+      { "text": "1943", "isCorrect": false },
+      { "text": "1945", "isCorrect": true  },
+      { "text": "1947", "isCorrect": false }
+    ]
+  },
+  {
+    "statement": "What is the speed of light (approx.) in km/s?",
+    "answers": [
+      { "text": "150,000 km/s", "isCorrect": false },
+      { "text": "300,000 km/s", "isCorrect": true  },
+      { "text": "450,000 km/s", "isCorrect": false }
+    ]
+  }
+]

@@ -1,0 +1,60 @@
+import { GlobalParameters } from 'db://assets/Scripts/GlobalParameters';
+import { ISceneNavigator } from '../../Core/ISceneNavigator';
+import { IQuizGameModel } from '../Models/IQuizGameModel';
+import { IQuizGameView } from '../Views/IQuizGameView';
+
+export class QuizGameController {
+
+    constructor(
+        private readonly navigator: ISceneNavigator,
+        private readonly model: IQuizGameModel,
+        private readonly view: IQuizGameView
+    ) {}
+
+    public init(): void {
+        this.view.onAnswerSelected = (index) => this.onAnswerSelected(index);
+        this.view.onPlayAgainPressed = () => this.onPlayAgain();
+        this.view.onNextPressed = () => this.onNext();
+        this.view.onExitPressed = () => this.onExit();
+
+        this.view.showQuestionPanel();
+        this.displayCurrentQuestion();
+    }
+
+    public dispose(): void {
+        this.view.unbindAll();
+    }
+
+    private displayCurrentQuestion(): void {
+        const question = this.model.getCurrentQuestion();
+        this.view.showQuestion(question.statement, question.answers.map(answer => answer.text));
+    }
+
+    private onAnswerSelected(index: number): void {
+        const wasCorrect = this.model.submitAnswer(index);
+        const correctText = this.model.getCurrentQuestion().answers.find(answer => answer.isCorrect)!.text;
+        this.view.showFeedback(wasCorrect, correctText);
+    }
+
+    private onNext(): void {
+        const hasMore = this.model.nextQuestion();
+
+        if (hasMore) {
+            this.displayCurrentQuestion();
+        }
+        else {
+            this.view.showResults(this.model.getScore(), this.model.getTotalQuestions());
+        }
+    }
+
+    private onPlayAgain(): void {
+        this.model.reset();
+        this.view.showQuestionPanel();
+        this.displayCurrentQuestion();
+    }
+
+    private onExit(): void {
+        this.dispose();
+        this.navigator.goTo(GlobalParameters.SCENE_MENU);
+    }
+}
