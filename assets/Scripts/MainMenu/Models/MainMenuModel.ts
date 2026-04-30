@@ -1,5 +1,8 @@
 import { padZero } from '../../Utils/StringUtils';
 import {IMainMenuModel} from './IMainMenuModel';
+import {ITimeService} from "db://assets/Scripts/MainMenu/Models/Services/ITimeService";
+import { ISceneNavigator } from '../../Core/ISceneNavigator';
+import { GlobalParameters } from 'db://assets/Scripts/GlobalParameters';
 
 export class MainMenuModel implements IMainMenuModel
 {
@@ -7,9 +10,16 @@ export class MainMenuModel implements IMainMenuModel
 
     private _currentTime: Date;
 
-    constructor()
+    constructor(
+        private readonly timeService: ITimeService,
+        private readonly navigator: ISceneNavigator
+    )
     {
         this._currentTime = new Date();
+    }
+
+    public async initializeTime(): Promise<void> {
+        this._currentTime = await this.timeService.fetchCurrentTime();
     }
 
     public startClock(onTick: (time: string) => void): void
@@ -17,7 +27,7 @@ export class MainMenuModel implements IMainMenuModel
         this.stopClock();
         this._intervalId = setInterval(() =>
         {
-            this._currentTime = new Date();
+            this._currentTime = new Date(this._currentTime.getTime() + 1000);
             onTick(this.getFormattedTime());
         }, 1000);
     }
@@ -39,5 +49,15 @@ export class MainMenuModel implements IMainMenuModel
         const minutes = padZero(this._currentTime.getMinutes());
         const seconds = padZero(this._currentTime.getSeconds());
         return `${hours}:${minutes}:${seconds}`;
+    }
+
+    public goToQuiz(): void
+    {
+        this.navigator.goTo(GlobalParameters.SCENE_QUIZ);
+    }
+
+    public goToSlot(): void
+    {
+        this.navigator.goTo(GlobalParameters.SCENE_SLOT);
     }
 }

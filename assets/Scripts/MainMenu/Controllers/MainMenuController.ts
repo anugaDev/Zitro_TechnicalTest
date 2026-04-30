@@ -1,5 +1,3 @@
-import {GlobalParameters} from "db://assets/Scripts/GlobalParameters";
-import { ISceneNavigator } from '../../Core/ISceneNavigator';
 import { IMainMenuModel } from '../Models/IMainMenuModel';
 import { IMainMenuView } from '../Views/IMainMenuView';
 
@@ -7,21 +5,35 @@ export class MainMenuController
 {
     constructor
     (
-        private readonly navigator: ISceneNavigator,
-
         private readonly model: IMainMenuModel,
 
         private readonly view: IMainMenuView
     ) {}
 
-    public init(): void
+    public async init(): Promise<void>
     {
-        this.view.updateClock(this.model.getFormattedTime());
+        this.view.setButtonsInteractable(false);
+        await this.initClock();
+        this.setSceneInteractable();
+    }
 
+    private async initClock(): Promise<void>
+    {
+        try {
+            await this.model.initializeTime();
+        } catch (e) {
+            console.warn('WorldTimeAPI unreachable, falling back to local time.', e);
+        }
+
+        this.view.updateClock(this.model.getFormattedTime());
+        this.model.startClock((time) => this.view.updateClock(time));
+    }
+
+    private setSceneInteractable(): void
+    {
+        this.view.setButtonsInteractable(true);
         this.view.bindQuizButton(this.onGoToQuiz.bind(this));
         this.view.bindSlotButton(this.onGoToSlot.bind(this));
-
-        this.model.startClock((time) => this.view.updateClock(time));
     }
 
     public dispose(): void
@@ -34,12 +46,12 @@ export class MainMenuController
     private onGoToQuiz(): void
     {
         this.dispose();
-        this.navigator.goTo(GlobalParameters.SCENE_QUIZ);
+        this.model.goToQuiz();
     }
 
     private onGoToSlot(): void
     {
         this.dispose();
-        this.navigator.goTo(GlobalParameters.SCENE_SLOT);
+        this.model.goToSlot();
     }
 }

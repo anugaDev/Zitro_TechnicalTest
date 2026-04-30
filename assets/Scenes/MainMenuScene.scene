@@ -259,11 +259,11 @@
     "node": {
       "__id__": 6
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 389.26,
+      "width": 449.85,
       "height": 126
     },
     "_anchorPoint": {
@@ -284,7 +284,7 @@
     "_enabled": true,
     "__prefab": null,
     "_lineHeight": 100,
-    "_string": "<color=#00ff00>21:30:00</color>",
+    "_string": "<color=#00ff00>- - : - - : - -</color>",
     "_horizontalAlign": 0,
     "_fontSize": 100,
     "_maxWidth": 0,

@@ -3,13 +3,12 @@ import { SplashScreenModel } from '../Models/SplashScreenModel';
 import { SplashScreenView } from '../Views/SplashScreenView';
 import { SplashScreenController } from '../Controllers/SplashScreenController';
 import { SceneNavigator } from '../../Core/SceneNavigator';
-import {CounterCoroutine} from "db://assets/Scripts/Core/CounterCoroutine";
+import { CounterCoroutine } from "db://assets/Scripts/Core/CounterCoroutine";
 
 const { ccclass, property } = _decorator;
 
 @ccclass('SplashScreenInstaller')
-export class SplashScreenInstaller extends Component
-{
+export class SplashScreenInstaller extends Component {
     @property(SplashScreenView)
     public SplashScreenView: SplashScreenView = null!;
 
@@ -18,8 +17,7 @@ export class SplashScreenInstaller extends Component
 
     private _splashScreenController: SplashScreenController = null!;
 
-    protected onLoad(): void
-    {
+    protected onLoad(): void {
         const navigator = new SceneNavigator();
         const model = new SplashScreenModel(this.Counter);
         this._splashScreenController = new SplashScreenController(navigator, model, this.SplashScreenView);
