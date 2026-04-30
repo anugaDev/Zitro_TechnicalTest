@@ -1,0 +1,16 @@
+export interface ISlotGameView {
+
+    startReelSpin(reelIndex: number): void;
+
+    stopReel(reelIndex: number, symbolId: number, onStopped: () => void): void;
+
+    showWin(): void;
+
+    hideWin(): void;
+
+    setSpinButtonInteractable(value: boolean): void;
+
+    bindSpinButton(handler: () => void): void;
+
+    unbindAll(): void;
+}
