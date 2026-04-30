@@ -1,11 +1,14 @@
 import { _decorator, Component, Button, RichText, Node, Prefab, instantiate } from 'cc';
 import { IQuizGameView } from './IQuizGameView';
-import {AnswerButtonView} from "db://assets/Scripts/QujizGame/Views/AnswerButtonView";
+import { AnswerButtonView } from "db://assets/Scripts/QuizGame/Views/AnswerButtonView";
 
 const { ccclass, property } = _decorator;
 
 @ccclass('QuizGameView')
 export class QuizGameView extends Component implements IQuizGameView {
+
+    @property(Node)
+    public QuizPanel: Node = null!;
 
     @property(RichText)
     public StatementText: RichText = null!;
@@ -13,11 +16,8 @@ export class QuizGameView extends Component implements IQuizGameView {
     @property(Node)
     public AnswerLayout: Node = null!;
 
-    @property(AnswerButtonView)
-    public AnswerButtonPrefab: AnswerButtonView = null!;
-
-    @property(Button)
-    public ExitButton: Button = null!;
+    @property(Prefab)
+    public AnswerButtonPrefab: Prefab = null!;
 
     @property(Node)
     public FeedbackPanel: Node = null!;
@@ -37,30 +37,15 @@ export class QuizGameView extends Component implements IQuizGameView {
     @property(Button)
     public PlayAgainButton: Button = null!;
 
-    @property(Button)
-    public ResultsExitButton: Button = null!;
-
     public onAnswerSelected: ((index: number) => void) | null = null;
 
     public onPlayAgainPressed: (() => void) | null = null;
 
     public onNextPressed: (() => void) | null = null;
 
-    public onExitPressed: (() => void) | null = null;
-
     protected onLoad(): void {
-        this.ExitButton.node.on(
-            Button.EventType.CLICK, this.handleExitClick, this
-        );
-        this.NextButton.node.on(
-            Button.EventType.CLICK, this.handleNextClick, this
-        );
-        this.PlayAgainButton.node.on(
-            Button.EventType.CLICK, this.handlePlayAgainClick, this
-        );
-        this.ResultsExitButton.node.on(
-            Button.EventType.CLICK, this.handleExitClick, this
-        );
+        this.NextButton.node.on(Button.EventType.CLICK, this.handleNextClick, this);
+        this.PlayAgainButton.node.on(Button.EventType.CLICK, this.handlePlayAgainClick, this);
     }
 
     protected onDestroy(): void {
@@ -79,19 +64,20 @@ export class QuizGameView extends Component implements IQuizGameView {
         });
     }
 
-    private setAnswer(answerText : string, index: number) : void {
-        const instantiatedButton = instantiate(this.AnswerButtonPrefab);
-        const lbl  = instantiatedButton.Label;
-        lbl.string = answerText;
-        instantiatedButton.Button.node.on(
+    private setAnswer(answerText: string, index: number): void {
+        const node             = instantiate(this.AnswerButtonPrefab);
+        const answerButtonView = node.getComponent(AnswerButtonView)!;
+        answerButtonView.Label.string = answerText;
+        answerButtonView.Button.node.on(
             Button.EventType.CLICK,
             () => this.onAnswerSelected?.(index),
             this
         );
-        this.AnswerLayout.addChild(instantiatedButton.node);
+        this.AnswerLayout.addChild(node);
     }
 
     public showFeedback(wasCorrect: boolean, correctText: string): void {
+        this.QuizPanel.active   = false;
         this.FeedbackPanel.active = true;
         this.FeedbackText.string = wasCorrect
             ? '<color=#44ff44><b>✓ Correct!</b></color>'
@@ -100,6 +86,7 @@ export class QuizGameView extends Component implements IQuizGameView {
     }
 
     public showResults(score: number, total: number): void {
+        this.QuizPanel.active    = false;
         this.ResultsPanel.active = true;
         this.ResultsText.string =
             `<color=#ffffff><b>Quiz Finished!</b></color>\n` +
@@ -107,29 +94,26 @@ export class QuizGameView extends Component implements IQuizGameView {
     }
 
     public showQuestionPanel(): void {
+        this.QuizPanel.active     = true;
         this.FeedbackPanel.active = false;
         this.ResultsPanel.active  = false;
     }
 
     public unbindAll(): void {
-        this.ExitButton?.node.off(Button.EventType.CLICK, this.handleExitClick, this);
         this.NextButton?.node.off(Button.EventType.CLICK, this.handleNextClick, this);
         this.PlayAgainButton?.node.off(Button.EventType.CLICK, this.handlePlayAgainClick, this);
-        this.ResultsExitButton?.node.off(Button.EventType.CLICK, this.handleExitClick, this);
-        this.AnswerLayout?.removeAllChildren();
+        if (this.AnswerLayout?.isValid) {
+            this.AnswerLayout.removeAllChildren();
+        }
 
+        this.onAnswerSelected   = null;
+        this.onNextPressed      = null;
         this.onPlayAgainPressed = null;
-        this.onAnswerSelected = null;
-        this.onNextPressed = null;
-        this.onExitPressed = null;
-    }
-
-    private handleExitClick(): void {
-        this.onExitPressed?.();
     }
 
     private handleNextClick(): void {
         this.FeedbackPanel.active = false;
+        this.QuizPanel.active     = true;
         this.onNextPressed?.();
     }
 

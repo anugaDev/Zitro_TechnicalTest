@@ -1,21 +1,17 @@
-import { GlobalParameters } from 'db://assets/Scripts/GlobalParameters';
-import { ISceneNavigator } from '../../Core/ISceneNavigator';
 import { IQuizGameModel } from '../Models/IQuizGameModel';
 import { IQuizGameView } from '../Views/IQuizGameView';
 
 export class QuizGameController {
 
     constructor(
-        private readonly navigator: ISceneNavigator,
         private readonly model: IQuizGameModel,
         private readonly view: IQuizGameView
     ) {}
 
     public init(): void {
-        this.view.onAnswerSelected = (index) => this.onAnswerSelected(index);
-        this.view.onPlayAgainPressed = () => this.onPlayAgain();
-        this.view.onNextPressed = () => this.onNext();
-        this.view.onExitPressed = () => this.onExit();
+        this.view.onAnswerSelected   = (index) => this.onAnswerSelected(index);
+        this.view.onPlayAgainPressed = ()      => this.onPlayAgain();
+        this.view.onNextPressed      = ()      => this.onNext();
 
         this.view.showQuestionPanel();
         this.displayCurrentQuestion();
@@ -51,10 +47,5 @@ export class QuizGameController {
         this.model.reset();
         this.view.showQuestionPanel();
         this.displayCurrentQuestion();
-    }
-
-    private onExit(): void {
-        this.dispose();
-        this.navigator.goTo(GlobalParameters.SCENE_MENU);
     }
 }
