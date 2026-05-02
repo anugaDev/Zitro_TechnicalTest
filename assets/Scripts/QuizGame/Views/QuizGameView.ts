@@ -1,6 +1,8 @@
 import { _decorator, Component, Button, RichText, Node, Prefab, instantiate } from 'cc';
 import { IQuizGameView } from './IQuizGameView';
-import { AnswerButtonView } from "db://assets/Scripts/QuizGame/Views/AnswerButtonView";
+import { AnswerButtonView } from 'db://assets/Scripts/QuizGame/Views/AnswerButtonView';
+import { AnimationController } from 'db://assets/Scripts/Core/Animations/AnimationController';
+import { StatementFadeAnimation } from 'db://assets/Scripts/Core/Animations/StatementFadeAnimation';
 
 const { ccclass, property } = _decorator;
 
@@ -43,9 +45,15 @@ export class QuizGameView extends Component implements IQuizGameView {
 
     public onNextPressed: (() => void) | null = null;
 
+    private _animations: AnimationController = null!;
+
     protected onLoad(): void {
         this.NextButton.node.on(Button.EventType.CLICK, this.handleNextClick, this);
         this.PlayAgainButton.node.on(Button.EventType.CLICK, this.handlePlayAgainClick, this);
+
+        this._animations = new AnimationController([
+            new StatementFadeAnimation('statementFade', this.StatementText.node, this.AnswerLayout),
+        ]);
     }
 
     protected onDestroy(): void {
@@ -107,6 +115,7 @@ export class QuizGameView extends Component implements IQuizGameView {
 
     public onSceneFadeInCompleted(): void {
         this.showQuestionPanel();
+        this._animations.play('statementFade');
     }
 
     public unbindAll(): void {
