@@ -22,7 +22,7 @@ export class SlotGameInstaller extends Component {
     private gameSceneController: GameSceneController = null!;
 
     protected onLoad(): void {
-        const navigator      = new SceneNavigator();
+        const navigator = new SceneNavigator();
         const gameSceneModel = new GameSceneModel(navigator);
         this.gameSceneController = new GameSceneController(gameSceneModel, this.gameSceneView);
         const model = new SlotGameModel();
@@ -30,8 +30,8 @@ export class SlotGameInstaller extends Component {
         this.slotController.init();
 
         this.gameSceneController.onFadeInCompleted = () => this.slotView.onSceneFadeInCompleted();
-        this.gameSceneController.onFadeOutStarted  = () => this.slotView.onSceneFadeOutStarted();
-        this.gameSceneController.init();
+        this.gameSceneController.onFadeOutStarted = () => this.slotView.onSceneFadeOutStarted();
+        this.slotView.onAllReelsReady = () => this.gameSceneController.init();
     }
 
     protected onDestroy(): void {

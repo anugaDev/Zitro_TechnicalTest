@@ -1,0 +1,222 @@
+{
+  "ver": "1.0.6",
+  "importer": "sprite-atlas",
+  "imported": true,
+  "uuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486",
+  "files": [
+    ".plist",
+    ".json"
+  ],
+  "subMetas": {
+    "9fff6": {
+      "importer": "sprite-frame",
+      "uuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486@9fff6",
+      "displayName": "",
+      "id": "9fff6",
+      "name": "Bell",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 0,
+        "trimY": 0,
+        "width": 512,
+        "height": 512,
+        "rawWidth": 512,
+        "rawHeight": 512,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "83b9ae1d-cfb0-4da2-9143-c54597aa6359@6c48a",
+        "atlasUuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486"
+      },
+      "ver": "1.0.9",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7145f": {
+      "importer": "sprite-frame",
+      "uuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486@7145f",
+      "displayName": "",
+      "id": "7145f",
+      "name": "Cherry",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 512,
+        "trimY": 0,
+        "width": 512,
+        "height": 512,
+        "rawWidth": 512,
+        "rawHeight": 512,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "83b9ae1d-cfb0-4da2-9143-c54597aa6359@6c48a",
+        "atlasUuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486"
+      },
+      "ver": "1.0.9",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "81a79": {
+      "importer": "sprite-frame",
+      "uuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486@81a79",
+      "displayName": "",
+      "id": "81a79",
+      "name": "Diamond",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 0,
+        "trimY": 512,
+        "width": 512,
+        "height": 512,
+        "rawWidth": 512,
+        "rawHeight": 512,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "83b9ae1d-cfb0-4da2-9143-c54597aa6359@6c48a",
+        "atlasUuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486"
+      },
+      "ver": "1.0.9",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f2349": {
+      "importer": "sprite-frame",
+      "uuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486@f2349",
+      "displayName": "",
+      "id": "f2349",
+      "name": "Grape",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 512,
+        "trimY": 512,
+        "width": 512,
+        "height": 512,
+        "rawWidth": 512,
+        "rawHeight": 512,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "83b9ae1d-cfb0-4da2-9143-c54597aa6359@6c48a",
+        "atlasUuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486"
+      },
+      "ver": "1.0.9",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f207c": {
+      "importer": "sprite-frame",
+      "uuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486@f207c",
+      "displayName": "",
+      "id": "f207c",
+      "name": "Lemon",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 0,
+        "trimY": 1024,
+        "width": 512,
+        "height": 476,
+        "rawWidth": 512,
+        "rawHeight": 476,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "83b9ae1d-cfb0-4da2-9143-c54597aa6359@6c48a",
+        "atlasUuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486"
+      },
+      "ver": "1.0.9",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "268ba": {
+      "importer": "sprite-frame",
+      "uuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486@268ba",
+      "displayName": "",
+      "id": "268ba",
+      "name": "Star",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 512,
+        "trimY": 1024,
+        "width": 512,
+        "height": 512,
+        "rawWidth": 512,
+        "rawHeight": 512,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "83b9ae1d-cfb0-4da2-9143-c54597aa6359@6c48a",
+        "atlasUuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486"
+      },
+      "ver": "1.0.9",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "atlasTextureName": "SlotSymbols.png",
+    "format": 3,
+    "uuid": "9c9d20ff-368f-4d8d-8e22-cf197c738486",
+    "textureUuid": "83b9ae1d-cfb0-4da2-9143-c54597aa6359@6c48a"
+  }
+}

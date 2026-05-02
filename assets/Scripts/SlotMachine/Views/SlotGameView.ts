@@ -29,8 +29,17 @@ export class SlotGameView extends Component implements ISlotGameView {
     @property(AudioClip)
     public WinClip: AudioClip = null!;
 
+    public onAllReelsReady: (() => void) | null = null;
+
     protected onLoad(): void {
-        this.reels.forEach(r => r.loadSymbols(() => r.buildStrip()));
+        let readyCount = 0;
+        this.reels.forEach(r => r.loadSymbols(() => {
+            r.buildStrip();
+            readyCount++;
+            if (readyCount === this.reels.length) {
+                this.onAllReelsReady?.();
+            }
+        }));
         this.hideWin();
     }
 

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, SpriteFrame, Sprite, tween, Tween, Vec3, UITransform, AudioSource, AudioClip } from 'cc';
+import { _decorator, Component, Node, SpriteFrame, SpriteAtlas, Sprite, tween, Tween, Vec3, UITransform, AudioSource, AudioClip } from 'cc';
 import { resources } from 'cc';
 import { SlotSymbolEnum, SYMBOL_COUNT } from '../Enums/SlotSymbolEnum';
 
@@ -35,9 +35,15 @@ export class ReelView extends Component {
     }
 
     protected update(dt: number): void {
-        if (!this._isSpinning) return;
+        this.updateReelPosition(dt)
+    }
 
-        this._stripY -= this._spinSpeed * dt;
+    private updateReelPosition(deltaTime : number): void {
+        if (!this._isSpinning) {
+            return;
+        }
+
+        this._stripY -= this._spinSpeed * deltaTime;
 
         if (this._stripY <= -this._loopHeight) {
             this._stripY += this._loopHeight;
@@ -49,21 +55,18 @@ export class ReelView extends Component {
     public loadSymbols(onLoaded: () => void): void {
         this._symbolFrames = new Array(SYMBOL_COUNT).fill(null);
 
-        resources.loadDir('SlotSprites', SpriteFrame, (err, frames) => {
-            if (err) {
-                console.error('[ReelView] Failed to load slot sprites:', err);
+        resources.load('SlotSprites/SlotSymbols', SpriteAtlas, (err, atlas) => {
+            if (err || !atlas) {
+                console.error('[ReelView] Failed to load SlotSymbols atlas:', err);
             } else {
-                frames.forEach((frame) => {
-                    const symbolIndex = SlotSymbolEnum[frame.name as keyof typeof SlotSymbolEnum] as unknown as number;
-                    if (symbolIndex !== undefined && symbolIndex >= 0) {
-                        this._symbolFrames[symbolIndex] = frame;
-                    }
-                });
+                for (let i = 0; i < SYMBOL_COUNT; i++) {
+                    const name = SlotSymbolEnum[i];
+                    this._symbolFrames[i] = atlas.getSpriteFrame(name);
+                }
             }
             onLoaded();
         });
     }
-
 
     public startSpin(): void {
         this._isSpinning = true;
