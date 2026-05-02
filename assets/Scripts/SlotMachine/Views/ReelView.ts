@@ -1,4 +1,4 @@
-import {_decorator, Component, Node, SpriteFrame, Sprite, tween, Tween, Vec3, UITransform} from 'cc';
+import { _decorator, Component, Node, SpriteFrame, Sprite, tween, Tween, Vec3, UITransform, AudioSource, AudioClip } from 'cc';
 import { SlotSymbolEnum, SYMBOL_COUNT } from '../Enums/SlotSymbolEnum';
 
 const { ccclass, property } = _decorator;
@@ -18,6 +18,12 @@ export class ReelView extends Component {
     @property(Node)
     public stripNode: Node = null!;
 
+    @property(AudioSource)
+    public Audio: AudioSource = null!;
+
+    @property(AudioClip)
+    public StopClip: AudioClip = null!;
+
     private _isSpinning: boolean = false;
 
     private _stripY:     number  = 0;
@@ -27,6 +33,7 @@ export class ReelView extends Component {
     private get _loopHeight(): number {
         return SYMBOL_COUNT * this.CELL_HEIGHT;
     }
+
 
     protected update(dt: number): void {
         if (!this._isSpinning) return;
@@ -54,6 +61,7 @@ export class ReelView extends Component {
             .call(() => {
                 this._activeTween = null;
                 this._stripY = targetY;
+                this.Audio?.playOneShot(this.StopClip);
                 onStopped();
             })
             .start();

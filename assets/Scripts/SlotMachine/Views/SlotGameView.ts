@@ -1,7 +1,8 @@
-import { _decorator, Component, Button, Node } from 'cc';
+import { _decorator, Component, Button, Node, AudioSource, AudioClip } from 'cc';
 import { ISlotGameView } from './ISlotGameView';
-import {SlotSymbolEnum} from '../Enums/SlotSymbolEnum';
+import { SlotSymbolEnum } from '../Enums/SlotSymbolEnum';
 import { ReelView } from './ReelView';
+
 const { ccclass, property } = _decorator;
 
 @ccclass('SlotGameView')
@@ -16,29 +17,49 @@ export class SlotGameView extends Component implements ISlotGameView {
     @property(Node)
     public WinPanel: Node = null!;
 
+    @property(AudioSource)
+    public Audio: AudioSource = null!;
+
+    @property(AudioClip)
+    public SpinStartClip: AudioClip = null!;
+
+    @property(AudioClip)
+    public SpinLoopClip: AudioClip = null!;
+
+    @property(AudioClip)
+    public WinClip: AudioClip = null!;
+
     protected onLoad(): void {
         this.reels.forEach(r => r.buildStrip());
         this.hideWin();
     }
 
     public startReelSpin(reelIndex: number): void {
+        if (reelIndex === 0 && this.Audio) {
+            this.Audio.playOneShot(this.SpinStartClip);
+            this.Audio.clip = this.SpinLoopClip;
+            this.Audio.loop = true;
+            this.Audio.play();
+        }
         this.reels[reelIndex].startSpin();
     }
 
-    public stopReel(reelIndex: number, symbolId: number, onStopped: () => void) : void {
+    public stopReel(reelIndex: number, symbolId: number, onStopped: () => void): void {
         this.reels[reelIndex].stopSpin(symbolId as SlotSymbolEnum, onStopped);
     }
 
-    public showWin(): void  {
+    public showWin(): void {
         this.WinPanel.active = true;
+        this.Audio?.playOneShot(this.WinClip);
     }
 
-    public hideWin(): void  {
+    public hideWin(): void {
         this.WinPanel.active = false;
     }
 
     public setSpinButtonInteractable(value: boolean): void {
         this.SpinButton.interactable = value;
+        if (value) this.Audio?.stop();
     }
 
     public bindSpinButton(handler: () => void): void {
@@ -46,6 +67,7 @@ export class SlotGameView extends Component implements ISlotGameView {
     }
 
     public cancelAllReels(): void {
+        this.Audio?.stop();
         this.reels?.forEach(r => {
             if (r?.isValid) r.cancelSpin();
         });
