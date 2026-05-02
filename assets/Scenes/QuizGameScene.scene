@@ -1649,7 +1649,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 320,
+    "_orthoHeight": 397.7854671280277,
     "_near": 1,
     "_far": 2000,
     "_color": {
@@ -1772,6 +1772,9 @@
     "_enabled": true,
     "__prefab": null,
     "ExitButton": null,
+    "SceneRoot": {
+      "__id__": 2
+    },
     "_id": "481YM5rg5EWKusIPA1WVgh"
   },
   {

@@ -28,11 +28,11 @@ export class QuizGameInstaller extends Component {
         const navigator = new SceneNavigator();
         const gameSceneModel  = new GameSceneModel(navigator);
         this.gameSceneController = new GameSceneController(gameSceneModel, this.gameSceneView);
-        this.gameSceneController.init();
 
         resources.load('quizGameConfiguration', JsonAsset, (err, jsonAsset: JsonAsset) => {
             if (err) {
                 console.error('Failed to load quizGameConfiguration.json:', err);
+                this.gameSceneController.init();
                 return;
             }
 
@@ -41,6 +41,7 @@ export class QuizGameInstaller extends Component {
             model.setQuestionsConfiguration(questions);
             this.quizController = new QuizGameController(model, this.quizView);
             this.quizController.init();
+            this.gameSceneController.init();
         });
     }
 

@@ -11,6 +11,7 @@ export class GameSceneController {
 
     public init(): void {
         this.view.onExitPressed = () => this.onExit();
+        this.view.playFadeIn(() => {});
     }
 
     public dispose(): void {
@@ -18,7 +19,9 @@ export class GameSceneController {
     }
 
     private onExit(): void {
-        this.dispose();
-        this.model.goToMenu();
+        this.view.playFadeOut(() => {
+            this.dispose();
+            this.model.goToMenu();
+        });
     }
 }

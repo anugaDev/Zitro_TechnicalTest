@@ -10,5 +10,7 @@ export interface IMainMenuView
 
     playFadeIn(onFinished: () => void): void;
 
+    playFadeOut(onFinished: () => void): void;
+
     unbindAll(): void;
 }

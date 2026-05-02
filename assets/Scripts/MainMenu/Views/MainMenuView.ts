@@ -2,6 +2,7 @@ import { _decorator, Component, Button, RichText } from 'cc';
 import { IMainMenuView } from './IMainMenuView';
 import { AnimationController } from 'db://assets/Scripts/Core/Animations/AnimationController';
 import { FadeInAnimation } from 'db://assets/Scripts/Core/Animations/FadeInAnimation';
+import { FadeOutAnimation } from 'db://assets/Scripts/Core/Animations/FadeOutAnimation';
 
 const { ccclass, property } = _decorator;
 
@@ -21,7 +22,8 @@ export class MainMenuView extends Component implements IMainMenuView {
 
     protected onLoad(): void {
         this._animations = new AnimationController([
-            new FadeInAnimation('fadeIn', this.node, 0.5),
+            new FadeInAnimation ('fadeIn',  this.node, 0.5),
+            new FadeOutAnimation('fadeOut', this.node, 0.5),
         ]);
     }
 
@@ -45,6 +47,11 @@ export class MainMenuView extends Component implements IMainMenuView {
     public playFadeIn(onFinished: () => void): void {
         this._animations.onFinished = () => onFinished();
         this._animations.play('fadeIn');
+    }
+
+    public playFadeOut(onFinished: () => void): void {
+        this._animations.onFinished = () => onFinished();
+        this._animations.play('fadeOut');
     }
 
     public unbindAll(): void {

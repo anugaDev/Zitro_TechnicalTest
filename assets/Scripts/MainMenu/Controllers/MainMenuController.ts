@@ -45,13 +45,17 @@ export class MainMenuController
 
     private onGoToQuiz(): void
     {
-        this.dispose();
-        this.model.goToQuiz();
+        this.view.playFadeOut(() => {
+            this.dispose();
+            this.model.goToQuiz();
+        });
     }
 
     private onGoToSlot(): void
     {
-        this.dispose();
-        this.model.goToSlot();
+        this.view.playFadeOut(() => {
+            this.dispose();
+            this.model.goToSlot();
+        });
     }
 }
