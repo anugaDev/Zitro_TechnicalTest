@@ -1,8 +1,7 @@
-import { _decorator, Component, Button, RichText, Node, Prefab, instantiate } from 'cc';
+import { _decorator, Component, Button, RichText, Node, Prefab, instantiate, UIOpacity } from 'cc';
 import { IQuizGameView } from './IQuizGameView';
 import { AnswerButtonView } from 'db://assets/Scripts/QuizGame/Views/AnswerButtonView';
-import { AnimationController } from 'db://assets/Scripts/Core/Animations/AnimationController';
-import { StatementFadeAnimation } from 'db://assets/Scripts/Core/Animations/StatementFadeAnimation';
+import { StatementAnimationController } from 'db://assets/Scripts/QuizGame/Controllers/StatementAnimationController';
 
 const { ccclass, property } = _decorator;
 
@@ -45,15 +44,18 @@ export class QuizGameView extends Component implements IQuizGameView {
 
     public onNextPressed: (() => void) | null = null;
 
-    private _animations: AnimationController = null!;
+    private _animController: StatementAnimationController = null!;
 
     protected onLoad(): void {
         this.NextButton.node.on(Button.EventType.CLICK, this.handleNextClick, this);
         this.PlayAgainButton.node.on(Button.EventType.CLICK, this.handlePlayAgainClick, this);
 
-        this._animations = new AnimationController([
-            new StatementFadeAnimation('statementFade', this.StatementText.node, this.AnswerLayout),
-        ]);
+        this._animController = new StatementAnimationController(
+            this.StatementText.node,
+            this.AnswerLayout,
+            this.FeedbackPanel,
+            this.ResultsPanel
+        );
     }
 
     protected onDestroy(): void {
@@ -66,14 +68,12 @@ export class QuizGameView extends Component implements IQuizGameView {
         this.setAnswers(answers);
     }
 
-    private setAnswers(answers: string[]) : void {
-        answers.forEach((text, index) => {
-            this.setAnswer(text, index);
-        });
+    private setAnswers(answers: string[]): void {
+        answers.forEach((text, index) => this.setAnswer(text, index));
     }
 
     private setAnswer(answerText: string, index: number): void {
-        const node             = instantiate(this.AnswerButtonPrefab);
+        const node = instantiate(this.AnswerButtonPrefab);
         const answerButtonView = node.getComponent(AnswerButtonView)!;
         answerButtonView.Label.string = answerText;
         answerButtonView.Button.node.on(
@@ -85,16 +85,17 @@ export class QuizGameView extends Component implements IQuizGameView {
     }
 
     public showFeedback(wasCorrect: boolean, correctText: string): void {
-        this.QuizPanel.active   = false;
+        this.QuizPanel.active = false;
         this.FeedbackPanel.active = true;
+        this.resetOpacity(this.FeedbackPanel);
         this.FeedbackText.string = wasCorrect
             ? '<color=#44ff44><b>✓ Correct!</b></color>'
             : `<color=#ff4444><b>✗ Wrong!</b></color>\n` +
-              `<color=#ffffff>Correct answer: ${correctText}</color>`;
+            `<color=#ffffff>Correct answer: ${correctText}</color>`;
     }
 
     public showResults(score: number, total: number): void {
-        this.QuizPanel.active    = false;
+        this.QuizPanel.active = false;
         this.ResultsPanel.active = true;
         this.ResultsText.string =
             `<color=#ffffff><b>Quiz Finished!</b></color>\n` +
@@ -102,20 +103,20 @@ export class QuizGameView extends Component implements IQuizGameView {
     }
 
     public showQuestionPanel(): void {
-        this.QuizPanel.active     = true;
+        this.QuizPanel.active = true;
         this.FeedbackPanel.active = false;
-        this.ResultsPanel.active  = false;
+        this.ResultsPanel.active = false;
     }
 
     public hideAllPanels(): void {
-        this.QuizPanel.active     = false;
+        this.QuizPanel.active = false;
         this.FeedbackPanel.active = false;
-        this.ResultsPanel.active  = false;
+        this.ResultsPanel.active = false;
     }
 
     public onSceneFadeInCompleted(): void {
         this.showQuestionPanel();
-        this._animations.play('statementFade');
+        this._animController.playStatementFade();
     }
 
     public unbindAll(): void {
@@ -125,18 +126,35 @@ export class QuizGameView extends Component implements IQuizGameView {
             this.AnswerLayout.removeAllChildren();
         }
 
-        this.onAnswerSelected   = null;
-        this.onNextPressed      = null;
+        this.onAnswerSelected = null;
+        this.onNextPressed = null;
         this.onPlayAgainPressed = null;
     }
 
     private handleNextClick(): void {
-        this.FeedbackPanel.active = false;
-        this.QuizPanel.active     = true;
-        this.onNextPressed?.();
+        this._animController.playFeedbackFadeOut(() => {
+            this.FeedbackPanel.active = false;
+            this.onNextPressed?.();
+
+            if (!this.ResultsPanel.active) {
+                this.showQuestionPanel();
+                this._animController.playStatementFade();
+            } else {
+                this._animController.playResultsFadeIn();
+            }
+        });
     }
 
     private handlePlayAgainClick(): void {
-        this.onPlayAgainPressed?.();
+        this._animController.playResultsFadeOut(() => {
+            this.ResultsPanel.active = false;
+            this.onPlayAgainPressed?.();
+            this._animController.playStatementFade();
+        });
+    }
+
+    private resetOpacity(node: Node): void {
+        const uiOpacity = node.getComponent(UIOpacity);
+        if (uiOpacity) uiOpacity.opacity = 255;
     }
 }
