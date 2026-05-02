@@ -30,7 +30,7 @@ export class SlotGameView extends Component implements ISlotGameView {
     public WinClip: AudioClip = null!;
 
     protected onLoad(): void {
-        this.reels.forEach(r => r.buildStrip());
+        this.reels.forEach(r => r.loadSymbols(() => r.buildStrip()));
         this.hideWin();
     }
 
