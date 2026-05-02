@@ -30,7 +30,9 @@ export class SplashScreenController
 
     private onGoToMainMenu(): void
     {
-        this.dispose();
-        this.navigator.goTo(GlobalParameters.SCENE_MENU);
+        this.view.playFadeOut(() => {
+            this.dispose();
+            this.navigator.goTo(GlobalParameters.SCENE_MENU);
+        });
     }
 }

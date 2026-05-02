@@ -8,5 +8,7 @@ export interface IMainMenuView
 
     bindSlotButton(handler: () => void): void;
 
+    playFadeIn(onFinished: () => void): void;
+
     unbindAll(): void;
 }

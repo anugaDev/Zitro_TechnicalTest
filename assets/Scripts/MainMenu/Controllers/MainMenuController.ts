@@ -14,7 +14,7 @@ export class MainMenuController
     {
         this.view.setButtonsInteractable(false);
         await this.initClock();
-        this.setSceneInteractable();
+        this.view.playFadeIn(() => this.setSceneInteractable());
     }
 
     private async initClock(): Promise<void>
