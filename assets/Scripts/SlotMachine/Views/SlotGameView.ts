@@ -45,6 +45,12 @@ export class SlotGameView extends Component implements ISlotGameView {
         this.SpinButton.node.on(Button.EventType.CLICK, handler, this);
     }
 
+    public cancelAllReels(): void {
+        this.reels?.forEach(r => {
+            if (r?.isValid) r.cancelSpin();
+        });
+    }
+
     public unbindAll(): void {
         if (this.SpinButton?.isValid) {
             this.SpinButton.node.off(Button.EventType.CLICK);

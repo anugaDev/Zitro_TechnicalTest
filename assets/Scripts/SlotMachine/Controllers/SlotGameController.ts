@@ -7,6 +7,8 @@ export class SlotGameController {
 
     private readonly MIN_ALL_SPIN_MS : number  = 3000;
 
+    private _pendingTimers: ReturnType<typeof setTimeout>[] = [];
+
     constructor(
         private readonly model: ISlotGameModel,
 
@@ -19,6 +21,9 @@ export class SlotGameController {
         this.view.hideWin();
     }
     public dispose(): void {
+        this._pendingTimers.forEach(id => clearTimeout(id));
+        this._pendingTimers = [];
+        this.view.cancelAllReels();
         this.view.unbindAll();
     }
 
@@ -51,6 +56,7 @@ export class SlotGameController {
     }
 
     private delay(ms: number, cb: () => void): void {
-        setTimeout(cb, ms);
+        const id = setTimeout(cb, ms);
+        this._pendingTimers.push(id);
     }
 }

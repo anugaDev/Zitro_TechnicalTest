@@ -4,6 +4,8 @@ export interface ISlotGameView {
 
     stopReel(reelIndex: number, symbolId: number, onStopped: () => void): void;
 
+    cancelAllReels(): void;
+
     showWin(): void;
 
     hideWin(): void;

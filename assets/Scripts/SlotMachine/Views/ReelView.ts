@@ -1,4 +1,4 @@
-import {_decorator, Component, Node, SpriteFrame, Sprite, tween, Vec3, UITransform} from 'cc';
+import {_decorator, Component, Node, SpriteFrame, Sprite, tween, Tween, Vec3, UITransform} from 'cc';
 import { SlotSymbolEnum, SYMBOL_COUNT } from '../Enums/SlotSymbolEnum';
 
 const { ccclass, property } = _decorator;
@@ -21,6 +21,8 @@ export class ReelView extends Component {
     private _isSpinning: boolean = false;
 
     private _stripY:     number  = 0;
+
+    private _activeTween: Tween<Node> | null = null;
 
     private get _loopHeight(): number {
         return SYMBOL_COUNT * this.CELL_HEIGHT;
@@ -47,13 +49,20 @@ export class ReelView extends Component {
 
         const targetY = -((this.STRIP_BUFFER + targetSymbol) * this.CELL_HEIGHT);
 
-        tween(this.stripNode)
+        this._activeTween = tween(this.stripNode)
             .to(0.35, { position: new Vec3(0, targetY, 0) }, { easing: 'cubicOut' })
             .call(() => {
+                this._activeTween = null;
                 this._stripY = targetY;
                 onStopped();
             })
             .start();
+    }
+
+    public cancelSpin(): void {
+        this._isSpinning = false;
+        this._activeTween?.stop();
+        this._activeTween = null;
     }
 
     public buildStrip(): void {
