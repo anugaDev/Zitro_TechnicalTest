@@ -13,7 +13,7 @@ export class QuizGameController {
         this.view.onPlayAgainPressed = ()      => this.onPlayAgain();
         this.view.onNextPressed      = ()      => this.onNext();
 
-        this.view.showQuestionPanel();
+        this.view.hideAllPanels();
         this.displayCurrentQuestion();
     }
 

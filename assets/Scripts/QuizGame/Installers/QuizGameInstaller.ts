@@ -41,6 +41,7 @@ export class QuizGameInstaller extends Component {
             model.setQuestionsConfiguration(questions);
             this.quizController = new QuizGameController(model, this.quizView);
             this.quizController.init();
+            this.gameSceneController.onFadeInCompleted = () => this.quizView.onSceneFadeInCompleted();
             this.gameSceneController.init();
         });
     }

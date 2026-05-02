@@ -51,6 +51,14 @@ export class SlotGameView extends Component implements ISlotGameView {
         });
     }
 
+    public onSceneFadeInCompleted(): void {
+        this.setSpinButtonInteractable(true);
+    }
+
+    public onSceneFadeOutStarted(): void {
+        this.setSpinButtonInteractable(false);
+    }
+
     public unbindAll(): void {
         if (this.SpinButton?.isValid) {
             this.SpinButton.node.off(Button.EventType.CLICK);

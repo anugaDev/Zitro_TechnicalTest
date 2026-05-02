@@ -99,6 +99,16 @@ export class QuizGameView extends Component implements IQuizGameView {
         this.ResultsPanel.active  = false;
     }
 
+    public hideAllPanels(): void {
+        this.QuizPanel.active     = false;
+        this.FeedbackPanel.active = false;
+        this.ResultsPanel.active  = false;
+    }
+
+    public onSceneFadeInCompleted(): void {
+        this.showQuestionPanel();
+    }
+
     public unbindAll(): void {
         this.NextButton?.node.off(Button.EventType.CLICK, this.handleNextClick, this);
         this.PlayAgainButton?.node.off(Button.EventType.CLICK, this.handlePlayAgainClick, this);

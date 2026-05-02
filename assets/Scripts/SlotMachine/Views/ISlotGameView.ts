@@ -14,5 +14,9 @@ export interface ISlotGameView {
 
     bindSpinButton(handler: () => void): void;
 
+    onSceneFadeInCompleted(): void;
+
+    onSceneFadeOutStarted(): void;
+
     unbindAll(): void;
 }

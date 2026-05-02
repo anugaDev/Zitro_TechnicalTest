@@ -50,6 +50,7 @@ export class MainMenuView extends Component implements IMainMenuView {
     }
 
     public playFadeOut(onFinished: () => void): void {
+        this.setButtonsInteractable(false);
         this._animations.onFinished = () => onFinished();
         this._animations.play('fadeOut');
     }

@@ -17,7 +17,7 @@ export class SlotGameController {
 
     public init(): void {
         this.view.bindSpinButton(() => this.onSpin());
-        this.view.setSpinButtonInteractable(true);
+        this.view.setSpinButtonInteractable(false);
         this.view.hideWin();
     }
     public dispose(): void {

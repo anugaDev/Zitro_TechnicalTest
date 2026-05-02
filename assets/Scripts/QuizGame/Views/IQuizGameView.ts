@@ -14,5 +14,9 @@ export interface IQuizGameView {
 
     showQuestionPanel(): void;
 
+    hideAllPanels(): void;
+
+    onSceneFadeInCompleted(): void;
+
     unbindAll(): void;
 }
