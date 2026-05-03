@@ -30,7 +30,7 @@ export class SlotGameInstaller extends Component {
         this.slotController.init();
 
         this.gameSceneController.onFadeInCompleted = () => this.slotView.onSceneFadeInCompleted();
-        this.gameSceneController.onFadeOutStarted = () => this.slotView.onSceneFadeOutStarted();
+        this.gameSceneController.onFadeOutStarted  = () => this.slotView.onSceneFadeOutStarted();
         this.slotView.onAllReelsReady = () => this.gameSceneController.init();
     }
 

@@ -1,3 +1,5 @@
+import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
+
 export interface ITimeService {
-    fetchCurrentTime(): Promise<Date>;
+    fetchCurrentTime(): Promise<ApiResult<Date>>;
 }

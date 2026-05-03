@@ -56,12 +56,10 @@ export class MainMenuView extends Component implements IMainMenuView {
     }
 
     public unbindAll(): void {
-        if (this.QuizButton && this.QuizButton.node)
-        {
+        if (this.QuizButton?.isValid) {
             this.QuizButton.node.off(Button.EventType.CLICK);
         }
-        if (this.SlotButton && this.SlotButton.node)
-        {
+        if (this.SlotButton?.isValid) {
             this.SlotButton.node.off(Button.EventType.CLICK);
         }
     }

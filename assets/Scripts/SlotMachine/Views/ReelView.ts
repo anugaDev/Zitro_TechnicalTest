@@ -35,10 +35,10 @@ export class ReelView extends Component {
     }
 
     protected update(dt: number): void {
-        this.updateReelPosition(dt)
+        this.updateReelPosition(dt);
     }
 
-    private updateReelPosition(deltaTime : number): void {
+    private updateReelPosition(deltaTime: number): void {
         if (!this._isSpinning) {
             return;
         }
