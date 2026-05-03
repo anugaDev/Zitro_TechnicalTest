@@ -1,7 +1,6 @@
-import { _decorator, Component, Node, SpriteFrame, SpriteAtlas, Sprite, tween, Tween, Vec3, UITransform, AudioSource, AudioClip } from 'cc';
-import { resources } from 'cc';
+import { _decorator, Component, Node, SpriteFrame, tween, Tween, Vec3, AudioSource, AudioClip } from 'cc';
 import { SlotSymbolEnum, SYMBOL_COUNT } from '../Enums/SlotSymbolEnum';
-import { ResourcePaths } from 'db://assets/Scripts/Shared/ResourcePaths';
+import { ReelStripBuilder } from './ReelStripBuilder';
 
 const { ccclass, property } = _decorator;
 
@@ -9,11 +8,8 @@ const { ccclass, property } = _decorator;
 export class ReelView extends Component {
 
     private readonly CELL_HEIGHT: number = 120;
-
     private readonly STRIP_BUFFER: number = 3;
-
     private readonly SPIN_SPEED: number = 1200;
-
     private readonly STOP_TWEEN_DURATION: number = 0.35;
 
     @property(Node)
@@ -26,27 +22,21 @@ export class ReelView extends Component {
     public StopClip: AudioClip = null!;
 
     private _symbolFrames: SpriteFrame[] = [];
-
     private _isSpinning: boolean = false;
-
     private _stripY: number = 0;
-
     private _activeTween: Tween<Node> | null = null;
+
+    private readonly _stripBuilder: ReelStripBuilder =
+        new ReelStripBuilder(this.CELL_HEIGHT, this.STRIP_BUFFER);
 
     private get _loopHeight(): number {
         return SYMBOL_COUNT * this.CELL_HEIGHT;
     }
 
     protected update(dt: number): void {
-        this.updateReelPosition(dt);
-    }
+        if (!this._isSpinning) return;
 
-    private updateReelPosition(deltaTime: number): void {
-        if (!this._isSpinning) {
-            return;
-        }
-
-        this._stripY -= this.SPIN_SPEED * deltaTime;
+        this._stripY -= this.SPIN_SPEED * dt;
 
         if (this._stripY <= -this._loopHeight) {
             this._stripY += this._loopHeight;
@@ -55,20 +45,14 @@ export class ReelView extends Component {
         this.stripNode.setPosition(0, this._stripY, 0);
     }
 
-    public loadSymbols(onLoaded: () => void): void {
-        this._symbolFrames = new Array(SYMBOL_COUNT).fill(null);
+    public setSymbolFrames(frames: SpriteFrame[]): void {
+        this._symbolFrames = frames;
+    }
 
-        resources.load(ResourcePaths.SLOT_ATLAS, SpriteAtlas, (err, atlas) => {
-            if (err || !atlas) {
-                console.error('[ReelView] Failed to load SlotSymbols atlas:', err);
-            } else {
-                for (let i = 0; i < SYMBOL_COUNT; i++) {
-                    const name = SlotSymbolEnum[i];
-                    this._symbolFrames[i] = atlas.getSpriteFrame(name);
-                }
-            }
-            onLoaded();
-        });
+    public buildStrip(): void {
+        if (this._symbolFrames.length === 0) return;
+        this._stripY = this._stripBuilder.build(this.stripNode, this._symbolFrames);
+        this.stripNode.setPosition(0, this._stripY, 0);
     }
 
     public startSpin(): void {
@@ -95,29 +79,5 @@ export class ReelView extends Component {
         this._isSpinning = false;
         this._activeTween?.stop();
         this._activeTween = null;
-    }
-
-    public buildStrip(): void {
-        this.stripNode.removeAllChildren();
-
-        if (this._symbolFrames.length === 0) return;
-
-        const full: number[] = [];
-        for (let j = SYMBOL_COUNT - this.STRIP_BUFFER; j < SYMBOL_COUNT; j++) full.push(j);
-        for (let j = 0; j < SYMBOL_COUNT; j++) full.push(j);
-        for (let j = 0; j < this.STRIP_BUFFER; j++) full.push(j);
-
-        full.forEach((symbolId, i) => {
-            const cell = new Node(`cell_${i}`);
-            cell.layer = this.stripNode.layer;
-            cell.addComponent(Sprite).spriteFrame = this._symbolFrames[symbolId] ?? null;
-            const cellTransform = cell.addComponent(UITransform);
-            cellTransform.setContentSize(this.CELL_HEIGHT, this.CELL_HEIGHT);
-            cell.setPosition(0, i * this.CELL_HEIGHT, 0);
-            this.stripNode.addChild(cell);
-        });
-
-        this._stripY = -Math.floor(this.STRIP_BUFFER / 2) * this.CELL_HEIGHT;
-        this.stripNode.setPosition(0, this._stripY, 0);
     }
 }

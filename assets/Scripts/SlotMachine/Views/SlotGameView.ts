@@ -2,6 +2,7 @@ import { _decorator, Component, Button, Node, AudioSource, AudioClip } from 'cc'
 import { ISlotGameView } from './ISlotGameView';
 import { SlotSymbolEnum } from '../Enums/SlotSymbolEnum';
 import { ReelView } from './ReelView';
+import { SlotSymbolRepository } from '../Models/SlotSymbolRepository';
 
 const { ccclass, property } = _decorator;
 
@@ -32,15 +33,15 @@ export class SlotGameView extends Component implements ISlotGameView {
     public onAllReelsReady: (() => void) | null = null;
 
     protected onLoad(): void {
-        let readyCount = 0;
-        this.reels.forEach(r => r.loadSymbols(() => {
-            r.buildStrip();
-            readyCount++;
-            if (readyCount === this.reels.length) {
-                this.onAllReelsReady?.();
-            }
-        }));
         this.hideWin();
+        const repository = new SlotSymbolRepository();
+        repository.load(() => {
+            this.reels.forEach(r => {
+                r.setSymbolFrames(repository.frames);
+                r.buildStrip();
+            });
+            this.onAllReelsReady?.();
+        });
     }
 
     public startReelSpin(reelIndex: number): void {
