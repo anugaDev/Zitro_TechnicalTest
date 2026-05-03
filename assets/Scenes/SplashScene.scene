@@ -23,7 +23,7 @@
     "_prefab": null,
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 27
+      "__id__": 28
     },
     "_id": "6439d1aa-ef60-49ed-86c7-248d26a4dd75"
   },
@@ -54,9 +54,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 21
-      },
-      {
         "__id__": 22
       },
       {
@@ -70,6 +67,9 @@
       },
       {
         "__id__": 26
+      },
+      {
+        "__id__": 27
       }
     ],
     "_prefab": null,
@@ -499,13 +499,16 @@
       },
       {
         "__id__": 20
+      },
+      {
+        "__id__": 21
       }
     ],
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -205.14,
+      "y": -290.763,
       "z": 0
     },
     "_lrot": {
@@ -720,6 +723,35 @@
     "_id": "387WxuebBDhao3w5rUTQFq"
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 14
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_alignFlags": 44,
+    "_target": null,
+    "_left": 585,
+    "_right": 585,
+    "_top": 0,
+    "_bottom": 241.73700000000002,
+    "_horizontalCenter": 0,
+    "_verticalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 750,
+    "_originalHeight": 0,
+    "_alignMode": 2,
+    "_lockFlags": 0,
+    "_id": "fd3AvXELlG2ZpJBcB9FEKK"
+  },
+  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
@@ -811,10 +843,10 @@
     "_enabled": true,
     "__prefab": null,
     "SplashScreenView": {
-      "__id__": 24
+      "__id__": 25
     },
     "Counter": {
-      "__id__": 26
+      "__id__": 27
     },
     "_id": "b5ljD0IwdOtZH5CI4YSdOV"
   },
@@ -832,19 +864,19 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 28
-    },
-    "shadows": {
       "__id__": 29
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 30
     },
-    "fog": {
+    "_skybox": {
       "__id__": 31
     },
-    "octree": {
+    "fog": {
       "__id__": 32
+    },
+    "octree": {
+      "__id__": 33
     }
   },
   {
