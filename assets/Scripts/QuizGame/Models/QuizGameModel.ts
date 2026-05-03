@@ -57,18 +57,18 @@ export class QuizGameModel implements IQuizGameModel
     }
 
     private resetStatements(): void {
-        const shuffledQuestions = this.shuffle([...this._questions]).map(q => ({
-            statement: q.statement,
-            answers: this.shuffle([...q.answers]) as [QuizAnswer, QuizAnswer, QuizAnswer]
+        const shuffledQuestions = this.shuffle([...this._questions]).map(question => ({
+            statement: question.statement,
+            answers: this.shuffle([...question.answers]) as [QuizAnswer, QuizAnswer, QuizAnswer]
         }));
 
         this._questions = shuffledQuestions;
     }
 
     private shuffle<T>(arr: T[]): T[] {
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
+        for (let currentIndex = arr.length - 1; currentIndex > 0; currentIndex--) {
+            const randomIndex = Math.floor(Math.random() * (currentIndex + 1));
+            [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
         }
         return arr;
     }

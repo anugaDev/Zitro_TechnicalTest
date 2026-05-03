@@ -6,8 +6,8 @@ export class SlotGameModel implements ISlotGameModel {
     private _result: SlotSymbolEnum[] = Array(REEL_COUNT).fill(0);
 
     public generateResult(): void {
-        for (let i = 0; i < REEL_COUNT; i++) {
-            this._result[i] = Math.floor(Math.random() * SYMBOL_COUNT) as SlotSymbolEnum;
+        for (let reelIndex = 0; reelIndex < REEL_COUNT; reelIndex++) {
+            this._result[reelIndex] = Math.floor(Math.random() * SYMBOL_COUNT) as SlotSymbolEnum;
         }
     }
 

@@ -16,8 +16,8 @@ export class SlotSymbolRepository {
             if (err || !atlas) {
                 console.error('[SlotSymbolRepository] Failed to load atlas:', err);
             } else {
-                for (let i = 0; i < SYMBOL_COUNT; i++) {
-                    this._frames[i] = atlas.getSpriteFrame(SlotSymbolEnum[i]);
+                for (let symbolIndex = 0; symbolIndex < SYMBOL_COUNT; symbolIndex++) {
+                    this._frames[symbolIndex] = atlas.getSpriteFrame(SlotSymbolEnum[symbolIndex]);
                 }
             }
             onLoaded();

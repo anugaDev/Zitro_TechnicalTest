@@ -36,9 +36,9 @@ export class SlotGameView extends Component implements ISlotGameView {
         this.hideWin();
         const repository = new SlotSymbolRepository();
         repository.load(() => {
-            this.reels.forEach(r => {
-                r.setSymbolFrames(repository.frames);
-                r.buildStrip();
+            this.reels.forEach(reel => {
+                reel.setSymbolFrames(repository.frames);
+                reel.buildStrip();
             });
             this.onAllReelsReady?.();
         });
@@ -78,8 +78,8 @@ export class SlotGameView extends Component implements ISlotGameView {
 
     public cancelAllReels(): void {
         this.Audio?.stop();
-        this.reels?.forEach(r => {
-            if (r?.isValid) r.cancelSpin();
+        this.reels?.forEach(reel => {
+            if (reel?.isValid) reel.cancelSpin();
         });
     }
 

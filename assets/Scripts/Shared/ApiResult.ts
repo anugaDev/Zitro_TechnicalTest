@@ -13,9 +13,9 @@ export const ApiResult = {
     error: <T>(message: string): ApiResult<T> =>
         ({ status: 'error', message }),
 
-    isSuccess: <T>(r: ApiResult<T>): r is { status: 'success'; data: T } =>
-        r.status === 'success',
+    isSuccess: <T>(result: ApiResult<T>): result is { status: 'success'; data: T } =>
+        result.status === 'success',
 
-    isError: <T>(r: ApiResult<T>): r is { status: 'error'; message: string } =>
-        r.status === 'error',
+    isError: <T>(result: ApiResult<T>): result is { status: 'error'; message: string } =>
+        result.status === 'error',
 };

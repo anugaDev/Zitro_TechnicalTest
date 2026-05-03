@@ -25,14 +25,14 @@ export class ReelStripBuilder {
     private buildSequence(): number[] {
         const sequence: number[] = [];
 
-        for (let i = SYMBOL_COUNT - this.stripBuffer; i < SYMBOL_COUNT; i++) {
-            sequence.push(i);
+        for (let symbolIndex = SYMBOL_COUNT - this.stripBuffer; symbolIndex < SYMBOL_COUNT; symbolIndex++) {
+            sequence.push(symbolIndex);
         }
-        for (let i = 0; i < SYMBOL_COUNT; i++) {
-            sequence.push(i);
+        for (let symbolIndex = 0; symbolIndex < SYMBOL_COUNT; symbolIndex++) {
+            sequence.push(symbolIndex);
         }
-        for (let i = 0; i < this.stripBuffer; i++) {
-            sequence.push(i);
+        for (let symbolIndex = 0; symbolIndex < this.stripBuffer; symbolIndex++) {
+            sequence.push(symbolIndex);
         }
 
         return sequence;

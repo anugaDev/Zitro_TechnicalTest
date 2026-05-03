@@ -7,10 +7,10 @@ export class AnimationController {
     private readonly _animations: Map<string, IAnimation>;
 
     constructor(animations: IAnimation[]) {
-        this._animations = new Map(animations.map(a => [a.id, a]));
+        this._animations = new Map(animations.map(animation => [animation.id, animation]));
 
-        animations.forEach(a => {
-            a.onFinished = () => this.onFinished?.(a.id);
+        animations.forEach(animation => {
+            animation.onFinished = () => this.onFinished?.(animation.id);
         });
     }
 
