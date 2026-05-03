@@ -18,6 +18,16 @@ export class ApiStatusView extends Component {
     @property
     public DebugMode: boolean = false;
 
+    private static readonly DEBUG_NODE_NAME = '__ApiStatusDebug__';
+
+    private static readonly CANVAS_NODE_NAME = 'Canvas';
+
+    private static readonly DEBUG_FONT_SIZE = 28;
+
+    private static readonly DEBUG_LABEL_WIDTH = 800;
+
+    private static readonly DEBUG_LABEL_HEIGHT = 60;
+
     private _debugLabel: Label | null = null;
 
     protected onLoad(): void {
@@ -56,20 +66,20 @@ export class ApiStatusView extends Component {
     }
 
     private createDebugLabel(): Label {
-        const node = new Node('__ApiStatusDebug__');
+        const node = new Node(ApiStatusView.DEBUG_NODE_NAME);
         node.layer = this.node.layer;
 
         const scene = director.getScene();
-        const canvas = scene?.getChildByName('Canvas') ?? this.node;
+        const canvas = scene?.getChildByName(ApiStatusView.CANVAS_NODE_NAME) ?? this.node;
         canvas.addChild(node);
 
         const transform = node.addComponent(UITransform);
-        transform.setContentSize(800, 60);
+        transform.setContentSize(ApiStatusView.DEBUG_LABEL_WIDTH, ApiStatusView.DEBUG_LABEL_HEIGHT);
 
         const label = node.addComponent(Label);
-        label.fontSize  = 28;
-        label.isBold    = true;
-        label.overflow  = Label.Overflow.RESIZE_HEIGHT;
+        label.fontSize = ApiStatusView.DEBUG_FONT_SIZE;
+        label.isBold = true;
+        label.overflow = Label.Overflow.RESIZE_HEIGHT;
 
         return label;
     }
@@ -81,13 +91,13 @@ export class ApiStatusView extends Component {
 
         const statusMap: Record<string, { text: string; color: Color }> = {
             idle: { text: `[${ts}] ⬜ API: idle`, color: new Color(200, 200, 200, 255) },
-            loading: { text: `[${ts}] 🔄 API: loading…`, color: new Color(255, 220,  50, 255) },
-            success: { text: `[${ts}] ✅ API: success`, color: new Color( 80, 220,  80, 255) },
-            error: { text: `[${ts}] ❌ API: error — ${message}`,  color: new Color(255,  80,  80, 255) },
+            loading: { text: `[${ts}] 🔄 API: loading…`, color: new Color(255, 220, 50, 255) },
+            success: { text: `[${ts}] ✅ API: success`, color: new Color(80, 220, 80, 255) },
+            error: { text: `[${ts}] ❌ API: error — ${message}`, color: new Color(255, 80, 80, 255) },
         };
 
         const entry = statusMap[status] ?? statusMap['idle'];
         this._debugLabel.string = entry.text;
-        this._debugLabel.color  = entry.color;
+        this._debugLabel.color = entry.color;
     }
 }

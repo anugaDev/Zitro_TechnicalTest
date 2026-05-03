@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, SpriteFrame, SpriteAtlas, Sprite, tween, Tween, Vec3, UITransform, AudioSource, AudioClip } from 'cc';
 import { resources } from 'cc';
 import { SlotSymbolEnum, SYMBOL_COUNT } from '../Enums/SlotSymbolEnum';
+import { ResourcePaths } from 'db://assets/Scripts/Shared/ResourcePaths';
 
 const { ccclass, property } = _decorator;
 
@@ -11,7 +12,9 @@ export class ReelView extends Component {
 
     private readonly STRIP_BUFFER: number = 3;
 
-    private readonly _spinSpeed: number = 1200;
+    private readonly SPIN_SPEED: number = 1200;
+
+    private readonly STOP_TWEEN_DURATION: number = 0.35;
 
     @property(Node)
     public stripNode: Node = null!;
@@ -43,7 +46,7 @@ export class ReelView extends Component {
             return;
         }
 
-        this._stripY -= this._spinSpeed * deltaTime;
+        this._stripY -= this.SPIN_SPEED * deltaTime;
 
         if (this._stripY <= -this._loopHeight) {
             this._stripY += this._loopHeight;
@@ -55,7 +58,7 @@ export class ReelView extends Component {
     public loadSymbols(onLoaded: () => void): void {
         this._symbolFrames = new Array(SYMBOL_COUNT).fill(null);
 
-        resources.load('SlotSprites/SlotSymbols', SpriteAtlas, (err, atlas) => {
+        resources.load(ResourcePaths.SLOT_ATLAS, SpriteAtlas, (err, atlas) => {
             if (err || !atlas) {
                 console.error('[ReelView] Failed to load SlotSymbols atlas:', err);
             } else {
@@ -78,7 +81,7 @@ export class ReelView extends Component {
         const targetY = -((this.STRIP_BUFFER + targetSymbol) * this.CELL_HEIGHT);
 
         this._activeTween = tween(this.stripNode)
-            .to(0.35, { position: new Vec3(0, targetY, 0) }, { easing: 'cubicOut' })
+            .to(this.STOP_TWEEN_DURATION, { position: new Vec3(0, targetY, 0) }, { easing: 'cubicOut' })
             .call(() => {
                 this._activeTween = null;
                 this._stripY = targetY;

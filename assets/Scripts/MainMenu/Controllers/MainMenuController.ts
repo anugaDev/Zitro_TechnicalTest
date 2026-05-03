@@ -4,6 +4,8 @@ import { IMainMenuView } from '../Views/IMainMenuView';
 
 export class MainMenuController {
 
+    private static readonly FALLBACK_TIME_MESSAGE = 'Usando hora local';
+
     public onApiResult: ((result: ApiResult<Date>) => void) | null = null;
 
     constructor(
@@ -24,7 +26,7 @@ export class MainMenuController {
 
         this.onApiResult?.(
             ApiResult.isError(result)
-                ? ApiResult.error<Date>('Usando hora local')
+                ? ApiResult.error<Date>(MainMenuController.FALLBACK_TIME_MESSAGE)
                 : result
         );
 

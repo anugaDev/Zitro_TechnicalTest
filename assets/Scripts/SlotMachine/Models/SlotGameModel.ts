@@ -1,12 +1,12 @@
 import { ISlotGameModel } from './ISlotGameModel';
-import {SlotSymbolEnum, SYMBOL_COUNT} from '../Enums/SlotSymbolEnum';
+import { SlotSymbolEnum, SYMBOL_COUNT, REEL_COUNT } from '../Enums/SlotSymbolEnum';
 
 export class SlotGameModel implements ISlotGameModel {
 
-    private _result: [SlotSymbolEnum, SlotSymbolEnum, SlotSymbolEnum] = [0, 0, 0];
+    private _result: SlotSymbolEnum[] = Array(REEL_COUNT).fill(0);
 
     public generateResult(): void {
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < REEL_COUNT; i++) {
             this._result[i] = Math.floor(Math.random() * SYMBOL_COUNT) as SlotSymbolEnum;
         }
     }

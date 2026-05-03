@@ -8,3 +8,4 @@ export enum SlotSymbolEnum {
 }
 
 export const SYMBOL_COUNT = 6;
+export const REEL_COUNT   = 3;

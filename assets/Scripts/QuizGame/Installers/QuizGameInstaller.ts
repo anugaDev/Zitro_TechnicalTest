@@ -8,6 +8,7 @@ import { GameSceneModel } from '../../GameScene/Models/GameSceneModel';
 import { GameSceneController } from '../../GameScene/Controllers/GameSceneController';
 import { SceneNavigator } from '../../Core/SceneNavigator';
 import { QuizQuestion } from '../Models/Entities/QuizQuestion';
+import { ResourcePaths } from 'db://assets/Scripts/Shared/ResourcePaths';
 
 const { ccclass, property } = _decorator;
 
@@ -29,7 +30,7 @@ export class QuizGameInstaller extends Component {
         const gameSceneModel  = new GameSceneModel(navigator);
         this.gameSceneController = new GameSceneController(gameSceneModel, this.gameSceneView);
 
-        resources.load('quizGameConfiguration', JsonAsset, (err, jsonAsset: JsonAsset) => {
+        resources.load(ResourcePaths.QUIZ_JSON, JsonAsset, (err, jsonAsset: JsonAsset) => {
             if (err) {
                 console.error('Failed to load quizGameConfiguration.json:', err);
                 this.gameSceneController.init();
