@@ -19,7 +19,7 @@ export class MainMenuController
     private async initClock(): Promise<void>
     {
         const result = await this.model.initializeTime();
-        this.view.updateClock(this.model.getFormattedTime());
+        this.view.updateClock(this.model.getCurrentTime());
         this.model.startClock((time) => this.view.updateClock(time));
     }
 

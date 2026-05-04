@@ -8,7 +8,7 @@ export interface IMainMenuModel
 
     stopClock(): void;
 
-    getFormattedTime(): string;
+    getCurrentTime(): string;
 
     goToQuiz(): void;
 
