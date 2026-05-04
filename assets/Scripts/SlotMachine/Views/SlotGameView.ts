@@ -30,6 +30,9 @@ export class SlotGameView extends Component implements ISlotGameView {
     @property(AudioClip)
     public WinClip: AudioClip = null!;
 
+    @property(AudioSource)
+    public WinAudio: AudioSource = null!;
+
     public onAllReelsReady: (() => void) | null = null;
 
     protected onLoad(): void {
@@ -64,11 +67,15 @@ export class SlotGameView extends Component implements ISlotGameView {
 
     public showWin(): void {
         this.WinPanel.active = true;
-        this.Audio?.playOneShot(this.WinClip);
+        if (this.WinAudio && this.WinClip) {
+            this.WinAudio.clip = this.WinClip;
+            this.WinAudio.play();
+        }
     }
 
     public hideWin(): void {
         this.WinPanel.active = false;
+        this.WinAudio?.stop();
     }
 
     public setSpinButtonInteractable(value: boolean): void {
@@ -82,6 +89,7 @@ export class SlotGameView extends Component implements ISlotGameView {
 
     public cancelAllReels(): void {
         this.Audio?.stop();
+        this.WinAudio?.stop();
         this.reels?.forEach(reel => {
             this.cancelReel(reel);
         });
