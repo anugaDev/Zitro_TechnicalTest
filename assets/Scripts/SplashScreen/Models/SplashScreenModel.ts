@@ -49,18 +49,7 @@ export class SplashScreenModel implements ISplashScreenModel
         this._progressCounter.startCounter(SplashScreenModel.DEFAULT_LOAD_TIME);
 
         this._assetLoader.onAssetStatusChanged = (result) => this.onAssetStatusChangedEvent?.(result);
-        this._assetLoader.load().then(() =>
-        {
-            this._assetsLoaded = true;
-            if (this._waitingForAssets)
-            {
-                this.animateFillToComplete();
-            }
-            else
-            {
-                this.onStandByEvent?.();
-            }
-        });
+        this._assetLoader.load().then(() => this.onAssetsLoaded());
     }
 
     public setCurrentLoadProgress(): void
@@ -69,6 +58,19 @@ export class SplashScreenModel implements ISplashScreenModel
         const limit = this._progressCounter.GetProgressLimit();
         const progress = (current / limit) * SplashScreenModel.TIMER_WEIGHT;
         this.onProgressChangedEvent?.(progress);
+    }
+
+    private onAssetsLoaded(): void
+    {
+        this._assetsLoaded = true;
+        if (this._waitingForAssets)
+        {
+            this.animateFillToComplete();
+        }
+        else
+        {
+            this.onStandByEvent?.();
+        }
     }
 
     private onTimerFinished(): void

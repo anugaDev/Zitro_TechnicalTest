@@ -6,9 +6,8 @@ import { ApiResult } from '../../ResourceLoad/ApiResult';
 import { ResourcePaths } from '../../ResourceLoad/ResourcePaths';
 import { ResourceLoader } from '../../ResourceLoad/ResourceLoader';
 
-const STEP_DELAY_MS = 100;
-
 export class SplashAssetLoader implements IAssetLoader {
+    private static readonly STEP_DELAY_MS: number = 100;
 
     public onAssetStatusChanged: ((result: ApiResult<string>) => void) | null = null;
 
@@ -16,20 +15,20 @@ export class SplashAssetLoader implements IAssetLoader {
 
     public async load(): Promise<void> {
         await this.loadSpriteAtlas();
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
         await this.loadAudioClips();
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
         await this.loadQuizConfig();
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
         await this.fetchServerTime();
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
     }
 
     private async loadSpriteAtlas(): Promise<void> {
         this.notifyLoading();
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
         const atlas = await ResourceLoader.load(ResourcePaths.SLOT_ATLAS, SpriteAtlas);
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
         if (!atlas) {
             this.notifyError('Slot Atlas failed to load');
             return;
@@ -41,9 +40,9 @@ export class SplashAssetLoader implements IAssetLoader {
 
     private async loadAudioClips(): Promise<void> {
         this.notifyLoading();
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
         const clips = await ResourceLoader.loadDir(ResourcePaths.AUDIO_DIR, AudioClip);
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
         if (!clips) {
             this.notifyError('Audio Clips failed to load');
             return;
@@ -55,9 +54,9 @@ export class SplashAssetLoader implements IAssetLoader {
 
     private async loadQuizConfig(): Promise<void> {
         this.notifyLoading();
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
         const json = await ResourceLoader.load(ResourcePaths.QUIZ_JSON, JsonAsset);
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
         if (!json) {
             this.notifyError('Quiz Config failed to load');
             return;
@@ -69,9 +68,9 @@ export class SplashAssetLoader implements IAssetLoader {
 
     private async fetchServerTime(): Promise<void> {
         this.notifyLoading();
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
         const result = await this._timeService.fetchCurrentTime();
-        await this.wait(STEP_DELAY_MS);
+        await this.wait(SplashAssetLoader.STEP_DELAY_MS);
         if (ApiResult.isSuccess(result)) {
             this.cacheServerTime(result.data);
             this.notifySuccess('Server Time');
