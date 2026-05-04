@@ -2,11 +2,6 @@ import { ISlotGameModel } from './ISlotGameModel';
 import { SlotSymbolEnum } from '../Enums/SlotSymbolEnum';
 import { SlotGameConfiguration } from '../Configuration/SlotGameConfiguration';
 
-/**
- * Fake model for testing purposes only.
- * Always generates a winning result (all reels show the same symbol).
- * Swap this for SlotGameModel in the installer to test the win flow.
- */
 export class FakeWinSlotGameModel implements ISlotGameModel {
 
     private readonly FIXED_SYMBOL: SlotSymbolEnum = SlotSymbolEnum.Cherry;
