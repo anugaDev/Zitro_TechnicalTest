@@ -5,7 +5,7 @@ import { SlotGameController } from '../Controllers/SlotGameController';
 import { GameSceneView } from '../../GameScene/Views/GameSceneView';
 import { GameSceneModel } from '../../GameScene/Models/GameSceneModel';
 import { GameSceneController } from '../../GameScene/Controllers/GameSceneController';
-import { SceneNavigator } from '../../Core/SceneNavigator';
+import { SceneNavigator } from '../../Core/SceneNavigator/SceneNavigator';
 
 const { ccclass, property } = _decorator;
 

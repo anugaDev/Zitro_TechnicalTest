@@ -11,7 +11,7 @@ export class MainMenuController
 
     public init(): void
     {
-        this.view.setButtonsInteractable(false);
+        this.view.initialize();
         this.initClock();
         this.view.playFadeIn(() => this.setSceneInteractable());
     }

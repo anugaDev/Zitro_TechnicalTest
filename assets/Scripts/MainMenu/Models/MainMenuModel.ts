@@ -1,4 +1,4 @@
-import { ISceneNavigator } from '../../Core/ISceneNavigator';
+import { ISceneNavigator } from '../../Core/SceneNavigator/ISceneNavigator';
 import { GlobalParameters } from '../../GlobalParameters';
 import { ApiResult } from '../../ResourceLoad/ApiResult';
 import { AppCache } from '../../ResourceLoad/AppCache';

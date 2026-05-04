@@ -1,5 +1,7 @@
 export interface IMainMenuView
 {
+    initialize(): void;
+
     updateClock(time: string): void;
 
     setButtonsInteractable(value: boolean): void;

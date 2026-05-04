@@ -27,12 +27,6 @@ export class CounterCoroutine extends Component
         this.nextTick();
     }
 
-    public stopCounter(): void
-    {
-        this._isRunning = false;
-        this.unscheduleAllCallbacks();
-    }
-
     private nextTick(): void
     {
         this.scheduleOnce(() => this.onTick(), this._interval);
@@ -67,13 +61,10 @@ export class CounterCoroutine extends Component
     {
         return this._progressLimit;
     }
+
     private onCounterFinished(): void
     {
         this._isRunning = false;
         this.onFinished?.();
-    }
-    protected onDestroy(): void
-    {
-        this.unscheduleAllCallbacks();
     }
 }

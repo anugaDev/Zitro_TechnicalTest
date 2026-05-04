@@ -1,6 +1,6 @@
 import { GlobalParameters } from '../../GlobalParameters';
 import { ISplashScreenModel } from '../Models/ISplashScreenModel';
-import { ISceneNavigator } from '../../Core/ISceneNavigator';
+import { ISceneNavigator } from '../../Core/SceneNavigator/ISceneNavigator';
 import { ISplashScreenView } from '../Views/ISplashScreenView';
 
 export class SplashScreenController

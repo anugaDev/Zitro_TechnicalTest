@@ -1,5 +1,5 @@
 import { GlobalParameters } from '../../GlobalParameters';
-import { ISceneNavigator } from '../../Core/ISceneNavigator';
+import { ISceneNavigator } from '../../Core/SceneNavigator/ISceneNavigator';
 import { IGameSceneModel } from './IGameSceneModel';
 
 export class GameSceneModel implements IGameSceneModel

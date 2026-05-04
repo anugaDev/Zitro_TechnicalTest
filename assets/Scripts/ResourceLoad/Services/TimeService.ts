@@ -1,5 +1,5 @@
 import { ITimeService } from './ITimeService';
-import { ApiResult } from '../../../ResourceLoad/ApiResult';
+import { ApiResult } from '../ApiResult';
 import { IWorldTimeApiOrgResponse } from '../Entities/IWorldTimeApiOrgResponse';
 import { ITimeApiServiceResponse } from '../Entities/ITimeApiServiceResponse';
 

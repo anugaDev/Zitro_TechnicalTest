@@ -1,4 +1,4 @@
-import { ApiResult } from '../../../ResourceLoad/ApiResult';
+import { ApiResult } from '../ApiResult';
 
 export interface ITimeService
 {

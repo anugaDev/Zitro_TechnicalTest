@@ -5,7 +5,7 @@ import { QuizGameController } from '../Controllers/QuizGameController';
 import { GameSceneView } from '../../GameScene/Views/GameSceneView';
 import { GameSceneModel } from '../../GameScene/Models/GameSceneModel';
 import { GameSceneController } from '../../GameScene/Controllers/GameSceneController';
-import { SceneNavigator } from '../../Core/SceneNavigator';
+import { SceneNavigator } from '../../Core/SceneNavigator/SceneNavigator';
 import { QuizQuestion } from '../Models/Entities/QuizQuestion';
 import { AppCache } from '../../ResourceLoad/AppCache';
 

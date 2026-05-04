@@ -1,6 +1,6 @@
 import { SpriteAtlas, AudioClip, JsonAsset } from 'cc';
 import { IAssetLoader } from './IAssetLoader';
-import { ITimeService } from '../../MainMenu/Models/Services/ITimeService';
+import { ITimeService } from '../../ResourceLoad/Services/ITimeService';
 import { AppCache } from '../../ResourceLoad/AppCache';
 import { ApiResult } from '../../ResourceLoad/ApiResult';
 import { ResourcePaths } from '../../ResourceLoad/ResourcePaths';
