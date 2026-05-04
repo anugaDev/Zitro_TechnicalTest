@@ -9,9 +9,9 @@ export class QuizGameController {
     ) {}
 
     public init(): void {
-        this.view.onAnswerSelected   = (index) => this.onAnswerSelected(index);
-        this.view.onPlayAgainPressed = ()      => this.onPlayAgain();
-        this.view.onNextPressed      = ()      => this.onNext();
+        this.view.onAnswerSelected = (index) => this.onAnswerSelected(index);
+        this.view.onPlayAgainPressed = () => this.onPlayAgain();
+        this.view.onNextPressed = () => this.onNext();
 
         this.view.hideAllPanels();
         this.displayCurrentQuestion();

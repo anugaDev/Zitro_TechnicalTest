@@ -8,8 +8,11 @@ const { ccclass, property } = _decorator;
 export class ReelView extends Component {
 
     private readonly CELL_HEIGHT: number = 120;
+
     private readonly STRIP_BUFFER: number = 3;
+
     private readonly SPIN_SPEED: number = 1200;
+
     private readonly STOP_TWEEN_DURATION: number = 0.35;
 
     @property(Node)
@@ -22,8 +25,11 @@ export class ReelView extends Component {
     public StopClip: AudioClip = null!;
 
     private _symbolFrames: SpriteFrame[] = [];
+
     private _isSpinning: boolean = false;
+
     private _stripY: number = 0;
+
     private _activeTween: Tween<Node> | null = null;
 
     private readonly _stripBuilder: ReelStripBuilder =

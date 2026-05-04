@@ -23,7 +23,7 @@ export class WorldTimeApiService implements ITimeService {
             return primary;
         }
 
-        console.warn('[TimeService] Primary URL failed, switching to fallback.', primary.message);
+        console.warn('[TimeService] Primary URL failed, switching to fallback.', ApiResult.isError(primary) ? primary.message : primary.status);
 
         const fallback = await this.fetchTime<IWorldTimeApiResponse>(
             WorldTimeApiService.FALLBACK_URL,
@@ -34,7 +34,7 @@ export class WorldTimeApiService implements ITimeService {
             return fallback;
         }
 
-        console.warn('[TimeService] Fallback URL also failed.', fallback.message);
+        console.warn('[TimeService] Fallback URL also failed.', ApiResult.isError(fallback) ? fallback.message : fallback.status);
         return ApiResult.error<Date>('No se pudo obtener la hora del servidor.');
     }
 

@@ -19,6 +19,7 @@ export class SlotGameInstaller extends Component {
     private gameSceneView: GameSceneView = null!;
 
     private slotController: SlotGameController = null!;
+
     private gameSceneController: GameSceneController = null!;
 
     protected onLoad(): void {
