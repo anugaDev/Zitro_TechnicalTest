@@ -3,16 +3,27 @@ import { CounterCoroutine } from 'db://assets/Scripts/Core/CounterCoroutine';
 import { IAssetLoader } from './IAssetLoader';
 
 export class SplashScreenModel implements ISplashScreenModel {
-
-    private static readonly DEFAULT_LOAD_TIME: number  = 5;
+    private static readonly DEFAULT_LOAD_TIME: number = 5;
 
     private static readonly FILL_DURATION_MS: number = 500;
 
     private static readonly TIMER_WEIGHT: number = 0.75;
 
+    private static readonly TARGET_FILL: number = 1
+
+    private static readonly TICK_MS: number = 16;
+
     private _waitingForAssets: boolean = false;
 
     private _assetsLoaded: boolean = false;
+
+    private _fillIntervalId: number = 0;
+
+    private _fillStartTime:  number = 0;
+
+    private _fillStart: number = 0;
+
+    private _fillRange: number = 0;
 
     public onProgressChangedEvent: ((current: number) => void) | null = null;
 
@@ -21,10 +32,10 @@ export class SplashScreenModel implements ISplashScreenModel {
     constructor(
         private readonly _progressCounter: CounterCoroutine,
         private readonly _assetLoader: IAssetLoader,
-    ) {}
+    ) { }
 
     public startLoadProcess(): void {
-        this._progressCounter.onUpdate   = () => this.setCurrentLoadProgress();
+        this._progressCounter.onUpdate = () => this.setCurrentLoadProgress();
         this._progressCounter.onFinished = () => this.onTimerFinished();
         this._progressCounter.startCounter(SplashScreenModel.DEFAULT_LOAD_TIME);
 
@@ -37,7 +48,7 @@ export class SplashScreenModel implements ISplashScreenModel {
     }
 
     public setCurrentLoadProgress(): void {
-        const current  = this._progressCounter.GetCurrentCount();
+        const current = this._progressCounter.GetCurrentCount();
         const limit = this._progressCounter.GetProgressLimit();
         const progress = (current / limit) * SplashScreenModel.TIMER_WEIGHT;
         this.onProgressChangedEvent?.(progress);
@@ -52,19 +63,20 @@ export class SplashScreenModel implements ISplashScreenModel {
     }
 
     private animateFillToComplete(): void {
-        const START = SplashScreenModel.TIMER_WEIGHT;
-        const RANGE = 1.0 - START;
-        const startTime = Date.now();
+        this._fillStart = SplashScreenModel.TIMER_WEIGHT;
+        this._fillRange = SplashScreenModel.TARGET_FILL - this._fillStart;
+        this._fillStartTime = Date.now();
+        this._fillIntervalId = setInterval(() => this.onFillTick(), SplashScreenModel.TICK_MS);
+    }
 
-        const intervalId = setInterval(() => {
-            const elapsed = Date.now() - startTime;
-            const time = Math.min(elapsed / SplashScreenModel.FILL_DURATION_MS, 1.0);
-            this.onProgressChangedEvent?.(START + RANGE * time);
+    private onFillTick(): void {
+        const elapsed = Date.now() - this._fillStartTime;
+        const normalizedProgress = Math.min(elapsed / SplashScreenModel.FILL_DURATION_MS, SplashScreenModel.TARGET_FILL);
+        this.onProgressChangedEvent?.(this._fillStart + this._fillRange * normalizedProgress);
 
-            if (time >= 1.0) {
-                clearInterval(intervalId);
-                this.onLoadedEvent?.();
-            }
-        }, 16);
+        if (normalizedProgress >= SplashScreenModel.TARGET_FILL) {
+            clearInterval(this._fillIntervalId);
+            this.onLoadedEvent?.();
+        }
     }
 }
