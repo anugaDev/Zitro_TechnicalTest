@@ -9,5 +9,7 @@ export interface ISplashScreenView {
 
     showAssetStatus(result: ApiResult<string>): void;
 
+    showStandBy(): void;
+
     showStartingGame(): void;
 }

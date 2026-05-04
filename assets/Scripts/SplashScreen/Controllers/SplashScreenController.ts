@@ -23,6 +23,8 @@ export class SplashScreenController
             this.view.showAssetStatus(result);
         this.model.onStartingGameEvent = () =>
             this.view.showStartingGame();
+        this.model.onStandByEvent = () =>
+            this.view.showStandBy();
         this.model.onLoadedEvent = () => this.onGoToMainMenu();
         this.model.startLoadProcess();
     }

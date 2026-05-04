@@ -22,6 +22,7 @@ export class SplashAssetLoader implements IAssetLoader {
         await this.loadQuizConfig();
         await this.wait(STEP_DELAY_MS);
         await this.fetchServerTime();
+        await this.wait(STEP_DELAY_MS);
     }
 
     private async loadSpriteAtlas(): Promise<void> {

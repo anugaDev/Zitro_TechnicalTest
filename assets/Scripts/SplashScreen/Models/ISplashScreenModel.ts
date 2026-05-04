@@ -10,6 +10,8 @@ export interface ISplashScreenModel
 
     onStartingGameEvent: (() => void) | null;
 
+    onStandByEvent: (() => void) | null;
+
     startLoadProcess() : void;
 
     setCurrentLoadProgress(): void;

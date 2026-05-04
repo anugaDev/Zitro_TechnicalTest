@@ -43,6 +43,13 @@ export class SplashScreenView extends Component implements ISplashScreenView {
         }
     }
 
+    public showStandBy(): void {
+        if (!this.AssetStatusLabel) {
+            return;
+        }
+        this.AssetStatusLabel.string = 'Please stand by...';
+    }
+
     public showStartingGame(): void {
         if (!this.AssetStatusLabel) {
             return;

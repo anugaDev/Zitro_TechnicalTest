@@ -1,6 +1,5 @@
 import { _decorator, Component } from 'cc';
 import { SlotGameModel } from '../Models/SlotGameModel';
-import { FakeWinSlotGameModel } from '../Models/FakeWinSlotGameModel';
 import { SlotGameView } from '../Views/SlotGameView';
 import { SlotGameController } from '../Controllers/SlotGameController';
 import { GameSceneView } from '../../GameScene/Views/GameSceneView';
@@ -27,11 +26,14 @@ export class SlotGameInstaller extends Component {
         const navigator = new SceneNavigator();
         const gameSceneModel = new GameSceneModel(navigator);
         this.gameSceneController = new GameSceneController(gameSceneModel, this.gameSceneView);
-        //const model = new SlotGameModel();
-        const model = new FakeWinSlotGameModel(); // [TEST] swap to always win
+        const model = new SlotGameModel();
         this.slotController = new SlotGameController(model, this.slotView);
-        this.slotController.init();
 
+        this.setGameSceneEvents();
+        this.slotController.init();
+    }
+
+    private setGameSceneEvents(): void {
         this.gameSceneController.onFadeInCompleted = () => this.slotView.onSceneFadeInCompleted();
         this.gameSceneController.onFadeOutStarted = () => this.slotView.onSceneFadeOutStarted();
         this.slotView.onAllReelsReady = () => this.gameSceneController.init();

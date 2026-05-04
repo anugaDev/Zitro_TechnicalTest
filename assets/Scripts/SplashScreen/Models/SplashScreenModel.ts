@@ -32,6 +32,8 @@ export class SplashScreenModel implements ISplashScreenModel {
 
     public onStartingGameEvent: (() => void) | null = null;
 
+    public onStandByEvent: (() => void) | null = null;
+
     public onLoadedEvent: (() => void) | null = null;
 
     constructor(
@@ -49,6 +51,8 @@ export class SplashScreenModel implements ISplashScreenModel {
             this._assetsLoaded = true;
             if (this._waitingForAssets) {
                 this.animateFillToComplete();
+            } else {
+                this.onStandByEvent?.();
             }
         });
     }
