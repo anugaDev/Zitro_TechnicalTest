@@ -612,7 +612,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -145.101,
+      "y": -202.67,
       "z": 0
     },
     "_lrot": {
@@ -649,8 +649,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 717.693,
-      "height": 281.19
+      "width": 1000,
+      "height": 400
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -669,20 +669,20 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "_resizeMode": 0,
+    "_resizeMode": 2,
     "_layoutType": 3,
     "_cellSize": {
       "__type__": "cc.Size",
-      "width": 40,
-      "height": 40
+      "width": 450,
+      "height": 150
     },
     "_startAxis": 0,
     "_paddingLeft": 0,
     "_paddingRight": 0,
     "_paddingTop": 0,
     "_paddingBottom": 0,
-    "_spacingX": 25,
-    "_spacingY": 25,
+    "_spacingX": 100,
+    "_spacingY": 100,
     "_verticalDirection": 1,
     "_horizontalDirection": 0,
     "_constraint": 0,
@@ -914,8 +914,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 800,
-      "height": 126
+      "width": 1000,
+      "height": 338.99999999999994
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -933,11 +933,11 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "_lineHeight": 100,
-    "_string": "<color=#00ff00>CORRECT</color>",
+    "_lineHeight": 150,
+    "_string": "'<color=#44ff44><b>✓ Correct!</b></color>'\n<color=#ffffff>Correct answer: Cervantes",
     "_horizontalAlign": 1,
     "_fontSize": 50,
-    "_maxWidth": 800,
+    "_maxWidth": 1000,
     "_fontFamily": "Arial",
     "_font": null,
     "_isSystemFontUsed": true,
@@ -1264,7 +1264,7 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "_alignFlags": 44,
+    "_alignFlags": 42,
     "_target": null,
     "_left": 0,
     "_right": 0,
@@ -1823,7 +1823,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 573.3665835411471,
+    "_orthoHeight": 540,
     "_near": 1,
     "_far": 2000,
     "_color": {
