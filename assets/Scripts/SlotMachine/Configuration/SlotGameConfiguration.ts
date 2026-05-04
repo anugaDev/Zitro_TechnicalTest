@@ -2,9 +2,9 @@ export class SlotGameConfiguration
 {
     static readonly STOP_TWEEN_DURATION = 0.35;
 
-    static readonly CELL_HEIGHT = 240;
+    static readonly CELL_HEIGHT = 160;
 
-    static readonly SPIN_SPEED = 2400;
+    static readonly SPIN_SPEED = 1600;
 
     static readonly SYMBOL_COUNT = 6;
 
