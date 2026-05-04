@@ -9,12 +9,15 @@ export class QuizGameController {
     ) {}
 
     public init(): void {
+        this.setViewListeners();
+        this.view.hideAllPanels();
+        this.displayCurrentQuestion();
+    }
+
+    private setViewListeners(): void {
         this.view.onAnswerSelected = (index) => this.onAnswerSelected(index);
         this.view.onPlayAgainPressed = () => this.onPlayAgain();
         this.view.onNextPressed = () => this.onNextStatement();
-
-        this.view.hideAllPanels();
-        this.displayCurrentQuestion();
     }
 
     public dispose(): void {
