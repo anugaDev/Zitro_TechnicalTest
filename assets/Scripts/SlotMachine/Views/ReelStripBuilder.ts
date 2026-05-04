@@ -1,5 +1,5 @@
 import { Node, SpriteFrame, Sprite, UITransform } from 'cc';
-import { SYMBOL_COUNT } from '../Enums/SlotSymbolEnum';
+import { SlotGameConfiguration } from '../Configuration/SlotGameConfiguration';
 
 export class ReelStripBuilder {
 
@@ -10,25 +10,28 @@ export class ReelStripBuilder {
 
     public build(stripNode: Node, symbolFrames: SpriteFrame[]): number {
         stripNode.removeAllChildren();
-
         const sequence = this.buildSequence();
+        sequence.forEach((symbolId, index) => this.addCellToStrip(stripNode, symbolId, index, symbolFrames));
+        return this.calculateInitialY();
+    }
 
-        sequence.forEach((symbolId, index) => {
-            const cell = this.createCell(index, symbolFrames[symbolId], stripNode.layer);
-            cell.setPosition(0, index * this.cellHeight, 0);
-            stripNode.addChild(cell);
-        });
+    private addCellToStrip(stripNode: Node, symbolId: number, index: number, symbolFrames: SpriteFrame[]): void {
+        const cell = this.createCell(index, symbolFrames[symbolId], stripNode.layer);
+        cell.setPosition(0, index * this.cellHeight, 0);
+        stripNode.addChild(cell);
+    }
 
+    private calculateInitialY(): number {
         return -Math.floor(this.stripBuffer / 2) * this.cellHeight;
     }
 
     private buildSequence(): number[] {
         const sequence: number[] = [];
 
-        for (let symbolIndex = SYMBOL_COUNT - this.stripBuffer; symbolIndex < SYMBOL_COUNT; symbolIndex++) {
+        for (let symbolIndex = SlotGameConfiguration.SYMBOL_COUNT - this.stripBuffer; symbolIndex < SlotGameConfiguration.SYMBOL_COUNT; symbolIndex++) {
             sequence.push(symbolIndex);
         }
-        for (let symbolIndex = 0; symbolIndex < SYMBOL_COUNT; symbolIndex++) {
+        for (let symbolIndex = 0; symbolIndex < SlotGameConfiguration.SYMBOL_COUNT; symbolIndex++) {
             sequence.push(symbolIndex);
         }
         for (let symbolIndex = 0; symbolIndex < this.stripBuffer; symbolIndex++) {

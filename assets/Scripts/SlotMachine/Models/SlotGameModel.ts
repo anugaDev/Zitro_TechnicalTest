@@ -1,13 +1,16 @@
 import { ISlotGameModel } from './ISlotGameModel';
-import { SlotSymbolEnum, SYMBOL_COUNT, REEL_COUNT } from '../Enums/SlotSymbolEnum';
+import { SlotSymbolEnum } from '../Enums/SlotSymbolEnum';
+import { SlotGameConfiguration } from '../Configuration/SlotGameConfiguration';
 
 export class SlotGameModel implements ISlotGameModel {
 
-    private _result: SlotSymbolEnum[] = Array(REEL_COUNT).fill(0);
+    private _result: SlotSymbolEnum[] = Array(SlotGameConfiguration.REEL_COUNT).fill(0);
+
+    public onWin: (() => void) | null = null;
 
     public generateResult(): void {
-        for (let reelIndex = 0; reelIndex < REEL_COUNT; reelIndex++) {
-            this._result[reelIndex] = Math.floor(Math.random() * SYMBOL_COUNT) as SlotSymbolEnum;
+        for (let reelIndex = 0; reelIndex < SlotGameConfiguration.REEL_COUNT; reelIndex++) {
+            this._result[reelIndex] = Math.floor(Math.random() * SlotGameConfiguration.SYMBOL_COUNT) as SlotSymbolEnum;
         }
     }
 
@@ -15,7 +18,15 @@ export class SlotGameModel implements ISlotGameModel {
         return this._result[reelIndex];
     }
 
-    public isWin(): boolean {
+    public notifyResult(): void {
+        if (!this.checkWin()) {
+            return;
+        }
+
+        this.onWin?.();
+    }
+
+    private checkWin(): boolean {
         return (
             this._result[0] === this._result[1] &&
             this._result[1] === this._result[2]
