@@ -27,7 +27,6 @@ export class SplashScreenView extends Component implements ISplashScreenView {
     }
 
     public showAssetStatus(result: ApiResult<string>): void {
-        console.log('[SplashScreenView] showAssetStatus:', result);
 
         if (!this.AssetStatusLabel) {
             return;

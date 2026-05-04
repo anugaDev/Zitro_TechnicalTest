@@ -25,6 +25,14 @@ export class QuizGameView extends Component implements IQuizGameView
 
     public onPlayAgainPressed: (() => void) | null = null;
 
+    public onFeedbackFadeOutCompleted: (() => void) | null = null;
+
+    public onStatementFadeCompleted: (() => void) | null = null;
+
+    public onResultsFadeInCompleted: (() => void) | null = null;
+
+    public onResultsFadeOutCompleted: (() => void) | null = null;
+
     private _animController: StatementAnimationHandler = null!;
 
     protected onLoad(): void
@@ -81,27 +89,27 @@ export class QuizGameView extends Component implements IQuizGameView
     {
         this.showQuestionPanel();
         this.setAnswerButtonsInteractable(false);
-        this.playStatementFade(() => this.setAnswerButtonsInteractable(true));
+        this.playStatementFade();
     }
 
-    public playFeedbackFadeOut(onCompleted: () => void): void
+    public playFeedbackFadeOut(): void
     {
-        this._animController.playFeedbackFadeOut(onCompleted);
+        this._animController.playFeedbackFadeOut(() => this.onFeedbackFadeOutCompleted?.());
     }
 
-    public playStatementFade(onCompleted: () => void): void
+    public playStatementFade(): void
     {
-        this._animController.playStatementFade(onCompleted);
+        this._animController.playStatementFade(() => this.onStatementFadeCompleted?.());
     }
 
-    public playResultsFadeIn(onCompleted: () => void): void
+    public playResultsFadeIn(): void
     {
-        this._animController.playResultsFadeIn(onCompleted);
+        this._animController.playResultsFadeIn(() => this.onResultsFadeInCompleted?.());
     }
 
-    public playResultsFadeOut(onCompleted: () => void): void
+    public playResultsFadeOut(): void
     {
-        this._animController.playResultsFadeOut(onCompleted);
+        this._animController.playResultsFadeOut(() => this.onResultsFadeOutCompleted?.());
     }
 
     public setAnswerButtonsInteractable(value: boolean): void
@@ -138,5 +146,9 @@ export class QuizGameView extends Component implements IQuizGameView
         this.onAnswerSelected = null;
         this.onNextPressed = null;
         this.onPlayAgainPressed = null;
+        this.onFeedbackFadeOutCompleted = null;
+        this.onStatementFadeCompleted = null;
+        this.onResultsFadeInCompleted = null;
+        this.onResultsFadeOutCompleted = null;
     }
 }

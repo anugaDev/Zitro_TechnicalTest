@@ -1,100 +1,93 @@
 import { IQuizGameModel } from '../Models/IQuizGameModel';
 import { IQuizGameView } from '../Views/IQuizGameView';
 
-export class QuizGameController
-{
+export class QuizGameController {
     constructor(
         private readonly model: IQuizGameModel,
         private readonly view: IQuizGameView
-    ) {}
+    ) { }
 
-    public init(): void
-    {
+    public init(): void {
         this.setViewListeners();
         this.view.hideAllPanels();
         this.displayCurrentQuestion();
     }
 
-    public dispose(): void
-    {
+    public dispose(): void {
         this.view.unbindAll();
     }
 
-    private setViewListeners(): void
-    {
+    private setViewListeners(): void {
         this.view.onAnswerSelected = (index) => this.onAnswerSelected(index);
         this.view.onNextPressed = () => this.onNextPressed();
         this.view.onPlayAgainPressed = () => this.onPlayAgainPressed();
+
+        this.view.onFeedbackFadeOutCompleted = () => this.onFeedbackFadeOutFinished();
+        this.view.onStatementFadeCompleted = () => this.onStatementFadeFinished();
+        this.view.onResultsFadeInCompleted = () => this.onResultsFadeInFinished();
+        this.view.onResultsFadeOutCompleted = () => this.onPlayAgainFadeOutFinished();
     }
 
-    private displayCurrentQuestion(): void
-    {
+    private displayCurrentQuestion(): void {
         const question = this.model.getCurrentQuestion();
-        this.view.showQuestion(question.statement, question.answers.map(a => a.text));
+        this.view.showQuestion(question.statement, this.model.getCurrentAnswers());
     }
 
-    private onAnswerSelected(index: number): void
-    {
+    private onAnswerSelected(index: number): void {
         const wasCorrect = this.model.submitAnswer(index);
-        const correctText = this.model.getCurrentQuestion().answers.find(a => a.isCorrect)!.text;
-        this.view.showFeedback(wasCorrect, correctText);
+        this.view.showFeedback(wasCorrect, this.model.getCorrectAnswerText());
     }
 
-    private onNextPressed(): void
-    {
+    private onNextPressed(): void {
         this.view.setNextButtonInteractable(false);
-        this.view.playFeedbackFadeOut(() => this.onFeedbackFadeOutFinished());
+        this.view.playFeedbackFadeOut();
     }
 
-    private onFeedbackFadeOutFinished(): void
-    {
+    private onFeedbackFadeOutFinished(): void {
         this.view.showQuestionPanel();
         const hasMoreQuestions = this.model.nextQuestion();
 
-        if (hasMoreQuestions)
-        {
-            this.displayCurrentQuestion();
-            this.view.setAnswerButtonsInteractable(false);
-            this.view.playStatementFade(() => this.onStatementFadeFinished());
+        if (hasMoreQuestions) {
+            this.displayNextQuestion();
         }
-        else
-        {
-            this.view.setPlayAgainInteractable(false);
-            this.view.showResults(this.model.getScore(), this.model.getTotalQuestions());
-            this.view.playResultsFadeIn(() => this.onResultsFadeInFinished());
+        else {
+            this.displayFinalResults();
         }
     }
 
-    private onStatementFadeFinished(): void
-    {
+    private displayNextQuestion(): void {
+        this.displayCurrentQuestion();
+        this.view.setAnswerButtonsInteractable(false);
+        this.view.playStatementFade();
+    }
+
+    private displayFinalResults(): void {
+        this.view.setPlayAgainInteractable(false);
+        this.view.showResults(this.model.getScore(), this.model.getTotalQuestions());
+        this.view.playResultsFadeIn();
+    }
+
+    private onStatementFadeFinished(): void {
         this.view.setNextButtonInteractable(true);
+        this.view.setPlayAgainInteractable(true);
         this.view.setAnswerButtonsInteractable(true);
     }
 
-    private onResultsFadeInFinished(): void
-    {
+    private onResultsFadeInFinished(): void {
         this.view.setNextButtonInteractable(true);
         this.view.setPlayAgainInteractable(true);
     }
 
-    private onPlayAgainPressed(): void
-    {
+    private onPlayAgainPressed(): void {
         this.view.setPlayAgainInteractable(false);
-        this.view.playResultsFadeOut(() => this.onPlayAgainFadeOutFinished());
+        this.view.playResultsFadeOut();
     }
 
-    private onPlayAgainFadeOutFinished(): void
-    {
+    private onPlayAgainFadeOutFinished(): void {
         this.model.reset();
         this.view.showQuestionPanel();
         this.displayCurrentQuestion();
         this.view.setAnswerButtonsInteractable(false);
-        this.view.playStatementFade(() => this.onPlayAgainStatementFadeFinished());
-    }
-
-    private onPlayAgainStatementFadeFinished(): void
-    {
-        this.view.setPlayAgainInteractable(true);
-        this.view.setAnswerButtonsInteractable(true);
+        this.view.playStatementFade();
     }
 }

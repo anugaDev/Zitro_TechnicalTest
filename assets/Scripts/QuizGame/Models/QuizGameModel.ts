@@ -1,6 +1,6 @@
 import { QuizQuestion } from './Entities/QuizQuestion';
 import { IQuizGameModel } from './IQuizGameModel';
-import { QuizAnswer } from "db://assets/Scripts/QuizGame/Models/Entities/QuizAnswer";
+import { QuizAnswer } from './Entities/QuizAnswer';
 
 export class QuizGameModel implements IQuizGameModel
 {
@@ -19,6 +19,16 @@ export class QuizGameModel implements IQuizGameModel
     getCurrentQuestion(): QuizQuestion
     {
         return this._questions[this._currentIndex];
+    }
+
+    public getCurrentAnswers(): string[]
+    {
+        return this.getCurrentQuestion().answers.map(answer => answer.text);
+    }
+
+    public getCorrectAnswerText(): string
+    {
+        return this.getCurrentQuestion().answers.find(answer => answer.isCorrect)!.text;
     }
 
     public getScore(): number

@@ -53,10 +53,12 @@ export class SlotGameController
     private scheduleReelStops(): void
     {
         const stopBase = SlotGameConfiguration.REEL_STAGGER_MS * (SlotGameConfiguration.REEL_COUNT - 1) + SlotGameConfiguration.MIN_ALL_SPIN_MS;
+
         for (let reelIndex = 0; reelIndex < SlotGameConfiguration.REEL_COUNT - 1; reelIndex++)
         {
             this.delay(stopBase + SlotGameConfiguration.REEL_STAGGER_MS * reelIndex, () => this.stopReel(reelIndex));
         }
+
         this.delay(stopBase + SlotGameConfiguration.REEL_STAGGER_MS * (SlotGameConfiguration.REEL_COUNT - 1), () => this.stopLastReel());
     }
 

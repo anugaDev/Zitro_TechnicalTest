@@ -6,6 +6,14 @@ export interface IQuizGameView
 
     onPlayAgainPressed: (() => void) | null;
 
+    onFeedbackFadeOutCompleted: (() => void) | null;
+
+    onStatementFadeCompleted: (() => void) | null;
+
+    onResultsFadeInCompleted: (() => void) | null;
+
+    onResultsFadeOutCompleted: (() => void) | null;
+
     showQuestion(statement: string, answers: string[]): void;
 
     showFeedback(wasCorrect: boolean, correctText: string): void;
@@ -18,13 +26,13 @@ export interface IQuizGameView
 
     onSceneFadeInCompleted(): void;
 
-    playFeedbackFadeOut(onCompleted: () => void): void;
+    playFeedbackFadeOut(): void;
 
-    playStatementFade(onCompleted: () => void): void;
+    playStatementFade(): void;
 
-    playResultsFadeIn(onCompleted: () => void): void;
+    playResultsFadeIn(): void;
 
-    playResultsFadeOut(onCompleted: () => void): void;
+    playResultsFadeOut(): void;
 
     setAnswerButtonsInteractable(value: boolean): void;
 

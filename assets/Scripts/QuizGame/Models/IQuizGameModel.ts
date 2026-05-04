@@ -6,6 +6,10 @@ export interface IQuizGameModel
 
     getCurrentQuestion(): QuizQuestion;
 
+    getCurrentAnswers(): string[];
+
+    getCorrectAnswerText(): string;
+
     submitAnswer(answerIndex: number): boolean;
 
     nextQuestion(): boolean;
