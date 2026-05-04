@@ -3,7 +3,6 @@ import { MainMenuModel } from '../Models/MainMenuModel';
 import { MainMenuView } from '../Views/MainMenuView';
 import { MainMenuController } from '../Controllers/MainMenuController';
 import { SceneNavigator } from '../../Core/SceneNavigator';
-import { TimeService } from '../Models/Services/TimeService';
 
 const { ccclass, property } = _decorator;
 
@@ -17,9 +16,8 @@ export class MainMenuInstaller extends Component
 
     protected onLoad(): void
     {
-        const navigator  = new SceneNavigator();
-        const timeService = new TimeService();
-        const model = new MainMenuModel(timeService, navigator);
+        const navigator = new SceneNavigator();
+        const model = new MainMenuModel(navigator);
 
         this.controller = new MainMenuController(model, this.mainMenuView);
         this.controller.init();

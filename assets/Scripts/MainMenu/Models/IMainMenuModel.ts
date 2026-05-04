@@ -2,7 +2,7 @@ import { ApiResult } from '../../ResourceLoad/ApiResult';
 
 export interface IMainMenuModel
 {
-    initializeTime(): Promise<ApiResult<Date>>;
+    initializeTime(): ApiResult<Date>;
 
     startClock(onTick: (time: string) => void): void;
 

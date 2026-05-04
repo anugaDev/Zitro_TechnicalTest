@@ -912,6 +912,11 @@
     "AssetStatusLabel": {
       "__id__": 12
     },
+    "loadingText": "Loading...",
+    "standByText": "Please stand by...",
+    "startingGameText": "Starting game...",
+    "successPrefix": "✓ ",
+    "errorPrefix": "✗ ",
     "_id": "a8pT47es5EQoIkD4w9CxVy"
   },
   {

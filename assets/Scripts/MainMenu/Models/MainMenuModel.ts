@@ -3,7 +3,6 @@ import { GlobalParameters } from '../../GlobalParameters';
 import { ApiResult } from '../../ResourceLoad/ApiResult';
 import { AppCache } from '../../ResourceLoad/AppCache';
 import { padZero } from '../../Core/Utils/StringUtils';
-import { ITimeService } from './Services/ITimeService';
 import { IMainMenuModel } from './IMainMenuModel';
 
 export class MainMenuModel implements IMainMenuModel
@@ -14,23 +13,15 @@ export class MainMenuModel implements IMainMenuModel
 
     private _currentTime: Date;
 
-    constructor(private readonly timeService: ITimeService, private readonly navigator: ISceneNavigator) {
+    constructor(private readonly navigator: ISceneNavigator) {
         this._currentTime = new Date();
     }
 
-    public async initializeTime(): Promise<ApiResult<Date>> {
+    public initializeTime(): ApiResult<Date> {
         const cached = AppCache.instance.CachedTime;
-        if (cached) {
-            const elapsed = Date.now() - cached.fetchedAt;
-            this._currentTime = new Date(cached.serverTime.getTime() + elapsed);
-            return ApiResult.success(this._currentTime);
-        }
-
-        const result = await this.timeService.fetchCurrentTime();
-        if (ApiResult.isSuccess(result)) {
-            this._currentTime = result.data;
-        }
-        return result;
+        const elapsed = Date.now() - cached.fetchedAt;
+        this._currentTime = new Date(cached.serverTime.getTime() + elapsed);
+        return ApiResult.success(this._currentTime);
     }
 
     public startClock(onTick: (time: string) => void): void {

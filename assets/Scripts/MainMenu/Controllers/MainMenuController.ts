@@ -9,16 +9,16 @@ export class MainMenuController
         private readonly view: IMainMenuView
     ) {}
 
-    public async init(): Promise<void>
+    public init(): void
     {
         this.view.setButtonsInteractable(false);
-        await this.initClock();
+        this.initClock();
         this.view.playFadeIn(() => this.setSceneInteractable());
     }
 
-    private async initClock(): Promise<void>
+    private initClock(): void
     {
-        const result = await this.model.initializeTime();
+        this.model.initializeTime();
         this.view.updateClock(this.model.getCurrentTime());
         this.model.startClock((time) => this.view.updateClock(time));
     }
