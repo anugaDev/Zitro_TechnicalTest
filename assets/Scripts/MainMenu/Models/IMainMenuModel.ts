@@ -13,4 +13,6 @@ export interface IMainMenuModel
     goToQuiz(): void;
 
     goToSlot(): void;
+
+    quit(): void;
 }

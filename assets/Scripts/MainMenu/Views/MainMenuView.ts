@@ -18,6 +18,9 @@ export class MainMenuView extends Component implements IMainMenuView
     @property(Button)
     public SlotButton: Button = null!;
 
+    @property(Button)
+    public ExitButton: Button = null!;
+
     private _animations: AnimationController = null!;
 
     protected onLoad(): void
@@ -43,6 +46,10 @@ export class MainMenuView extends Component implements IMainMenuView
         {
             this.SlotButton.interactable = value;
         }
+        if (this.ExitButton?.isValid)
+        {
+            this.ExitButton.interactable = value;
+        }
     }
 
     public bindQuizButton(handler: () => void): void
@@ -53,6 +60,11 @@ export class MainMenuView extends Component implements IMainMenuView
     public bindSlotButton(handler: () => void): void
     {
         this.SlotButton.node.on(Button.EventType.CLICK, handler, this);
+    }
+
+    public bindExitButton(handler: () => void): void
+    {
+        this.ExitButton.node.on(Button.EventType.CLICK, handler, this);
     }
 
     public playFadeIn(onFinished: () => void): void
@@ -77,6 +89,10 @@ export class MainMenuView extends Component implements IMainMenuView
         if (this.SlotButton?.isValid)
         {
             this.SlotButton.node.off(Button.EventType.CLICK);
+        }
+        if (this.ExitButton?.isValid)
+        {
+            this.ExitButton.node.off(Button.EventType.CLICK);
         }
     }
 }

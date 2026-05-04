@@ -28,6 +28,7 @@ export class MainMenuController
         this.view.setButtonsInteractable(true);
         this.view.bindQuizButton(this.onGoToQuiz.bind(this));
         this.view.bindSlotButton(this.onGoToSlot.bind(this));
+        this.view.bindExitButton(this.onExit.bind(this));
     }
 
     public dispose(): void
@@ -41,19 +42,34 @@ export class MainMenuController
 
     private onGoToQuiz(): void
     {
-        this.view.playFadeOut(() =>
-        {
-            this.dispose();
-            this.model.goToQuiz();
-        });
+        this.view.playFadeOut(this.onFadeToQuiz.bind(this));
+    }
+
+    private onFadeToQuiz(): void
+    {
+        this.dispose();
+        this.model.goToQuiz();
     }
 
     private onGoToSlot(): void
     {
-        this.view.playFadeOut(() =>
-        {
-            this.dispose();
-            this.model.goToSlot();
-        });
+        this.view.playFadeOut(this.onFadeToSlot.bind(this));
+    }
+
+    private onFadeToSlot(): void
+    {
+        this.dispose();
+        this.model.goToSlot();
+    }
+
+    private onExit(): void
+    {
+        this.view.playFadeOut(this.onFadeToExit.bind(this));
+    }
+
+    private onFadeToExit(): void
+    {
+        this.dispose();
+        this.model.quit();
     }
 }

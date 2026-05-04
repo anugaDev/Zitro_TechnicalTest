@@ -76,4 +76,9 @@ export class MainMenuModel implements IMainMenuModel
     {
         this.navigator.goTo(GlobalParameters.SCENE_SLOT);
     }
+
+    public quit(): void
+    {
+        this.navigator.quit();
+    }
 }
