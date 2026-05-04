@@ -1,5 +1,4 @@
 import { _decorator, Component } from 'cc';
-import { resources, JsonAsset } from 'cc';
 import { QuizGameModel } from '../Models/QuizGameModel';
 import { QuizGameView } from '../Views/QuizGameView';
 import { QuizGameController } from '../Controllers/QuizGameController';
@@ -8,7 +7,6 @@ import { GameSceneModel } from '../../GameScene/Models/GameSceneModel';
 import { GameSceneController } from '../../GameScene/Controllers/GameSceneController';
 import { SceneNavigator } from '../../Core/SceneNavigator';
 import { QuizQuestion } from '../Models/Entities/QuizQuestion';
-import { ResourcePaths } from '../../ResourceLoad/ResourcePaths';
 import { AppCache } from '../../ResourceLoad/AppCache';
 
 const { ccclass, property } = _decorator;
@@ -32,23 +30,8 @@ export class QuizGameInstaller extends Component
         const gameSceneModel = new GameSceneModel(navigator);
         this.gameSceneController = new GameSceneController(gameSceneModel, this.gameSceneView);
 
-        const cachedJson = AppCache.instance.QuizJson;
-        if (cachedJson)
-        {
-            this.scheduleOnce(() => this.initWithQuestions(cachedJson.json as QuizQuestion[]));
-            return;
-        }
-
-        resources.load(ResourcePaths.QUIZ_JSON, JsonAsset, (error, jsonAsset: JsonAsset) =>
-        {
-            if (error)
-            {
-                console.error('[QuizGameInstaller] Failed to load quizGameConfiguration.json:', error);
-                this.gameSceneController.init();
-                return;
-            }
-            this.initWithQuestions(jsonAsset.json as QuizQuestion[]);
-        });
+        const questions = AppCache.instance.QuizJson.json as QuizQuestion[];
+        this.scheduleOnce(() => this.initWithQuestions(questions));
     }
 
     private initWithQuestions(questions: QuizQuestion[]): void

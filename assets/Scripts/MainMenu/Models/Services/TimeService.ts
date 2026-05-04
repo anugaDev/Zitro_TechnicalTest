@@ -5,7 +5,6 @@ import { ITimeApiServiceResponse } from '../Entities/ITimeApiServiceResponse';
 
 export class TimeService implements ITimeService
 {
-
     private static readonly PRIMARY_URL =
         'https://worldtimeapi.org/api/timezone/Europe/Madrid';
 
@@ -16,56 +15,78 @@ export class TimeService implements ITimeService
 
     public async fetchCurrentTime(): Promise<ApiResult<Date>>
     {
-        const primary = await this.fetchTime<IWorldTimeApiOrgResponse>(
-            TimeService.PRIMARY_URL,
-            (data) => new Date(data.datetime)
-        );
-
+        const primary = await this.fetchPrimaryTime();
         if (ApiResult.isSuccess(primary))
         {
             return primary;
         }
 
-        console.warn('[TimeService] Primary URL failed, switching to fallback.', ApiResult.isError(primary) ? primary.message : primary.status);
+        this.logWarning('Primary URL failed, switching to fallback.', primary);
 
-        const fallback = await this.fetchTime<ITimeApiServiceResponse>(
-            TimeService.FALLBACK_URL,
-            (data) => new Date(data.dateTime)
-        );
-
+        const fallback = await this.fetchFallbackTime();
         if (ApiResult.isSuccess(fallback))
         {
             return fallback;
         }
 
-        console.warn('[TimeService] Fallback URL also failed.', ApiResult.isError(fallback) ? fallback.message : fallback.status);
-        return ApiResult.error<Date>('\n' + 'Server time could not be obtained.');
+        this.logWarning('Fallback URL also failed.', fallback);
+        return ApiResult.error<Date>('Server time could not be obtained.');
     }
 
-    private async fetchTime<T>(
-        url: string,
-        parseDate: (data: T) => Date
-    ): Promise<ApiResult<Date>>
+    private fetchPrimaryTime(): Promise<ApiResult<Date>>
+    {
+        return this.fetchTime<IWorldTimeApiOrgResponse>(
+            TimeService.PRIMARY_URL,
+            (data) => new Date(data.datetime)
+        );
+    }
+
+    private fetchFallbackTime(): Promise<ApiResult<Date>>
+    {
+        return this.fetchTime<ITimeApiServiceResponse>(
+            TimeService.FALLBACK_URL,
+            (data) => new Date(data.dateTime)
+        );
+    }
+
+    private async fetchTime<T>(url: string, parseDate: (data: T) => Date): Promise<ApiResult<Date>>
+    {
+        const { signal, cleanup } = this.createAbortSignal();
+        try
+        {
+            return await this.executeRequest<T>(url, signal, parseDate);
+        }
+        catch (error)
+        {
+            return ApiResult.error<Date>(error instanceof Error ? error.message : String(error));
+        }
+        finally
+        {
+            cleanup();
+        }
+    }
+
+    private createAbortSignal(): { signal: AbortSignal; cleanup: () => void }
     {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), TimeService.TIMEOUT_MS);
+        return { signal: controller.signal, cleanup: () => clearTimeout(timer) };
+    }
 
-        try
+    private async executeRequest<T>(url: string, signal: AbortSignal, parseDate: (data: T) => Date): Promise<ApiResult<Date>>
+    {
+        const response = await fetch(url, { signal });
+        if (!response.ok)
         {
-            const response = await fetch(url, { signal: controller.signal });
-
-            if (!response.ok)
-            {
-                return ApiResult.error<Date>(`HTTP ${response.status} ${response.statusText}`);
-            }
-
-            const data: T = await response.json();
-            return ApiResult.success(parseDate(data));
-        } catch (error)
-        {
-            return ApiResult.error<Date>(error instanceof Error ? error.message : String(error));
-        } finally {
-            clearTimeout(timer);
+            return ApiResult.error<Date>(`HTTP ${response.status} ${response.statusText}`);
         }
+        const data: T = await response.json();
+        return ApiResult.success(parseDate(data));
+    }
+
+    private logWarning(message: string, result: ApiResult<Date>): void
+    {
+        const detail = ApiResult.isError(result) ? result.message : result.status;
+        console.warn(`[TimeService] ${message}`, detail);
     }
 }

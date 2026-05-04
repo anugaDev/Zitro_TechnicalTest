@@ -1,7 +1,6 @@
 import { QuizAnswer } from './QuizAnswer';
 
-export interface QuizQuestion
-{
+export interface QuizQuestion {
     statement: string;
 
     answers: [QuizAnswer, QuizAnswer, QuizAnswer];
