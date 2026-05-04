@@ -11,7 +11,7 @@ export class QuizGameController {
     public init(): void {
         this.view.onAnswerSelected = (index) => this.onAnswerSelected(index);
         this.view.onPlayAgainPressed = () => this.onPlayAgain();
-        this.view.onNextPressed = () => this.onNext();
+        this.view.onNextPressed = () => this.onNextStatement();
 
         this.view.hideAllPanels();
         this.displayCurrentQuestion();
@@ -32,10 +32,10 @@ export class QuizGameController {
         this.view.showFeedback(wasCorrect, correctText);
     }
 
-    private onNext(): void {
-        const hasMore = this.model.nextQuestion();
+    private onNextStatement(): void {
+        const isLastStatement = this.model.nextQuestion();
 
-        if (hasMore) {
+        if (isLastStatement) {
             this.displayCurrentQuestion();
         }
         else {

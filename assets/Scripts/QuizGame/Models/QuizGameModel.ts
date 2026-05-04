@@ -1,9 +1,8 @@
 import { QuizQuestion } from './Entities/QuizQuestion';
-import {IQuizGameModel} from './IQuizGameModel';
-import {QuizAnswer} from "db://assets/Scripts/QuizGame/Models/Entities/QuizAnswer";
+import { IQuizGameModel } from './IQuizGameModel';
+import { QuizAnswer } from "db://assets/Scripts/QuizGame/Models/Entities/QuizAnswer";
 
-export class QuizGameModel implements IQuizGameModel
-{
+export class QuizGameModel implements IQuizGameModel {
     private _questions: QuizQuestion[] = [];
 
     private _currentIndex: number = 0;
@@ -23,8 +22,7 @@ export class QuizGameModel implements IQuizGameModel
         return this._score;
     }
 
-    public getTotalQuestions(): number
-    {
+    public getTotalQuestions(): number {
         return this._questions.length;
     }
 
@@ -35,14 +33,12 @@ export class QuizGameModel implements IQuizGameModel
 
     submitAnswer(answerIndex: number): boolean {
 
-        const isCorrect = this._questions[this._currentIndex]
-            .answers[answerIndex].isCorrect;
-
+        const isCorrect = this._questions[this._currentIndex].answers[answerIndex].isCorrect;
         this.SetCurrentScore(isCorrect);
         return isCorrect;
     }
 
-    private SetCurrentScore(isCorrect : boolean): void {
+    private SetCurrentScore(isCorrect: boolean): void {
         if (!isCorrect) {
             return;
         }
@@ -57,19 +53,19 @@ export class QuizGameModel implements IQuizGameModel
     }
 
     private resetStatements(): void {
-        const shuffledQuestions = this.shuffle([...this._questions]).map(question => ({
+        const shuffledQuestions = (this.shuffleStatements([...this._questions]) as QuizQuestion[]).map(question => ({
             statement: question.statement,
-            answers: this.shuffle([...question.answers]) as [QuizAnswer, QuizAnswer, QuizAnswer]
+            answers: this.shuffleStatements([...question.answers]) as [QuizAnswer, QuizAnswer, QuizAnswer]
         }));
 
         this._questions = shuffledQuestions;
     }
 
-    private shuffle<T>(arr: T[]): T[] {
-        for (let currentIndex = arr.length - 1; currentIndex > 0; currentIndex--) {
-            const randomIndex = Math.floor(Math.random() * (currentIndex + 1));
-            [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
+    private shuffleStatements(elements: (QuizQuestion | QuizAnswer)[]): (QuizQuestion | QuizAnswer)[] {
+        for (let lastIndex = elements.length - 1; lastIndex > 0; lastIndex--) {
+            const swapIndex = Math.floor(Math.random() * (lastIndex + 1));
+            [elements[lastIndex], elements[swapIndex]] = [elements[swapIndex], elements[lastIndex]];
         }
-        return arr;
+        return elements;
     }
 }
