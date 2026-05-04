@@ -24,6 +24,13 @@ export class FadeInAnimation implements IAnimation
         this._uiOpacity.opacity = 0;
     }
 
+    public cancel(): void
+    {
+        this._activeTween?.stop();
+        this._activeTween = null;
+        this.onFinished = null;
+    }
+
     public play(): void
     {
         this._activeTween?.stop();

@@ -23,6 +23,13 @@ export class FadeOutAnimation implements IAnimation
         this._uiOpacity = target.getComponent(UIOpacity) ?? target.addComponent(UIOpacity);
     }
 
+    public cancel(): void
+    {
+        this._activeTween?.stop();
+        this._activeTween = null;
+        this.onFinished = null;
+    }
+
     public play(): void
     {
         this._activeTween?.stop();

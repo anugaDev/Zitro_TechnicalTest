@@ -54,8 +54,8 @@ export class StatementFadeAnimation implements IAnimation
 
     public cancel(): void
     {
-        this._statementFade.onFinished = null;
-        this._answersFade.onFinished = null;
+        this._statementFade.cancel();
+        this._answersFade.cancel();
 
         if (this._waitTimer !== null)
         {

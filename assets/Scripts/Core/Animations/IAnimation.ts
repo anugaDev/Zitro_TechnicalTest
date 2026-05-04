@@ -4,5 +4,7 @@ export interface IAnimation
 
     play(): void;
 
+    cancel(): void;
+
     onFinished: (() => void) | null;
 }

@@ -40,11 +40,11 @@ export class QuizGameController
         this.view.showFeedback(wasCorrect, correctText);
     }
 
-    private onNextStatement(): void
+    private onNextStatement(): boolean
     {
-        const isLastStatement = this.model.nextQuestion();
+        const hasMoreQuestions = this.model.nextQuestion();
 
-        if (isLastStatement)
+        if (hasMoreQuestions)
         {
             this.displayCurrentQuestion();
         }
@@ -52,6 +52,8 @@ export class QuizGameController
         {
             this.view.showResults(this.model.getScore(), this.model.getTotalQuestions());
         }
+
+        return hasMoreQuestions;
     }
 
     private onPlayAgain(): void

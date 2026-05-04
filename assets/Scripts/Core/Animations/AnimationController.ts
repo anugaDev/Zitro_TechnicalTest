@@ -9,10 +9,6 @@ export class AnimationController
     constructor(animations: IAnimation[])
     {
         this._animations = new Map(animations.map(animation => [animation.id, animation]));
-
-        animations.forEach(animation => {
-            animation.onFinished = () => this.onFinished?.(animation.id);
-        });
     }
 
     public play(id: string): void
@@ -25,6 +21,7 @@ export class AnimationController
             return;
         }
 
+        anim.onFinished = () => this.onFinished?.(id);
         anim.play();
     }
 }

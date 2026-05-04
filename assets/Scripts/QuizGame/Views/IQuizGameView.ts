@@ -2,7 +2,7 @@ export interface IQuizGameView
 {
     onAnswerSelected: ((index: number) => void) | null;
 
-    onNextPressed: (() => void) | null;
+    onNextPressed: (() => boolean) | null;
 
     onPlayAgainPressed: (() => void) | null;
 

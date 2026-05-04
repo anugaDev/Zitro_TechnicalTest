@@ -43,7 +43,7 @@ export class QuizGameView extends Component implements IQuizGameView
 
     public onPlayAgainPressed: (() => void) | null = null;
 
-    public onNextPressed: (() => void) | null = null;
+    public onNextPressed: (() => boolean) | null = null;
 
     private _animController: StatementAnimationController = null!;
 
@@ -104,7 +104,7 @@ export class QuizGameView extends Component implements IQuizGameView
         this.resetOpacity(this.FeedbackPanel);
         this.FeedbackText.string = wasCorrect
             ? '<color=#44ff44><b>✓ Correct!</b></color>'
-            : `<color=#ff4444><b>✗ Wrong!</b></color>\n` +
+            : `<color=#ff4444><b>✗ Wrong!</b></color><br/>` +
             `<color=#ffffff>Correct answer: ${correctText}</color>`;
     }
 
@@ -113,7 +113,7 @@ export class QuizGameView extends Component implements IQuizGameView
         this.QuizPanel.active = false;
         this.ResultsPanel.active = true;
         this.ResultsText.string =
-            `<color=#ffffff><b>Quiz Finished!</b></color>\n` +
+            `<color=#ffffff><b>Quiz Finished!</b></color><br/>` +
             `<color=#ffdd44>Score: ${score} / ${total}</color>`;
     }
 
@@ -171,12 +171,12 @@ export class QuizGameView extends Component implements IQuizGameView
     private onFeedbackFadeOutFinished(): void
     {
         this.FeedbackPanel.active = false;
-        this.onNextPressed?.();
+        this.showQuestionPanel();
+        this.setAnswersInteractable(false);
+        const hasMoreQuestions = this.onNextPressed?.() ?? false;
 
-        if (!this.ResultsPanel.active)
+        if (hasMoreQuestions)
         {
-            this.showQuestionPanel();
-            this.setAnswersInteractable(false);
             this._animController.playStatementFade(() => this.onNextStatementFadeFinished());
         }
         else
@@ -207,8 +207,9 @@ export class QuizGameView extends Component implements IQuizGameView
     private onResultsFadeOutFinished(): void
     {
         this.ResultsPanel.active = false;
-        this.onPlayAgainPressed?.();
+        this.showQuestionPanel();
         this.setAnswersInteractable(false);
+        this.onPlayAgainPressed?.();
         this._animController.playStatementFade(() => this.onPlayAgainStatementFadeFinished());
     }
 
@@ -235,8 +236,10 @@ export class QuizGameView extends Component implements IQuizGameView
     private resetOpacity(node: Node): void
     {
         const uiOpacity = node.getComponent(UIOpacity);
-        if (uiOpacity){
+        if (uiOpacity)
+        {
             uiOpacity.opacity = 255;
         }
+        node.children.forEach(child => this.resetOpacity(child));
     }
 }
