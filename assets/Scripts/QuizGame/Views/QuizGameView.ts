@@ -47,15 +47,18 @@ export class QuizGameView extends Component implements IQuizGameView {
     private _animController: StatementAnimationController = null!;
 
     protected onLoad(): void {
-        this.NextButton.node.on(Button.EventType.CLICK, this.handleNextClick, this);
-        this.PlayAgainButton.node.on(Button.EventType.CLICK, this.handlePlayAgainClick, this);
-
+        this.setButtonListeners();
         this._animController = new StatementAnimationController(
             this.StatementText.node,
             this.AnswerLayout,
             this.FeedbackPanel,
             this.ResultsPanel
         );
+    }
+
+    private setButtonListeners(): void {
+        this.NextButton.node.on(Button.EventType.CLICK, this.handleNextClick, this);
+        this.PlayAgainButton.node.on(Button.EventType.CLICK, this.handlePlayAgainClick, this);
     }
 
     protected onDestroy(): void {
@@ -76,10 +79,10 @@ export class QuizGameView extends Component implements IQuizGameView {
         const node = instantiate(this.AnswerButtonPrefab);
         const answerButtonView = node.getComponent(AnswerButtonView)!;
         answerButtonView.Label.string = answerText;
-        this.setButtonListeners(answerButtonView, index)
+        this.setAnswerButtonListeners(answerButtonView, index)
         this.AnswerLayout.addChild(node);
     }
-    private setButtonListeners(answerButtonView: any, index: number) : void {
+    private setAnswerButtonListeners(answerButtonView: any, index: number): void {
         answerButtonView.Button.node.on(
             Button.EventType.CLICK,
             () => this.onAnswerSelected?.(index), this
