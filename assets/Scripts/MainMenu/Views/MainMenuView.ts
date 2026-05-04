@@ -22,7 +22,11 @@ export class MainMenuView extends Component implements IMainMenuView {
 
     private _animations: AnimationController = null!;
 
+    private _isInitialized: boolean = false;
+
     public initialize(): void {
+        if (this._isInitialized) { return; }
+        this._isInitialized = true;
         this.initializeAnimations();
         this.setButtonsInteractable(false);
     }

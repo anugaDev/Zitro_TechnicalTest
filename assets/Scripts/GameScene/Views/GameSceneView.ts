@@ -18,8 +18,17 @@ export class GameSceneView extends Component implements IGameSceneView
 
     private _animations: AnimationController = null!;
 
+    private _isInitialized: boolean = false;
+
     protected onLoad(): void
     {
+        this.initialize();
+    }
+
+    public initialize(): void
+    {
+        if (this._isInitialized) { return; }
+        this._isInitialized = true;
         this.ExitButton.node.on(Button.EventType.CLICK, this.handleExitClick, this);
 
         this._animations = new AnimationController([

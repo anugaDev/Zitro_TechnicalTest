@@ -14,6 +14,7 @@ export class GameSceneController
 
     public init(): void
     {
+        this.view.initialize();
         this.view.onExitPressed = () => this.onExit();
         this.view.playFadeIn(() => this.onFadeInCompleted?.());
     }

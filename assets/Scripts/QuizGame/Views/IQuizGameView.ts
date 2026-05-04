@@ -1,5 +1,7 @@
 export interface IQuizGameView
 {
+    initialize(): void;
+
     onAnswerSelected: ((index: number) => void) | null;
 
     onNextPressed: (() => void) | null;

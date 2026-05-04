@@ -33,7 +33,15 @@ export class SplashScreenView extends Component implements ISplashScreenView {
 
     private _animations: AnimationController = null!;
 
+    private _isInitialized: boolean = false;
+
     protected onLoad(): void {
+        this.initialize();
+    }
+
+    public initialize(): void {
+        if (this._isInitialized) { return; }
+        this._isInitialized = true;
         this._animations = new AnimationController([new FadeOutAnimation('fadeOut', this.node, SplashScreenView.FADE_OUT_DURATION),]);
     }
 

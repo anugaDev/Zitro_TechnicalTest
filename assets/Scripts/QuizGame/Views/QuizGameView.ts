@@ -35,8 +35,17 @@ export class QuizGameView extends Component implements IQuizGameView
 
     private _animController: StatementAnimationHandler = null!;
 
+    private _isInitialized: boolean = false;
+
     protected onLoad(): void
     {
+        this.initialize();
+    }
+
+    public initialize(): void
+    {
+        if (this._isInitialized) { return; }
+        this._isInitialized = true;
         this._animController = new StatementAnimationHandler(
             this.QuestionPanel.StatementText.node,
             this.QuestionPanel.AnswerLayout,

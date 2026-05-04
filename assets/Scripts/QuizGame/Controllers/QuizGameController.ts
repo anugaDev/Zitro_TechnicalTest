@@ -8,6 +8,7 @@ export class QuizGameController {
     ) { }
 
     public init(): void {
+        this.view.initialize();
         this.setViewListeners();
         this.view.hideAllPanels();
         this.displayCurrentQuestion();

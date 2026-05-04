@@ -1,6 +1,8 @@
 export interface ISlotGameView
 {
 
+    initialize(): void;
+
     onAllReelsReady: (() => void) | null;
 
     startReelSpin(reelIndex: number): void;

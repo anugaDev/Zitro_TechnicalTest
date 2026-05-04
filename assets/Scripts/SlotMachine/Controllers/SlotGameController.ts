@@ -13,6 +13,7 @@ export class SlotGameController
 
     public init(): void
     {
+        this.view.initialize();
         this.model.onWin = () => this.view.showWin();
         this.view.bindSpinButton(() => this.onSpin());
         this.view.setSpinButtonInteractable(false);
