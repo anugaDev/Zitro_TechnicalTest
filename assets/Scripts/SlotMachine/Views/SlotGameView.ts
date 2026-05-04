@@ -7,7 +7,8 @@ import { SlotSymbolRepository } from './SlotSymbolRepository';
 const { ccclass, property } = _decorator;
 
 @ccclass('SlotGameView')
-export class SlotGameView extends Component implements ISlotGameView {
+export class SlotGameView extends Component implements ISlotGameView
+{
 
     @property([ReelView])
     public reels: ReelView[] = [];
@@ -35,24 +36,29 @@ export class SlotGameView extends Component implements ISlotGameView {
 
     public onAllReelsReady: (() => void) | null = null;
 
-    protected onLoad(): void {
+    protected onLoad(): void
+    {
         this.hideWin();
         const repository = new SlotSymbolRepository();
         repository.load(() => this.onRepositoryLoaded(repository));
     }
 
-    private onRepositoryLoaded(repository: SlotSymbolRepository): void {
+    private onRepositoryLoaded(repository: SlotSymbolRepository): void
+    {
         this.reels.forEach(reel => this.initializeReel(reel, repository));
         this.onAllReelsReady?.();
     }
 
-    private initializeReel(reel: ReelView, repository: SlotSymbolRepository): void {
+    private initializeReel(reel: ReelView, repository: SlotSymbolRepository): void
+    {
         reel.setSymbolFrames(repository.frames);
         reel.buildStrip();
     }
 
-    public startReelSpin(reelIndex: number): void {
-        if (reelIndex === 0 && this.Audio) {
+    public startReelSpin(reelIndex: number): void
+    {
+        if (reelIndex === 0 && this.Audio)
+        {
             this.Audio.playOneShot(this.SpinStartClip);
             this.Audio.clip = this.SpinLoopClip;
             this.Audio.loop = true;
@@ -61,33 +67,40 @@ export class SlotGameView extends Component implements ISlotGameView {
         this.reels[reelIndex].startSpin();
     }
 
-    public stopReel(reelIndex: number, symbolId: number, onStopped: () => void): void {
+    public stopReel(reelIndex: number, symbolId: number, onStopped: () => void): void
+    {
         this.reels[reelIndex].stopSpin(symbolId as SlotSymbolEnum, onStopped);
     }
 
-    public showWin(): void {
+    public showWin(): void
+    {
         this.WinPanel.active = true;
-        if (this.WinAudio && this.WinClip) {
+        if (this.WinAudio && this.WinClip)
+        {
             this.WinAudio.clip = this.WinClip;
             this.WinAudio.play();
         }
     }
 
-    public hideWin(): void {
+    public hideWin(): void
+    {
         this.WinPanel.active = false;
         this.WinAudio?.stop();
     }
 
-    public setSpinButtonInteractable(value: boolean): void {
+    public setSpinButtonInteractable(value: boolean): void
+    {
         this.SpinButton.interactable = value;
         if (value) this.Audio?.stop();
     }
 
-    public bindSpinButton(handler: () => void): void {
+    public bindSpinButton(handler: () => void): void
+    {
         this.SpinButton.node.on(Button.EventType.CLICK, handler, this);
     }
 
-    public cancelAllReels(): void {
+    public cancelAllReels(): void
+    {
         this.Audio?.stop();
         this.WinAudio?.stop();
         this.reels?.forEach(reel => {
@@ -95,23 +108,29 @@ export class SlotGameView extends Component implements ISlotGameView {
         });
     }
 
-    private cancelReel(reel : ReelView): void {
-        if (!reel?.isValid) {
+    private cancelReel(reel : ReelView): void
+    {
+        if (!reel?.isValid)
+        {
             return;
         }
         reel.cancelSpin();
     }
 
-    public onSceneFadeInCompleted(): void {
+    public onSceneFadeInCompleted(): void
+    {
         this.setSpinButtonInteractable(true);
     }
 
-    public onSceneFadeOutStarted(): void {
+    public onSceneFadeOutStarted(): void
+    {
         this.setSpinButtonInteractable(false);
     }
 
-    public unbindAll(): void {
-        if (this.SpinButton?.isValid) {
+    public unbindAll(): void
+    {
+        if (this.SpinButton?.isValid)
+        {
             this.SpinButton.node.off(Button.EventType.CLICK);
         }
     }

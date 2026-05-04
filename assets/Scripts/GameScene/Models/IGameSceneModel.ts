@@ -1,3 +1,4 @@
-export interface IGameSceneModel {
+export interface IGameSceneModel
+{
     goToMenu(): void;
 }

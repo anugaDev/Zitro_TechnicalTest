@@ -1,7 +1,7 @@
 import { SlotSymbolEnum } from '../Enums/SlotSymbolEnum';
 
-export interface ISlotGameModel {
-
+export interface ISlotGameModel
+{
     onWin: (() => void) | null;
 
     generateResult(): void;

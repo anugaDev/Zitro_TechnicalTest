@@ -2,8 +2,8 @@ import { Node, UIOpacity } from 'cc';
 import { IAnimation } from './IAnimation';
 import { FadeInAnimation } from './FadeInAnimation';
 
-export class StatementFadeAnimation implements IAnimation {
-
+export class StatementFadeAnimation implements IAnimation
+{
     public readonly id: string;
 
     public onFinished: (() => void) | null = null;
@@ -22,7 +22,8 @@ export class StatementFadeAnimation implements IAnimation {
         answersNode: Node,
         private readonly fadeDuration: number = 0.4,
         private readonly waitDuration: number = 0.4
-    ) {
+    )
+    {
         this.id = id;
 
         this._statementFade = new FadeInAnimation(`${id}_statement`, statementNode, fadeDuration);
@@ -32,13 +33,16 @@ export class StatementFadeAnimation implements IAnimation {
         this._answersOpacity = answersNode.getComponent(UIOpacity)!;
     }
 
-    public play(): void {
+    public play(): void
+    {
         this.cancel();
 
         this._answersOpacity.opacity = 0;
 
-        this._statementFade.onFinished = () => {
-            this._waitTimer = setTimeout(() => {
+        this._statementFade.onFinished = () =>
+        {
+            this._waitTimer = setTimeout(() =>
+            {
                 this._waitTimer = null;
                 this._answersFade.onFinished = () => this.onFinished?.();
                 this._answersFade.play();
@@ -48,11 +52,13 @@ export class StatementFadeAnimation implements IAnimation {
         this._statementFade.play();
     }
 
-    public cancel(): void {
+    public cancel(): void
+    {
         this._statementFade.onFinished = null;
         this._answersFade.onFinished = null;
 
-        if (this._waitTimer !== null) {
+        if (this._waitTimer !== null)
+        {
             clearTimeout(this._waitTimer);
             this._waitTimer = null;
         }

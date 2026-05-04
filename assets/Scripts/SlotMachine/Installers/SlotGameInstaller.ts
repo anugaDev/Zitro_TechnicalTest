@@ -10,8 +10,8 @@ import { SceneNavigator } from '../../Core/SceneNavigator';
 const { ccclass, property } = _decorator;
 
 @ccclass('SlotGameInstaller')
-export class SlotGameInstaller extends Component {
-
+export class SlotGameInstaller extends Component
+{
     @property(SlotGameView)
     private slotView: SlotGameView = null!;
 
@@ -22,7 +22,8 @@ export class SlotGameInstaller extends Component {
 
     private gameSceneController: GameSceneController = null!;
 
-    protected onLoad(): void {
+    protected onLoad(): void
+    {
         const navigator = new SceneNavigator();
         const gameSceneModel = new GameSceneModel(navigator);
         this.gameSceneController = new GameSceneController(gameSceneModel, this.gameSceneView);
@@ -33,13 +34,15 @@ export class SlotGameInstaller extends Component {
         this.slotController.init();
     }
 
-    private setGameSceneEvents(): void {
+    private setGameSceneEvents(): void
+    {
         this.gameSceneController.onFadeInCompleted = () => this.slotView.onSceneFadeInCompleted();
         this.gameSceneController.onFadeOutStarted = () => this.slotView.onSceneFadeOutStarted();
         this.slotView.onAllReelsReady = () => this.gameSceneController.init();
     }
 
-    protected onDestroy(): void {
+    protected onDestroy(): void
+    {
         this.slotController?.dispose();
         this.gameSceneController?.dispose();
     }

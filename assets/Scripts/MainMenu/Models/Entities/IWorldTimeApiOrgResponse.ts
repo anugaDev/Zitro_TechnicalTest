@@ -1,4 +1,5 @@
-export interface IWorldTimeApiOrgResponse {
+export interface IWorldTimeApiOrgResponse
+{
     datetime: string;
 
     utc_offset: string;

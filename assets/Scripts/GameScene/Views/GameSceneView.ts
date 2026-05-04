@@ -5,10 +5,9 @@ import { FadeInAnimation } from 'db://assets/Scripts/Core/Animations/FadeInAnima
 import { FadeOutAnimation } from 'db://assets/Scripts/Core/Animations/FadeOutAnimation';
 
 const { ccclass, property } = _decorator;
-
 @ccclass('GameSceneView')
-export class GameSceneView extends Component implements IGameSceneView {
-
+export class GameSceneView extends Component implements IGameSceneView
+{
     @property(Button)
     public ExitButton: Button = null!;
 
@@ -19,7 +18,8 @@ export class GameSceneView extends Component implements IGameSceneView {
 
     private _animations: AnimationController = null!;
 
-    protected onLoad(): void {
+    protected onLoad(): void
+    {
         this.ExitButton.node.on(Button.EventType.CLICK, this.handleExitClick, this);
 
         this._animations = new AnimationController([
@@ -28,28 +28,35 @@ export class GameSceneView extends Component implements IGameSceneView {
         ]);
     }
 
-    protected onDestroy(): void {
+    protected onDestroy(): void
+    {
         this.unbind();
     }
 
-    public playFadeIn(onFinished: () => void): void {
+    public playFadeIn(onFinished: () => void): void
+    {
         this._animations.onFinished = () => onFinished();
         this._animations.play('fadeIn');
     }
 
-    public playFadeOut(onFinished: () => void): void {
+    public playFadeOut(onFinished: () => void): void
+    {
         this._animations.onFinished = () => onFinished();
         this._animations.play('fadeOut');
     }
 
-    public unbind(): void {
-        if (this.ExitButton?.isValid) {
+    public unbind(): void
+    {
+        if (this.ExitButton?.isValid)
+        {
             this.ExitButton.node.off(Button.EventType.CLICK, this.handleExitClick, this);
         }
+
         this.onExitPressed = null;
     }
 
-    private handleExitClick(): void {
+    private handleExitClick(): void
+    {
         this.ExitButton.interactable = false;
         this.onExitPressed?.();
     }

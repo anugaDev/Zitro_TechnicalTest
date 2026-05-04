@@ -1,4 +1,5 @@
-export interface ISlotGameView {
+export interface ISlotGameView
+{
 
     onAllReelsReady: (() => void) | null;
 

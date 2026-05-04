@@ -1,52 +1,61 @@
 import { IQuizGameModel } from '../Models/IQuizGameModel';
 import { IQuizGameView } from '../Views/IQuizGameView';
 
-export class QuizGameController {
-
+export class QuizGameController
+{
     constructor(
         private readonly model: IQuizGameModel,
         private readonly view: IQuizGameView
     ) {}
 
-    public init(): void {
+    public init(): void
+    {
         this.setViewListeners();
         this.view.hideAllPanels();
         this.displayCurrentQuestion();
     }
 
-    private setViewListeners(): void {
+    private setViewListeners(): void
+    {
         this.view.onAnswerSelected = (index) => this.onAnswerSelected(index);
         this.view.onPlayAgainPressed = () => this.onPlayAgain();
         this.view.onNextPressed = () => this.onNextStatement();
     }
 
-    public dispose(): void {
+    public dispose(): void
+    {
         this.view.unbindAll();
     }
 
-    private displayCurrentQuestion(): void {
+    private displayCurrentQuestion(): void
+    {
         const question = this.model.getCurrentQuestion();
         this.view.showQuestion(question.statement, question.answers.map(answer => answer.text));
     }
 
-    private onAnswerSelected(index: number): void {
+    private onAnswerSelected(index: number): void
+    {
         const wasCorrect = this.model.submitAnswer(index);
         const correctText = this.model.getCurrentQuestion().answers.find(answer => answer.isCorrect)!.text;
         this.view.showFeedback(wasCorrect, correctText);
     }
 
-    private onNextStatement(): void {
+    private onNextStatement(): void
+    {
         const isLastStatement = this.model.nextQuestion();
 
-        if (isLastStatement) {
+        if (isLastStatement)
+        {
             this.displayCurrentQuestion();
         }
-        else {
+        else
+        {
             this.view.showResults(this.model.getScore(), this.model.getTotalQuestions());
         }
     }
 
-    private onPlayAgain(): void {
+    private onPlayAgain(): void
+    {
         this.model.reset();
         this.view.showQuestionPanel();
         this.displayCurrentQuestion();

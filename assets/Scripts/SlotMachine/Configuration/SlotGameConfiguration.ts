@@ -1,4 +1,5 @@
-export class SlotGameConfiguration {
+export class SlotGameConfiguration
+{
     static readonly STOP_TWEEN_DURATION = 0.35;
 
     static readonly CELL_HEIGHT = 120;

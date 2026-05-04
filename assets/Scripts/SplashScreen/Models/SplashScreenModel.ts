@@ -3,7 +3,8 @@ import { CounterCoroutine } from 'db://assets/Scripts/Core/CounterCoroutine';
 import { IAssetLoader } from './IAssetLoader';
 import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
 
-export class SplashScreenModel implements ISplashScreenModel {
+export class SplashScreenModel implements ISplashScreenModel
+{
     private static readonly DEFAULT_LOAD_TIME: number = 5;
 
     private static readonly FILL_DURATION_MS: number = 500;
@@ -41,38 +42,49 @@ export class SplashScreenModel implements ISplashScreenModel {
         private readonly _assetLoader: IAssetLoader,
     ) { }
 
-    public startLoadProcess(): void {
+    public startLoadProcess(): void
+    {
         this._progressCounter.onUpdate = () => this.setCurrentLoadProgress();
         this._progressCounter.onFinished = () => this.onTimerFinished();
         this._progressCounter.startCounter(SplashScreenModel.DEFAULT_LOAD_TIME);
 
         this._assetLoader.onAssetStatusChanged = (result) => this.onAssetStatusChangedEvent?.(result);
-        this._assetLoader.load().then(() => {
+        this._assetLoader.load().then(() =>
+        {
             this._assetsLoaded = true;
-            if (this._waitingForAssets) {
+            if (this._waitingForAssets)
+            {
                 this.animateFillToComplete();
-            } else {
+            }
+            else
+            {
                 this.onStandByEvent?.();
             }
         });
     }
 
-    public setCurrentLoadProgress(): void {
+    public setCurrentLoadProgress(): void
+    {
         const current = this._progressCounter.GetCurrentCount();
         const limit = this._progressCounter.GetProgressLimit();
         const progress = (current / limit) * SplashScreenModel.TIMER_WEIGHT;
         this.onProgressChangedEvent?.(progress);
     }
 
-    private onTimerFinished(): void {
-        if (this._assetsLoaded) {
+    private onTimerFinished(): void
+    {
+        if (this._assetsLoaded)
+        {
             this.animateFillToComplete();
-        } else {
+        }
+        else
+        {
             this._waitingForAssets = true;
         }
     }
 
-    private animateFillToComplete(): void {
+    private animateFillToComplete(): void
+    {
         this.onStartingGameEvent?.();
         this._fillStart = SplashScreenModel.TIMER_WEIGHT;
         this._fillRange = SplashScreenModel.TARGET_FILL - this._fillStart;
@@ -80,12 +92,14 @@ export class SplashScreenModel implements ISplashScreenModel {
         this._fillIntervalId = setInterval(() => this.onFillTick(), SplashScreenModel.TICK_MS);
     }
 
-    private onFillTick(): void {
+    private onFillTick(): void
+    {
         const elapsed = Date.now() - this._fillStartTime;
         const normalizedProgress = Math.min(elapsed / SplashScreenModel.FILL_DURATION_MS, SplashScreenModel.TARGET_FILL);
         this.onProgressChangedEvent?.(this._fillStart + this._fillRange * normalizedProgress);
 
-        if (normalizedProgress >= SplashScreenModel.TARGET_FILL) {
+        if (normalizedProgress >= SplashScreenModel.TARGET_FILL)
+        {
             clearInterval(this._fillIntervalId);
             this.onLoadedEvent?.();
         }

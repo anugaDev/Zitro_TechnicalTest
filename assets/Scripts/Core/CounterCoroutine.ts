@@ -2,8 +2,8 @@ import { _decorator, Component } from 'cc';
 const { ccclass } = _decorator;
 
 @ccclass('CounterCoroutine')
-export class CounterCoroutine extends Component {
-
+export class CounterCoroutine extends Component
+{
     private static readonly STEPS_PER_SECOND : number = 20;
 
     private _currentProgress: number = 0;
@@ -18,7 +18,8 @@ export class CounterCoroutine extends Component {
 
     public onUpdate: (() => void) | null = null;
 
-    public startCounter(progressLimit: number): void {
+    public startCounter(progressLimit: number): void
+    {
         this._progressLimit = progressLimit * CounterCoroutine.STEPS_PER_SECOND;
         this._interval = 1 / CounterCoroutine.STEPS_PER_SECOND;
         this._currentProgress = 0;
@@ -26,44 +27,53 @@ export class CounterCoroutine extends Component {
         this.nextTick();
     }
 
-    public stopCounter(): void {
+    public stopCounter(): void
+    {
         this._isRunning = false;
         this.unscheduleAllCallbacks();
     }
 
-    private nextTick(): void {
+    private nextTick(): void
+    {
         this.scheduleOnce(() => this.onTick(), this._interval);
     }
 
-    private onTick(): void {
-
-        if (!this._isRunning) {
+    private onTick(): void
+    {
+        if (!this._isRunning)
+        {
             return;
         }
 
         this._currentProgress++;
         this.onUpdate?.();
 
-        if (this._currentProgress >= this._progressLimit) {
+        if (this._currentProgress >= this._progressLimit)
+        {
             this.onCounterFinished();
         }
-        else {
+        else
+        {
             this.nextTick();
         }
     }
 
-    public GetCurrentCount() : number {
+    public GetCurrentCount() : number
+    {
         return this._currentProgress;
     }
 
-    public GetProgressLimit(): number {
+    public GetProgressLimit(): number
+    {
         return this._progressLimit;
     }
-    private onCounterFinished(): void {
+    private onCounterFinished(): void
+    {
         this._isRunning = false;
         this.onFinished?.();
     }
-    protected onDestroy(): void {
+    protected onDestroy(): void
+    {
         this.unscheduleAllCallbacks();
     }
 }

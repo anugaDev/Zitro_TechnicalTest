@@ -1,5 +1,5 @@
-export interface IGameSceneView {
-
+export interface IGameSceneView
+{
     onExitPressed: (() => void) | null;
 
     playFadeIn(onFinished: () => void): void;

@@ -1,34 +1,37 @@
 import { IMainMenuModel } from '../Models/IMainMenuModel';
 import { IMainMenuView } from '../Views/IMainMenuView';
 
-export class MainMenuController {
-
+export class MainMenuController
+{
     private _disposed: boolean = false;
-
     constructor(
         private readonly model: IMainMenuModel,
         private readonly view: IMainMenuView
     ) {}
 
-    public async init(): Promise<void> {
+    public async init(): Promise<void>
+    {
         this.view.setButtonsInteractable(false);
         await this.initClock();
         this.view.playFadeIn(() => this.setSceneInteractable());
     }
 
-    private async initClock(): Promise<void> {
+    private async initClock(): Promise<void>
+    {
         const result = await this.model.initializeTime();
         this.view.updateClock(this.model.getFormattedTime());
         this.model.startClock((time) => this.view.updateClock(time));
     }
 
-    private setSceneInteractable(): void {
+    private setSceneInteractable(): void
+    {
         this.view.setButtonsInteractable(true);
         this.view.bindQuizButton(this.onGoToQuiz.bind(this));
         this.view.bindSlotButton(this.onGoToSlot.bind(this));
     }
 
-    public dispose(): void {
+    public dispose(): void
+    {
         if (this._disposed) return;
         this._disposed = true;
         this.model.stopClock();
@@ -36,15 +39,19 @@ export class MainMenuController {
         this.view.setButtonsInteractable(false);
     }
 
-    private onGoToQuiz(): void {
-        this.view.playFadeOut(() => {
+    private onGoToQuiz(): void
+    {
+        this.view.playFadeOut(() =>
+        {
             this.dispose();
             this.model.goToQuiz();
         });
     }
 
-    private onGoToSlot(): void {
-        this.view.playFadeOut(() => {
+    private onGoToSlot(): void
+    {
+        this.view.playFadeOut(() =>
+        {
             this.dispose();
             this.model.goToSlot();
         });

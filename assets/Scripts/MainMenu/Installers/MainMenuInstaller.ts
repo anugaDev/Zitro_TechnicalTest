@@ -8,14 +8,15 @@ import { TimeService } from 'db://assets/Scripts/MainMenu/Models/Services/TimeSe
 const { ccclass, property } = _decorator;
 
 @ccclass('MainMenuInstaller')
-export class MainMenuInstaller extends Component {
-
+export class MainMenuInstaller extends Component
+{
     @property(MainMenuView)
     private mainMenuView: MainMenuView = null!;
 
     private controller: MainMenuController = null!;
 
-    protected onLoad(): void {
+    protected onLoad(): void
+    {
         const navigator  = new SceneNavigator();
         const timeService = new TimeService();
         const model = new MainMenuModel(timeService, navigator);
@@ -23,8 +24,8 @@ export class MainMenuInstaller extends Component {
         this.controller = new MainMenuController(model, this.mainMenuView);
         this.controller.init();
     }
-
-    protected onDestroy(): void {
+    protected onDestroy(): void
+    {
         this.controller?.dispose();
     }
 }

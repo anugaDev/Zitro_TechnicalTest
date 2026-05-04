@@ -10,7 +10,8 @@ import { TimeService } from 'db://assets/Scripts/MainMenu/Models/Services/TimeSe
 const { ccclass, property } = _decorator;
 
 @ccclass('SplashScreenInstaller')
-export class SplashScreenInstaller extends Component {
+export class SplashScreenInstaller extends Component
+{
 
     @property(SplashScreenView)
     public SplashScreenView: SplashScreenView = null!;
@@ -20,7 +21,8 @@ export class SplashScreenInstaller extends Component {
 
     private _splashScreenController: SplashScreenController = null!;
 
-    protected onLoad(): void {
+    protected onLoad(): void
+    {
         const navigator = new SceneNavigator();
         const timeService = new TimeService();
         const assetLoader = new SplashAssetLoader(timeService);
@@ -30,7 +32,8 @@ export class SplashScreenInstaller extends Component {
         this._splashScreenController.init();
     }
 
-    protected onDestroy(): void {
+    protected onDestroy(): void
+    {
         this._splashScreenController?.dispose();
     }
 }

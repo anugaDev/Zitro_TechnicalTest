@@ -1,9 +1,10 @@
 import { IGameSceneModel } from '../Models/IGameSceneModel';
 import { IGameSceneView } from '../Views/IGameSceneView';
 
-export class GameSceneController {
-
+export class GameSceneController
+{
     public onFadeInCompleted: (() => void) | null = null;
+
     public onFadeOutStarted: (() => void) | null = null;
 
     constructor(
@@ -11,18 +12,22 @@ export class GameSceneController {
         private readonly view: IGameSceneView
     ) {}
 
-    public init(): void {
+    public init(): void
+    {
         this.view.onExitPressed = () => this.onExit();
         this.view.playFadeIn(() => this.onFadeInCompleted?.());
     }
 
-    public dispose(): void {
+    public dispose(): void
+    {
         this.view.unbind();
     }
 
-    private onExit(): void {
+    private onExit(): void
+    {
         this.onFadeOutStarted?.();
-        this.view.playFadeOut(() => {
+        this.view.playFadeOut(() =>
+        {
             this.dispose();
             this.model.goToMenu();
         });

@@ -1,4 +1,5 @@
-export interface ITimeApiServiceResponse {
+export interface ITimeApiServiceResponse
+{
     dateTime: string;
 
     timeZone: string;

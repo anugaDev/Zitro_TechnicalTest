@@ -1,4 +1,5 @@
-export enum SlotSymbolEnum {
+export enum SlotSymbolEnum
+{
     Cherry = 0,
     Lemon = 1,
     Grape = 2,

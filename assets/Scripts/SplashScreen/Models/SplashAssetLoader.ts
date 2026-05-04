@@ -75,7 +75,8 @@ export class SplashAssetLoader implements IAssetLoader {
         if (ApiResult.isSuccess(result)) {
             this.cacheServerTime(result.data);
             this.notifySuccess('Server Time');
-        } else {
+        }
+        else {
             const message = ApiResult.isError(result) ? result.message : result.status;
             this.notifyError(`Server Time — ${message}`);
         }

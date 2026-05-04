@@ -14,7 +14,8 @@ import { AppCache } from 'db://assets/Scripts/Shared/AppCache';
 const { ccclass, property } = _decorator;
 
 @ccclass('QuizGameInstaller')
-export class QuizGameInstaller extends Component {
+export class QuizGameInstaller extends Component
+{
 
     @property(QuizGameView)
     private quizView: QuizGameView = null!;
@@ -26,19 +27,23 @@ export class QuizGameInstaller extends Component {
 
     private gameSceneController: GameSceneController = null!;
 
-    protected onLoad(): void {
+    protected onLoad(): void
+    {
         const navigator = new SceneNavigator();
         const gameSceneModel = new GameSceneModel(navigator);
         this.gameSceneController = new GameSceneController(gameSceneModel, this.gameSceneView);
 
         const cachedJson = AppCache.instance.QuizJson;
-        if (cachedJson) {
+        if (cachedJson)
+        {
             this.scheduleOnce(() => this.initWithQuestions(cachedJson.json as QuizQuestion[]));
             return;
         }
 
-        resources.load(ResourcePaths.QUIZ_JSON, JsonAsset, (error, jsonAsset: JsonAsset) => {
-            if (error) {
+        resources.load(ResourcePaths.QUIZ_JSON, JsonAsset, (error, jsonAsset: JsonAsset) =>
+        {
+            if (error)
+            {
                 console.error('[QuizGameInstaller] Failed to load quizGameConfiguration.json:', error);
                 this.gameSceneController.init();
                 return;
@@ -47,7 +52,8 @@ export class QuizGameInstaller extends Component {
         });
     }
 
-    private initWithQuestions(questions: QuizQuestion[]): void {
+    private initWithQuestions(questions: QuizQuestion[]): void
+    {
         const model = new QuizGameModel();
         model.setQuestionsConfiguration(questions);
         this.quizController = new QuizGameController(model, this.quizView);
@@ -56,7 +62,8 @@ export class QuizGameInstaller extends Component {
         this.gameSceneController.init();
     }
 
-    protected onDestroy(): void {
+    protected onDestroy(): void
+    {
         this.quizController?.dispose();
         this.gameSceneController?.dispose();
     }

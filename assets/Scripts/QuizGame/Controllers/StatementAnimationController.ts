@@ -4,16 +4,12 @@ import { StatementFadeAnimation } from 'db://assets/Scripts/Core/Animations/Stat
 import { FadeInAnimation } from 'db://assets/Scripts/Core/Animations/FadeInAnimation';
 import { FadeOutAnimation } from 'db://assets/Scripts/Core/Animations/FadeOutAnimation';
 
-export class StatementAnimationController {
-
+export class StatementAnimationController
+{
     private readonly _animations: AnimationController;
 
-    constructor(
-        statementNode: Node,
-        answersNode: Node,
-        feedbackPanel: Node,
-        resultsPanel: Node
-    ) {
+    constructor(statementNode: Node, answersNode: Node, feedbackPanel: Node, resultsPanel: Node)
+    {
         this._animations = new AnimationController([
             new StatementFadeAnimation('statementFade', statementNode, answersNode),
             new FadeInAnimation('resultsFadeIn', resultsPanel, 0.4),
@@ -22,28 +18,34 @@ export class StatementAnimationController {
         ]);
     }
 
-    public playStatementFade(onCompleted: () => void): void {
+    public playStatementFade(onCompleted: () => void): void
+    {
         this.subscribeOnFinished('statementFade', onCompleted);
         this._animations.play('statementFade');
     }
 
-    public playFeedbackFadeOut(onCompleted: () => void): void {
+    public playFeedbackFadeOut(onCompleted: () => void): void
+    {
         this.subscribeOnFinished('feedbackFadeOut', onCompleted);
         this._animations.play('feedbackFadeOut');
     }
 
-    public playResultsFadeOut(onCompleted: () => void): void {
+    public playResultsFadeOut(onCompleted: () => void): void
+    {
         this.subscribeOnFinished('resultsFadeOut', onCompleted);
         this._animations.play('resultsFadeOut');
     }
 
-    public playResultsFadeIn(onCompleted: () => void): void {
+    public playResultsFadeIn(onCompleted: () => void): void
+    {
         this.subscribeOnFinished('resultsFadeIn', onCompleted);
         this._animations.play('resultsFadeIn');
     }
 
-    private subscribeOnFinished(animationId: string, onCompleted: () => void): void {
-        this._animations.onFinished = (id) => {
+    private subscribeOnFinished(animationId: string, onCompleted: () => void): void
+    {
+        this._animations.onFinished = (id) =>
+        {
             if (id !== animationId) return;
             onCompleted();
         };

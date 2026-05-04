@@ -1,6 +1,7 @@
 import { QuizQuestion } from './Entities/QuizQuestion';
 
-export interface IQuizGameModel {
+export interface IQuizGameModel
+{
     setQuestionsConfiguration(questions: QuizQuestion[]): void;
 
     getCurrentQuestion(): QuizQuestion;

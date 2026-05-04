@@ -1,6 +1,7 @@
 import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
 
-export interface ISplashScreenView {
+export interface ISplashScreenView
+{
     unbindAll(): void;
 
     setProgressBar(progress: number): void;

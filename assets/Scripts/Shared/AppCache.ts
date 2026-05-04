@@ -1,12 +1,15 @@
 import {AudioClip, JsonAsset, SpriteAtlas} from 'cc';
 import {ICachedTime} from "db://assets/Scripts/Shared/ICachedTime";
 
-export class AppCache {
+export class AppCache
+{
 
     private static _instance: AppCache | null = null;
 
-    public static get instance(): AppCache {
-        if (!AppCache._instance) {
+    public static get instance(): AppCache
+    {
+        if (!AppCache._instance)
+        {
             AppCache._instance = new AppCache();
         }
         return AppCache._instance;

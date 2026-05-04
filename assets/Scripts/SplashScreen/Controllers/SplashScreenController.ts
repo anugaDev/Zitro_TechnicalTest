@@ -9,9 +9,7 @@ export class SplashScreenController
     constructor
     (
         private readonly navigator: ISceneNavigator,
-
         private readonly model: ISplashScreenModel,
-
         private readonly view: ISplashScreenView
     ) {}
 
@@ -36,7 +34,8 @@ export class SplashScreenController
 
     private onGoToMainMenu(): void
     {
-        this.view.playFadeOut(() => {
+        this.view.playFadeOut(() =>
+        {
             this.dispose();
             this.navigator.goTo(GlobalParameters.SCENE_MENU);
         });

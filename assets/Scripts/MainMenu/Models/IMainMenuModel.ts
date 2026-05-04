@@ -1,6 +1,7 @@
 import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
 
-export interface IMainMenuModel {
+export interface IMainMenuModel
+{
     initializeTime(): Promise<ApiResult<Date>>;
 
     startClock(onTick: (time: string) => void): void;
