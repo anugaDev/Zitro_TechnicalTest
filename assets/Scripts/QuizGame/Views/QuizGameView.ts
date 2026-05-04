@@ -21,7 +21,7 @@ export class QuizGameView extends Component implements IQuizGameView
 
     public onAnswerSelected: ((index: number) => void) | null = null;
 
-    public onNextPressed: (() => boolean) | null = null;
+    public onNextPressed: (() => void) | null = null;
 
     public onPlayAgainPressed: (() => void) | null = null;
 
@@ -37,8 +37,8 @@ export class QuizGameView extends Component implements IQuizGameView
         );
 
         this.QuestionPanel.onAnswerSelected = (index) => this.onAnswerSelected?.(index);
-        this.FeedbackPanel.onNextClicked = () => this.handleNextClick();
-        this.ResultsPanel.onPlayAgainClicked = () => this.handlePlayAgainClick();
+        this.FeedbackPanel.onNextClicked = () => this.onNextPressed?.();
+        this.ResultsPanel.onPlayAgainClicked = () => this.onPlayAgainPressed?.();
     }
 
     protected onDestroy(): void
@@ -80,8 +80,43 @@ export class QuizGameView extends Component implements IQuizGameView
     public onSceneFadeInCompleted(): void
     {
         this.showQuestionPanel();
-        this.QuestionPanel.setInteractable(false);
-        this._animController.playStatementFade(() => this.QuestionPanel.setInteractable(true));
+        this.setAnswerButtonsInteractable(false);
+        this.playStatementFade(() => this.setAnswerButtonsInteractable(true));
+    }
+
+    public playFeedbackFadeOut(onCompleted: () => void): void
+    {
+        this._animController.playFeedbackFadeOut(onCompleted);
+    }
+
+    public playStatementFade(onCompleted: () => void): void
+    {
+        this._animController.playStatementFade(onCompleted);
+    }
+
+    public playResultsFadeIn(onCompleted: () => void): void
+    {
+        this._animController.playResultsFadeIn(onCompleted);
+    }
+
+    public playResultsFadeOut(onCompleted: () => void): void
+    {
+        this._animController.playResultsFadeOut(onCompleted);
+    }
+
+    public setAnswerButtonsInteractable(value: boolean): void
+    {
+        this.QuestionPanel.setInteractable(value);
+    }
+
+    public setNextButtonInteractable(value: boolean): void
+    {
+        this.FeedbackPanel.setNextInteractable(value);
+    }
+
+    public setPlayAgainInteractable(value: boolean): void
+    {
+        this.ResultsPanel.setPlayAgainInteractable(value);
     }
 
     public unbindAll(): void
@@ -103,62 +138,5 @@ export class QuizGameView extends Component implements IQuizGameView
         this.onAnswerSelected = null;
         this.onNextPressed = null;
         this.onPlayAgainPressed = null;
-    }
-
-    private handleNextClick(): void
-    {
-        this.FeedbackPanel.setNextInteractable(false);
-        this._animController.playFeedbackFadeOut(() => this.onFeedbackFadeOutFinished());
-    }
-
-    private onFeedbackFadeOutFinished(): void
-    {
-        this.FeedbackPanel.setActive(false);
-        this.showQuestionPanel();
-        const hasMoreQuestions = this.onNextPressed?.() ?? false;
-        this.QuestionPanel.setInteractable(false);
-
-        if (hasMoreQuestions)
-        {
-            this._animController.playStatementFade(() => this.onNextStatementFadeFinished());
-        }
-        else
-        {
-            this.ResultsPanel.setPlayAgainInteractable(false);
-            this._animController.playResultsFadeIn(() => this.onResultsFadeInFinished());
-        }
-    }
-
-    private onNextStatementFadeFinished(): void
-    {
-        this.FeedbackPanel.setNextInteractable(true);
-        this.QuestionPanel.setInteractable(true);
-    }
-
-    private onResultsFadeInFinished(): void
-    {
-        this.FeedbackPanel.setNextInteractable(true);
-        this.ResultsPanel.setPlayAgainInteractable(true);
-    }
-
-    private handlePlayAgainClick(): void
-    {
-        this.ResultsPanel.setPlayAgainInteractable(false);
-        this._animController.playResultsFadeOut(() => this.onResultsFadeOutFinished());
-    }
-
-    private onResultsFadeOutFinished(): void
-    {
-        this.ResultsPanel.setActive(false);
-        this.showQuestionPanel();
-        this.onPlayAgainPressed?.();
-        this.QuestionPanel.setInteractable(false);
-        this._animController.playStatementFade(() => this.onPlayAgainStatementFadeFinished());
-    }
-
-    private onPlayAgainStatementFadeFinished(): void
-    {
-        this.ResultsPanel.setPlayAgainInteractable(true);
-        this.QuestionPanel.setInteractable(true);
     }
 }

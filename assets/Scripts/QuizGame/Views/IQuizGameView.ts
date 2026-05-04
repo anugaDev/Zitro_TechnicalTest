@@ -2,7 +2,7 @@ export interface IQuizGameView
 {
     onAnswerSelected: ((index: number) => void) | null;
 
-    onNextPressed: (() => boolean) | null;
+    onNextPressed: (() => void) | null;
 
     onPlayAgainPressed: (() => void) | null;
 
@@ -17,6 +17,20 @@ export interface IQuizGameView
     hideAllPanels(): void;
 
     onSceneFadeInCompleted(): void;
+
+    playFeedbackFadeOut(onCompleted: () => void): void;
+
+    playStatementFade(onCompleted: () => void): void;
+
+    playResultsFadeIn(onCompleted: () => void): void;
+
+    playResultsFadeOut(onCompleted: () => void): void;
+
+    setAnswerButtonsInteractable(value: boolean): void;
+
+    setNextButtonInteractable(value: boolean): void;
+
+    setPlayAgainInteractable(value: boolean): void;
 
     unbindAll(): void;
 }

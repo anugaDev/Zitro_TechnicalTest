@@ -4,8 +4,7 @@ import { AnswerButtonView } from './AnswerButtonView';
 const { ccclass, property } = _decorator;
 
 @ccclass('QuestionPanelView')
-export class QuestionPanelView extends Component
-{
+export class QuestionPanelView extends Component {
     @property(RichText)
     public StatementText: RichText = null!;
 
@@ -17,19 +16,16 @@ export class QuestionPanelView extends Component
 
     public onAnswerSelected: ((index: number) => void) | null = null;
 
-    public show(statement: string, answers: string[]): void
-    {
+    public show(statement: string, answers: string[]): void {
         this.StatementText.string = statement;
         this.AnswerLayout.removeAllChildren();
         answers.forEach((text, index) => this.spawnAnswer(text, index));
     }
 
-    private spawnAnswer(answerText: string, index: number): void
-    {
+    private spawnAnswer(answerText: string, index: number): void {
         const node = instantiate(this.AnswerButtonPrefab);
         const answerButtonView = node.getComponent(AnswerButtonView)!;
         answerButtonView.Label.string = answerText;
-        answerButtonView.Button.interactable = false;
         answerButtonView.Button.node.on(
             Button.EventType.CLICK,
             () => this.onAnswerSelected?.(index), this
@@ -37,30 +33,24 @@ export class QuestionPanelView extends Component
         this.AnswerLayout.addChild(node);
     }
 
-    public setInteractable(value: boolean): void
-    {
+    public setInteractable(value: boolean): void {
         this.AnswerLayout.children.forEach(child => this.setButtonInteractable(child, value));
     }
 
-    private setButtonInteractable(child: Node, value: boolean): void
-    {
+    private setButtonInteractable(child: Node, value: boolean): void {
         const answerButton = child.getComponent(AnswerButtonView);
-        if (!answerButton?.Button?.isValid)
-        {
+        if (!answerButton?.Button?.isValid) {
             return;
         }
         answerButton.Button.interactable = value;
     }
 
-    public setActive(value: boolean): void
-    {
+    public setActive(value: boolean): void {
         this.node.active = value;
     }
 
-    public clear(): void
-    {
-        if (!this.AnswerLayout?.isValid)
-        {
+    public clear(): void {
+        if (!this.AnswerLayout?.isValid) {
             return;
         }
         this.AnswerLayout.removeAllChildren();
