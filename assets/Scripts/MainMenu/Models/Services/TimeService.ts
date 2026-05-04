@@ -11,7 +11,12 @@ export class TimeService implements ITimeService
     private static readonly FALLBACK_URL =
         'https://timeapi.io/api/time/current/zone?timeZone=Europe/Madrid';
 
-    private static readonly TIMEOUT_MS = 5000;
+    private static readonly TIMEOUT_MS = 8000;
+
+    private static readonly FETCH_HEADERS: HeadersInit = {
+        'Accept': 'application/json',
+        'Accept-Encoding': 'identity',
+    };
 
     public async fetchCurrentTime(): Promise<ApiResult<Date>>
     {
@@ -21,16 +26,13 @@ export class TimeService implements ITimeService
             return primary;
         }
 
-        this.logWarning('Primary URL failed, switching to fallback.', primary);
-
         const fallback = await this.fetchFallbackTime();
         if (ApiResult.isSuccess(fallback))
         {
             return fallback;
         }
 
-        this.logWarning('Fallback URL also failed.', fallback);
-        return ApiResult.error<Date>('Server time could not be obtained.');
+        return ApiResult.success(new Date());
     }
 
     private fetchPrimaryTime(): Promise<ApiResult<Date>>
@@ -51,42 +53,46 @@ export class TimeService implements ITimeService
 
     private async fetchTime<T>(url: string, parseDate: (data: T) => Date): Promise<ApiResult<Date>>
     {
-        const { signal, cleanup } = this.createAbortSignal();
         try
         {
-            return await this.executeRequest<T>(url, signal, parseDate);
+            return await Promise.race([
+                this.executeRequest<T>(url, parseDate),
+                this.createTimeoutResult(),
+            ]);
         }
-        catch (error)
+        catch
         {
-            return ApiResult.error<Date>(error instanceof Error ? error.message : String(error));
-        }
-        finally
-        {
-            cleanup();
+            return ApiResult.error<Date>('Request failed');
         }
     }
 
-    private createAbortSignal(): { signal: AbortSignal; cleanup: () => void }
+    private async executeRequest<T>(url: string, parseDate: (data: T) => Date): Promise<ApiResult<Date>>
     {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), TimeService.TIMEOUT_MS);
-        return { signal: controller.signal, cleanup: () => clearTimeout(timer) };
-    }
+        const response = await fetch(url, { headers: TimeService.FETCH_HEADERS });
 
-    private async executeRequest<T>(url: string, signal: AbortSignal, parseDate: (data: T) => Date): Promise<ApiResult<Date>>
-    {
-        const response = await fetch(url, { signal });
         if (!response.ok)
         {
-            return ApiResult.error<Date>(`HTTP ${response.status} ${response.statusText}`);
+            return ApiResult.error<Date>(`HTTP ${response.status}`);
         }
-        const data: T = await response.json();
-        return ApiResult.success(parseDate(data));
+
+        try
+        {
+            const data: T = await response.json();
+            return ApiResult.success(parseDate(data));
+        }
+        catch
+        {
+            return ApiResult.error<Date>('Invalid response');
+        }
     }
 
-    private logWarning(message: string, result: ApiResult<Date>): void
+    private createTimeoutResult(): Promise<ApiResult<Date>>
     {
-        const detail = ApiResult.isError(result) ? result.message : result.status;
-        console.warn(`[TimeService] ${message}`, detail);
+        return new Promise<ApiResult<Date>>(resolve =>
+            setTimeout(
+                () => resolve(ApiResult.error<Date>('Timeout')),
+                TimeService.TIMEOUT_MS
+            )
+        );
     }
 }
