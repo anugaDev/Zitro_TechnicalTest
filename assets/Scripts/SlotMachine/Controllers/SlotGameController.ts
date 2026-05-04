@@ -66,8 +66,8 @@ export class SlotGameController {
         this.view.setSpinButtonInteractable(true);
     }
 
-    private delay(ms: number, cb: () => void): void {
-        const id = setTimeout(cb, ms);
+    private delay(ms: number, callback: () => void): void {
+        const id = setTimeout(callback, ms);
         this._pendingTimers.push(id);
     }
 }

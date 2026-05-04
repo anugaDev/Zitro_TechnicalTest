@@ -26,7 +26,7 @@ export class SplashAssetLoader implements IAssetLoader {
             return;
         }
         atlas.addRef();
-        AppCache.instance.slotAtlas = atlas;
+        AppCache.instance.SlotAtlas = atlas;
     }
 
     private async loadAudioClips(): Promise<void> {
@@ -36,7 +36,7 @@ export class SplashAssetLoader implements IAssetLoader {
             return;
         }
         clips.forEach(clip => clip.addRef());
-        AppCache.instance.audioClips = clips;
+        AppCache.instance.AudioClips = clips;
     }
 
     private async loadQuizConfig(): Promise<void> {
@@ -46,7 +46,7 @@ export class SplashAssetLoader implements IAssetLoader {
             return;
         }
         json.addRef();
-        AppCache.instance.quizJson = json;
+        AppCache.instance.QuizJson = json;
     }
 
     private async fetchServerTime(): Promise<void> {
@@ -59,7 +59,7 @@ export class SplashAssetLoader implements IAssetLoader {
     }
 
     private cacheServerTime(serverTime: Date): void {
-        AppCache.instance.cachedTime = {
+        AppCache.instance.CachedTime = {
             serverTime,
             fetchedAt: Date.now(),
         };

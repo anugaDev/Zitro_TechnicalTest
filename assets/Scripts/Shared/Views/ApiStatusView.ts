@@ -49,8 +49,8 @@ export class ApiStatusView extends Component {
         }
 
         if (this.DebugMode) {
-            const msg = result.status === 'error' ? result.message : '';
-            this.updateDebugLabel(result.status, msg);
+            const message = result.status === 'error' ? result.message : '';
+            this.updateDebugLabel(result.status, message);
         }
 
         console.log(`[ApiStatusView] status=${result.status}` +
@@ -87,13 +87,13 @@ export class ApiStatusView extends Component {
     private updateDebugLabel(status: string, message: string): void {
         if (!this._debugLabel) return;
 
-        const ts = new Date().toLocaleTimeString();
+        const timestamp = new Date().toLocaleTimeString();
 
         const statusMap: Record<string, { text: string; color: Color }> = {
-            idle: { text: `[${ts}] ⬜ API: idle`, color: new Color(200, 200, 200, 255) },
-            loading: { text: `[${ts}] 🔄 API: loading…`, color: new Color(255, 220, 50, 255) },
-            success: { text: `[${ts}] ✅ API: success`, color: new Color(80, 220, 80, 255) },
-            error: { text: `[${ts}] ❌ API: error — ${message}`, color: new Color(255, 80, 80, 255) },
+            idle: { text: `[${timestamp}] ⬜ API: idle`, color: new Color(200, 200, 200, 255) },
+            loading: { text: `[${timestamp}] 🔄 API: loading…`, color: new Color(255, 220, 50, 255) },
+            success: { text: `[${timestamp}] ✅ API: success`, color: new Color(80, 220, 80, 255) },
+            error: { text: `[${timestamp}] ❌ API: error — ${message}`, color: new Color(255, 80, 80, 255) },
         };
 
         const entry = statusMap[status] ?? statusMap['idle'];

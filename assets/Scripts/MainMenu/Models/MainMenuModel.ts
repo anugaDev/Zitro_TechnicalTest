@@ -20,7 +20,7 @@ export class MainMenuModel implements IMainMenuModel {
     }
 
     public async initializeTime(): Promise<ApiResult<Date>> {
-        const cached = AppCache.instance.cachedTime;
+        const cached = AppCache.instance.CachedTime;
         if (cached) {
             const elapsed = Date.now() - cached.fetchedAt;
             this._currentTime = new Date(cached.serverTime.getTime() + elapsed);

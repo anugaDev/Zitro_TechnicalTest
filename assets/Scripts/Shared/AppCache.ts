@@ -14,11 +14,11 @@ export class AppCache {
 
     private constructor() {}
 
-    public slotAtlas: SpriteAtlas | null = null;
+    public SlotAtlas: SpriteAtlas | null = null;
 
-    public audioClips: AudioClip[] | null = null;
+    public AudioClips: AudioClip[] | null = null;
 
-    public quizJson: JsonAsset | null = null;
+    public QuizJson: JsonAsset | null = null;
 
-    public cachedTime: ICachedTime | null = null;
+    public CachedTime: ICachedTime | null = null;
 }

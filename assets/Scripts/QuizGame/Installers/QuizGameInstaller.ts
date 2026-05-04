@@ -31,15 +31,15 @@ export class QuizGameInstaller extends Component {
         const gameSceneModel = new GameSceneModel(navigator);
         this.gameSceneController = new GameSceneController(gameSceneModel, this.gameSceneView);
 
-        const cachedJson = AppCache.instance.quizJson;
+        const cachedJson = AppCache.instance.QuizJson;
         if (cachedJson) {
             this.scheduleOnce(() => this.initWithQuestions(cachedJson.json as QuizQuestion[]));
             return;
         }
 
-        resources.load(ResourcePaths.QUIZ_JSON, JsonAsset, (err, jsonAsset: JsonAsset) => {
-            if (err) {
-                console.error('[QuizGameInstaller] Failed to load quizGameConfiguration.json:', err);
+        resources.load(ResourcePaths.QUIZ_JSON, JsonAsset, (error, jsonAsset: JsonAsset) => {
+            if (error) {
+                console.error('[QuizGameInstaller] Failed to load quizGameConfiguration.json:', error);
                 this.gameSceneController.init();
                 return;
             }

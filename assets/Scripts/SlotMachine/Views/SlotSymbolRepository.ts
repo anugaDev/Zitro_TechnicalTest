@@ -14,7 +14,7 @@ export class SlotSymbolRepository {
     }
 
     public async load(onLoaded: () => void): Promise<void> {
-        const cachedAtlas = AppCache.instance.slotAtlas;
+        const cachedAtlas = AppCache.instance.SlotAtlas;
         if (cachedAtlas) {
             this.loadFromCache(cachedAtlas, onLoaded);
             return;
