@@ -116,7 +116,8 @@ export class QuizGameView extends Component implements IQuizGameView {
 
     public onSceneFadeInCompleted(): void {
         this.showQuestionPanel();
-        this._animController.playStatementFade();
+        this.setAnswersInteractable(false);
+        this._animController.playStatementFade(() => this.setAnswersInteractable(true));
     }
 
     public unbindAll(): void {
@@ -132,24 +133,44 @@ export class QuizGameView extends Component implements IQuizGameView {
     }
 
     private handleNextClick(): void {
+        this.NextButton.interactable = false;
         this._animController.playFeedbackFadeOut(() => {
             this.FeedbackPanel.active = false;
             this.onNextPressed?.();
 
             if (!this.ResultsPanel.active) {
                 this.showQuestionPanel();
-                this._animController.playStatementFade();
+                this.setAnswersInteractable(false);
+                this._animController.playStatementFade(() => {
+                    this.NextButton.interactable = true;
+                    this.setAnswersInteractable(true);
+                });
             } else {
+                this.NextButton.interactable = true;
                 this._animController.playResultsFadeIn();
             }
         });
     }
 
     private handlePlayAgainClick(): void {
+        this.PlayAgainButton.interactable = false;
         this._animController.playResultsFadeOut(() => {
             this.ResultsPanel.active = false;
             this.onPlayAgainPressed?.();
-            this._animController.playStatementFade();
+            this.setAnswersInteractable(false);
+            this._animController.playStatementFade(() => {
+                this.PlayAgainButton.interactable = true;
+                this.setAnswersInteractable(true);
+            });
+        });
+    }
+
+    private setAnswersInteractable(value: boolean): void {
+        this.AnswerLayout.children.forEach(child => {
+            const answerBtn = child.getComponent(AnswerButtonView);
+            if (answerBtn?.Button?.isValid) {
+                answerBtn.Button.interactable = value;
+            }
         });
     }
 

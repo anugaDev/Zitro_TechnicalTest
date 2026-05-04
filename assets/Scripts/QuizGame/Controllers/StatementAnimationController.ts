@@ -22,7 +22,11 @@ export class StatementAnimationController {
         ]);
     }
 
-    public playStatementFade(): void {
+    public playStatementFade(onCompleted: () => void): void {
+        this._animations.onFinished = (id) => {
+            if (id !== 'statementFade') return;
+            onCompleted();
+        };
         this._animations.play('statementFade');
     }
 

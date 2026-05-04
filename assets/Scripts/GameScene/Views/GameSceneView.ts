@@ -50,6 +50,7 @@ export class GameSceneView extends Component implements IGameSceneView {
     }
 
     private handleExitClick(): void {
+        this.ExitButton.interactable = false;
         this.onExitPressed?.();
     }
 }
