@@ -6,6 +6,16 @@ const { ccclass, property } = _decorator;
 @ccclass('ApiStatusView')
 export class ApiStatusView extends Component {
 
+    private static readonly DEBUG_NODE_NAME = '__ApiStatusDebug__';
+
+    private static readonly CANVAS_NODE_NAME = 'Canvas';
+
+    private static readonly DEBUG_FONT_SIZE = 28;
+
+    private static readonly DEBUG_LABEL_WIDTH = 800;
+
+    private static readonly DEBUG_LABEL_HEIGHT = 60;
+
     @property(Node)
     public LoadingNode: Node = null!;
 
@@ -17,16 +27,6 @@ export class ApiStatusView extends Component {
 
     @property
     public DebugMode: boolean = false;
-
-    private static readonly DEBUG_NODE_NAME = '__ApiStatusDebug__';
-
-    private static readonly CANVAS_NODE_NAME = 'Canvas';
-
-    private static readonly DEBUG_FONT_SIZE = 28;
-
-    private static readonly DEBUG_LABEL_WIDTH = 800;
-
-    private static readonly DEBUG_LABEL_HEIGHT = 60;
 
     private _debugLabel: Label | null = null;
 

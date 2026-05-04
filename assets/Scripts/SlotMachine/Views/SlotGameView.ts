@@ -79,8 +79,15 @@ export class SlotGameView extends Component implements ISlotGameView {
     public cancelAllReels(): void {
         this.Audio?.stop();
         this.reels?.forEach(reel => {
-            if (reel?.isValid) reel.cancelSpin();
+            this.cancelReel(reel);
         });
+    }
+
+    private cancelReel(reel : ReelView): void {
+        if (!reel?.isValid) {
+            return;
+        }
+        reel.cancelSpin();
     }
 
     public onSceneFadeInCompleted(): void {

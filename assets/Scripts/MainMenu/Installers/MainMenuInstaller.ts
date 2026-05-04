@@ -3,7 +3,7 @@ import { MainMenuModel } from '../Models/MainMenuModel';
 import { MainMenuView } from '../Views/MainMenuView';
 import { MainMenuController } from '../Controllers/MainMenuController';
 import { SceneNavigator } from '../../Core/SceneNavigator';
-import { WorldTimeApiService } from 'db://assets/Scripts/MainMenu/Models/Services/TimeService';
+import { TimeService } from 'db://assets/Scripts/MainMenu/Models/Services/TimeService';
 import { ApiStatusView } from 'db://assets/Scripts/Shared/Views/ApiStatusView';
 
 const { ccclass, property } = _decorator;
@@ -12,7 +12,7 @@ const { ccclass, property } = _decorator;
 export class MainMenuInstaller extends Component {
 
     @property(MainMenuView)
-    private menuView: MainMenuView = null!;
+    private mainMenuView: MainMenuView = null!;
 
     @property(ApiStatusView)
     private apiStatusView: ApiStatusView = null!;
@@ -21,10 +21,10 @@ export class MainMenuInstaller extends Component {
 
     protected onLoad(): void {
         const navigator  = new SceneNavigator();
-        const timeService = new WorldTimeApiService();
-        const model      = new MainMenuModel(timeService, navigator);
+        const timeService = new TimeService();
+        const model = new MainMenuModel(timeService, navigator);
 
-        this.controller = new MainMenuController(model, this.menuView);
+        this.controller = new MainMenuController(model, this.mainMenuView);
 
         if (this.apiStatusView) {
             this.controller.onApiResult = (result) =>

@@ -1,9 +1,9 @@
 import { ITimeService } from './ITimeService';
 import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
 import { IWorldTimeApiOrgResponse } from 'db://assets/Scripts/MainMenu/Models/Entities/IWorldTimeApiOrgResponse';
-import { IWorldTimeApiResponse } from 'db://assets/Scripts/MainMenu/Models/Entities/IWorldTimeApiResponse';
+import { ITimeApiServiceResponse } from 'db://assets/Scripts/MainMenu/Models/Entities/ITimeApiServiceResponse';
 
-export class WorldTimeApiService implements ITimeService {
+export class TimeService implements ITimeService {
 
     private static readonly PRIMARY_URL =
         'https://worldtimeapi.org/api/timezone/Europe/Madrid';
@@ -15,7 +15,7 @@ export class WorldTimeApiService implements ITimeService {
 
     public async fetchCurrentTime(): Promise<ApiResult<Date>> {
         const primary = await this.fetchTime<IWorldTimeApiOrgResponse>(
-            WorldTimeApiService.PRIMARY_URL,
+            TimeService.PRIMARY_URL,
             (data) => new Date(data.datetime)
         );
 
@@ -25,8 +25,8 @@ export class WorldTimeApiService implements ITimeService {
 
         console.warn('[TimeService] Primary URL failed, switching to fallback.', ApiResult.isError(primary) ? primary.message : primary.status);
 
-        const fallback = await this.fetchTime<IWorldTimeApiResponse>(
-            WorldTimeApiService.FALLBACK_URL,
+        const fallback = await this.fetchTime<ITimeApiServiceResponse>(
+            TimeService.FALLBACK_URL,
             (data) => new Date(data.dateTime)
         );
 
@@ -35,7 +35,7 @@ export class WorldTimeApiService implements ITimeService {
         }
 
         console.warn('[TimeService] Fallback URL also failed.', ApiResult.isError(fallback) ? fallback.message : fallback.status);
-        return ApiResult.error<Date>('No se pudo obtener la hora del servidor.');
+        return ApiResult.error<Date>('\n' + 'Server time could not be obtained.');
     }
 
     private async fetchTime<T>(
@@ -43,7 +43,7 @@ export class WorldTimeApiService implements ITimeService {
         parseDate: (data: T) => Date
     ): Promise<ApiResult<Date>> {
         const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), WorldTimeApiService.TIMEOUT_MS);
+        const timer = setTimeout(() => controller.abort(), TimeService.TIMEOUT_MS);
 
         try {
             const response = await fetch(url, { signal: controller.signal });

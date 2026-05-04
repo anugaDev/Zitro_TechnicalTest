@@ -4,7 +4,9 @@ import { IMainMenuView } from '../Views/IMainMenuView';
 
 export class MainMenuController {
 
-    private static readonly FALLBACK_TIME_MESSAGE = 'Usando hora local';
+    private static readonly FALLBACK_TIME_MESSAGE = 'Using local time';
+
+    private _disposed: boolean = false;
 
     public onApiResult: ((result: ApiResult<Date>) => void) | null = null;
 
@@ -41,6 +43,8 @@ export class MainMenuController {
     }
 
     public dispose(): void {
+        if (this._disposed) return;
+        this._disposed = true;
         this.model.stopClock();
         this.view.unbindAll();
         this.view.setButtonsInteractable(false);

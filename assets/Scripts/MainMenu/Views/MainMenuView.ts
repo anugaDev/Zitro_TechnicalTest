@@ -32,8 +32,12 @@ export class MainMenuView extends Component implements IMainMenuView {
     }
 
     public setButtonsInteractable(value: boolean): void {
-        this.QuizButton.interactable = value;
-        this.SlotButton.interactable = value;
+        if (this.QuizButton?.isValid) {
+            this.QuizButton.interactable = value;
+        }
+        if (this.SlotButton?.isValid) {
+            this.SlotButton.interactable = value;
+        }
     }
 
     public bindQuizButton(handler: () => void): void {

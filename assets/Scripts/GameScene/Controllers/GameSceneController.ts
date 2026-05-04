@@ -4,7 +4,7 @@ import { IGameSceneView } from '../Views/IGameSceneView';
 export class GameSceneController {
 
     public onFadeInCompleted: (() => void) | null = null;
-    public onFadeOutStarted:  (() => void) | null = null;
+    public onFadeOutStarted: (() => void) | null = null;
 
     constructor(
         private readonly model: IGameSceneModel,

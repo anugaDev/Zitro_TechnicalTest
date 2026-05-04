@@ -9,6 +9,7 @@ import { GameSceneController } from '../../GameScene/Controllers/GameSceneContro
 import { SceneNavigator } from '../../Core/SceneNavigator';
 import { QuizQuestion } from '../Models/Entities/QuizQuestion';
 import { ResourcePaths } from 'db://assets/Scripts/Shared/ResourcePaths';
+import { AppCache } from 'db://assets/Scripts/Shared/AppCache';
 
 const { ccclass, property } = _decorator;
 
@@ -27,24 +28,32 @@ export class QuizGameInstaller extends Component {
 
     protected onLoad(): void {
         const navigator = new SceneNavigator();
-        const gameSceneModel  = new GameSceneModel(navigator);
+        const gameSceneModel = new GameSceneModel(navigator);
         this.gameSceneController = new GameSceneController(gameSceneModel, this.gameSceneView);
+
+        const cachedJson = AppCache.instance.quizJson;
+        if (cachedJson) {
+            this.scheduleOnce(() => this.initWithQuestions(cachedJson.json as QuizQuestion[]));
+            return;
+        }
 
         resources.load(ResourcePaths.QUIZ_JSON, JsonAsset, (err, jsonAsset: JsonAsset) => {
             if (err) {
-                console.error('Failed to load quizGameConfiguration.json:', err);
+                console.error('[QuizGameInstaller] Failed to load quizGameConfiguration.json:', err);
                 this.gameSceneController.init();
                 return;
             }
-
-            const questions = jsonAsset.json as QuizQuestion[];
-            const model = new QuizGameModel();
-            model.setQuestionsConfiguration(questions);
-            this.quizController = new QuizGameController(model, this.quizView);
-            this.quizController.init();
-            this.gameSceneController.onFadeInCompleted = () => this.quizView.onSceneFadeInCompleted();
-            this.gameSceneController.init();
+            this.initWithQuestions(jsonAsset.json as QuizQuestion[]);
         });
+    }
+
+    private initWithQuestions(questions: QuizQuestion[]): void {
+        const model = new QuizGameModel();
+        model.setQuestionsConfiguration(questions);
+        this.quizController = new QuizGameController(model, this.quizView);
+        this.quizController.init();
+        this.gameSceneController.onFadeInCompleted = () => this.quizView.onSceneFadeInCompleted();
+        this.gameSceneController.init();
     }
 
     protected onDestroy(): void {

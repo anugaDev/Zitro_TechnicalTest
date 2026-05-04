@@ -4,6 +4,7 @@ import { ITimeService } from 'db://assets/Scripts/MainMenu/Models/Services/ITime
 import { ISceneNavigator } from '../../Core/ISceneNavigator';
 import { GlobalParameters } from 'db://assets/Scripts/GlobalParameters';
 import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
+import { AppCache } from 'db://assets/Scripts/Shared/AppCache';
 
 export class MainMenuModel implements IMainMenuModel {
 
@@ -19,12 +20,17 @@ export class MainMenuModel implements IMainMenuModel {
     }
 
     public async initializeTime(): Promise<ApiResult<Date>> {
-        const result = await this.timeService.fetchCurrentTime();
+        const cached = AppCache.instance.cachedTime;
+        if (cached) {
+            const elapsed = Date.now() - cached.fetchedAt;
+            this._currentTime = new Date(cached.serverTime.getTime() + elapsed);
+            return ApiResult.success(this._currentTime);
+        }
 
+        const result = await this.timeService.fetchCurrentTime();
         if (ApiResult.isSuccess(result)) {
             this._currentTime = result.data;
         }
-
         return result;
     }
 
