@@ -9,7 +9,7 @@ export class FadeOutAnimation implements IAnimation
 
     private static readonly DEFAULT_SPEED : number = 0.5;
 
-    public readonly id: string;
+    public readonly Id: string;
 
     public onFinished: (() => void) | null = null;
 
@@ -19,7 +19,7 @@ export class FadeOutAnimation implements IAnimation
 
     constructor(id: string, private readonly target: Node, private readonly duration: number = FadeOutAnimation.DEFAULT_SPEED)
     {
-        this.id = id;
+        this.Id = id;
         this._uiOpacity = target.getComponent(UIOpacity) ?? target.addComponent(UIOpacity);
     }
 

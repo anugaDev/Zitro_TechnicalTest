@@ -35,6 +35,7 @@ export class QuizGameView extends Component implements IQuizGameView
             this.FeedbackPanel.node,
             this.ResultsPanel.node
         );
+
         this.QuestionPanel.onAnswerSelected = (index) => this.onAnswerSelected?.(index);
         this.FeedbackPanel.onNextClicked = () => this.handleNextClick();
         this.ResultsPanel.onPlayAgainClicked = () => this.handlePlayAgainClick();

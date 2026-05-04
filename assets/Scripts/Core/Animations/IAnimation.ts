@@ -1,6 +1,6 @@
 export interface IAnimation
 {
-    readonly id: string;
+    readonly Id: string;
 
     play(): void;
 

@@ -4,7 +4,7 @@ import { FadeInAnimation } from './FadeInAnimation';
 
 export class StatementFadeAnimation implements IAnimation
 {
-    public readonly id: string;
+    public readonly Id: string;
 
     public onFinished: (() => void) | null = null;
 
@@ -24,7 +24,7 @@ export class StatementFadeAnimation implements IAnimation
         private readonly waitDuration: number = 0.4
     )
     {
-        this.id = id;
+        this.Id = id;
 
         this._statementFade = new FadeInAnimation(`${id}_statement`, statementNode, fadeDuration);
 

@@ -8,7 +8,7 @@ export class AnimationController
 
     constructor(animations: IAnimation[])
     {
-        this._animations = new Map(animations.map(animation => [animation.id, animation]));
+        this._animations = new Map(animations.map(animation => [animation.Id, animation]));
     }
 
     public play(id: string): void
