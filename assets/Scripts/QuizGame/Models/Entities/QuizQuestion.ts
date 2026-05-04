@@ -1,4 +1,4 @@
-import { QuizAnswer } from "db://assets/Scripts/QuizGame/Models/Entities/QuizAnswer";
+import { QuizAnswer } from './QuizAnswer';
 
 export interface QuizQuestion
 {

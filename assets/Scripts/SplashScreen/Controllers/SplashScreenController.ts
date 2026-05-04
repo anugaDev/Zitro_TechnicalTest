@@ -1,4 +1,4 @@
-import { GlobalParameters } from "db://assets/Scripts/GlobalParameters";
+import { GlobalParameters } from '../../GlobalParameters';
 import { ISplashScreenModel } from '../Models/ISplashScreenModel';
 import { ISceneNavigator } from '../../Core/ISceneNavigator';
 import { ISplashScreenView } from '../Views/ISplashScreenView';
