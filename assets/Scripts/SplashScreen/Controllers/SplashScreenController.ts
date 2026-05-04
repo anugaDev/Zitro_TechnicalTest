@@ -18,7 +18,11 @@ export class SplashScreenController
     public init(): void
     {
         this.model.onProgressChangedEvent = (current) =>
-            this.view.setProgressBar(current)
+            this.view.setProgressBar(current);
+        this.model.onAssetStatusChangedEvent = (result) =>
+            this.view.showAssetStatus(result);
+        this.model.onStartingGameEvent = () =>
+            this.view.showStartingGame();
         this.model.onLoadedEvent = () => this.onGoToMainMenu();
         this.model.startLoadProcess();
     }

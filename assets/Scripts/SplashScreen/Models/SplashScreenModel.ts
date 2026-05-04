@@ -1,6 +1,7 @@
 import { ISplashScreenModel } from './ISplashScreenModel';
 import { CounterCoroutine } from 'db://assets/Scripts/Core/CounterCoroutine';
 import { IAssetLoader } from './IAssetLoader';
+import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
 
 export class SplashScreenModel implements ISplashScreenModel {
     private static readonly DEFAULT_LOAD_TIME: number = 5;
@@ -27,6 +28,10 @@ export class SplashScreenModel implements ISplashScreenModel {
 
     public onProgressChangedEvent: ((current: number) => void) | null = null;
 
+    public onAssetStatusChangedEvent: ((result: ApiResult<string>) => void) | null = null;
+
+    public onStartingGameEvent: (() => void) | null = null;
+
     public onLoadedEvent: (() => void) | null = null;
 
     constructor(
@@ -39,6 +44,7 @@ export class SplashScreenModel implements ISplashScreenModel {
         this._progressCounter.onFinished = () => this.onTimerFinished();
         this._progressCounter.startCounter(SplashScreenModel.DEFAULT_LOAD_TIME);
 
+        this._assetLoader.onAssetStatusChanged = (result) => this.onAssetStatusChangedEvent?.(result);
         this._assetLoader.load().then(() => {
             this._assetsLoaded = true;
             if (this._waitingForAssets) {
@@ -63,6 +69,7 @@ export class SplashScreenModel implements ISplashScreenModel {
     }
 
     private animateFillToComplete(): void {
+        this.onStartingGameEvent?.();
         this._fillStart = SplashScreenModel.TIMER_WEIGHT;
         this._fillRange = SplashScreenModel.TARGET_FILL - this._fillStart;
         this._fillStartTime = Date.now();

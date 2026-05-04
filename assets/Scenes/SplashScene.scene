@@ -267,7 +267,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 775.05,
+      "width": 916.85,
       "height": 189
     },
     "_anchorPoint": {
@@ -288,7 +288,7 @@
     "_enabled": true,
     "__prefab": null,
     "_lineHeight": 150,
-    "_string": "<color=#00ff00>WELCOME</color>",
+    "_string": "<color=#00ff00>GAME LOGO</color>",
     "_horizontalAlign": 0,
     "_fontSize": 150,
     "_maxWidth": 0,
@@ -303,7 +303,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "LoadingText",
+    "_name": "LoadingLabel",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -322,7 +322,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -125.918,
+      "y": -185.978,
       "z": 0
     },
     "_lrot": {
@@ -345,13 +345,12 @@
       "y": 0,
       "z": 0
     },
-    "_id": "92LG1VUHNIEJrAy9HuMo3Y"
+    "_id": "ab9nvF7dJEaajO7eWNnumB"
   },
   {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
-    "__editorExtras__": {},
     "node": {
       "__id__": 9
     },
@@ -367,31 +366,46 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_id": "85ztYTWjpPk7U0+kF5otID"
+    "_id": "32VPc6HMJG4I5FS2DNoDAF"
   },
   {
-    "__type__": "cc.RichText",
+    "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
-    "__editorExtras__": {},
     "node": {
       "__id__": 9
     },
     "_enabled": true,
     "__prefab": null,
-    "_lineHeight": 100,
-    "_string": "<color=#00ff00>Loading...</color>",
-    "_horizontalAlign": 0,
+    "_visFlags": 0,
+    "_customMaterial": null,
+    "_srcBlendFactor": 2,
+    "_dstBlendFactor": 4,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_string": "Loading...",
+    "_horizontalAlign": 1,
+    "_verticalAlign": 1,
+    "_actualFontSize": 50,
     "_fontSize": 50,
-    "_maxWidth": 0,
     "_fontFamily": "Arial",
+    "_lineHeight": 100,
+    "_overflow": 0,
+    "_enableWrapText": true,
     "_font": null,
     "_isSystemFontUsed": true,
-    "_userDefinedFont": null,
+    "_spacingX": 0,
+    "_isItalic": false,
+    "_isBold": false,
+    "_isUnderline": false,
+    "_underlineHeight": 2,
     "_cacheMode": 0,
-    "_imageAtlas": null,
-    "_handleTouchEvent": true,
-    "_id": "3dAHibK4JNtILG5xtrA04D"
+    "_id": "068ecy7jBJzYGgt7snRRbL"
   },
   {
     "__type__": "cc.Node",
@@ -449,7 +463,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 573.3665835411471,
+    "_orthoHeight": 540,
     "_near": 1,
     "_far": 2000,
     "_color": {
@@ -830,6 +844,9 @@
     "__prefab": null,
     "ProgressBar": {
       "__id__": 20
+    },
+    "AssetStatusLabel": {
+      "__id__": 11
     },
     "_id": "a8pT47es5EQoIkD4w9CxVy"
   },

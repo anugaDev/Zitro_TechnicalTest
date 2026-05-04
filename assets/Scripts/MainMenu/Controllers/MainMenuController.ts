@@ -1,14 +1,9 @@
-import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
 import { IMainMenuModel } from '../Models/IMainMenuModel';
 import { IMainMenuView } from '../Views/IMainMenuView';
 
 export class MainMenuController {
 
-    private static readonly FALLBACK_TIME_MESSAGE = 'Using local time';
-
     private _disposed: boolean = false;
-
-    public onApiResult: ((result: ApiResult<Date>) => void) | null = null;
 
     constructor(
         private readonly model: IMainMenuModel,
@@ -22,16 +17,7 @@ export class MainMenuController {
     }
 
     private async initClock(): Promise<void> {
-        this.onApiResult?.(ApiResult.loading<Date>());
-
         const result = await this.model.initializeTime();
-
-        this.onApiResult?.(
-            ApiResult.isError(result)
-                ? ApiResult.error<Date>(MainMenuController.FALLBACK_TIME_MESSAGE)
-                : result
-        );
-
         this.view.updateClock(this.model.getFormattedTime());
         this.model.startClock((time) => this.view.updateClock(time));
     }

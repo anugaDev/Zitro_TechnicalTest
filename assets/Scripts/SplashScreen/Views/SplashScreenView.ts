@@ -1,7 +1,8 @@
-import { _decorator, Component, ProgressBar } from 'cc';
+import { _decorator, Component, ProgressBar, Label } from 'cc';
 import { ISplashScreenView } from './ISplashScreenView';
 import { AnimationController } from 'db://assets/Scripts/Core/Animations/AnimationController';
 import { FadeOutAnimation } from 'db://assets/Scripts/Core/Animations/FadeOutAnimation';
+import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
 
 const { ccclass, property } = _decorator;
 
@@ -10,6 +11,9 @@ export class SplashScreenView extends Component implements ISplashScreenView {
 
     @property(ProgressBar)
     public ProgressBar: ProgressBar = null!;
+
+    @property(Label)
+    public AssetStatusLabel: Label = null!;
 
     private _animations: AnimationController = null!;
 
@@ -21,6 +25,29 @@ export class SplashScreenView extends Component implements ISplashScreenView {
 
     public setProgressBar(progress: number): void {
         this.ProgressBar.progress = progress;
+    }
+
+    public showAssetStatus(result: ApiResult<string>): void {
+        console.log('[SplashScreenView] showAssetStatus:', result);
+
+        if (!this.AssetStatusLabel) {
+            return;
+        }
+
+        if (ApiResult.isSuccess(result)) {
+            this.AssetStatusLabel.string = `✓ ${result.data}`;
+        } else if (ApiResult.isError(result)) {
+            this.AssetStatusLabel.string = `✗ ${result.message}`;
+        } else {
+            this.AssetStatusLabel.string = 'Loading...';
+        }
+    }
+
+    public showStartingGame(): void {
+        if (!this.AssetStatusLabel) {
+            return;
+        }
+        this.AssetStatusLabel.string = 'Starting game...';
     }
 
     public playFadeOut(onFinished: () => void): void {

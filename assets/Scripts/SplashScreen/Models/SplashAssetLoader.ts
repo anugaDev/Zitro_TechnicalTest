@@ -6,55 +6,77 @@ import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
 import { ResourcePaths } from 'db://assets/Scripts/Shared/ResourcePaths';
 import { ResourceLoader } from 'db://assets/Scripts/Shared/ResourceLoader';
 
+const STEP_DELAY_MS = 100;
+
 export class SplashAssetLoader implements IAssetLoader {
+
+    public onAssetStatusChanged: ((result: ApiResult<string>) => void) | null = null;
 
     constructor(private readonly _timeService: ITimeService) { }
 
     public async load(): Promise<void> {
-        await Promise.all([
-            this.loadSpriteAtlas(),
-            this.loadAudioClips(),
-            this.loadQuizConfig(),
-            this.fetchServerTime(),
-        ]);
+        await this.loadSpriteAtlas();
+        await this.wait(STEP_DELAY_MS);
+        await this.loadAudioClips();
+        await this.wait(STEP_DELAY_MS);
+        await this.loadQuizConfig();
+        await this.wait(STEP_DELAY_MS);
+        await this.fetchServerTime();
     }
 
     private async loadSpriteAtlas(): Promise<void> {
+        this.notifyLoading();
+        await this.wait(STEP_DELAY_MS);
         const atlas = await ResourceLoader.load(ResourcePaths.SLOT_ATLAS, SpriteAtlas);
+        await this.wait(STEP_DELAY_MS);
         if (!atlas) {
-            console.warn('[SplashAssetLoader] Failed to load slot atlas');
+            this.notifyError('Slot Atlas failed to load');
             return;
         }
         atlas.addRef();
         AppCache.instance.SlotAtlas = atlas;
+        this.notifySuccess('Slot Atlas');
     }
 
     private async loadAudioClips(): Promise<void> {
+        this.notifyLoading();
+        await this.wait(STEP_DELAY_MS);
         const clips = await ResourceLoader.loadDir(ResourcePaths.AUDIO_DIR, AudioClip);
+        await this.wait(STEP_DELAY_MS);
         if (!clips) {
-            console.warn('[SplashAssetLoader] Failed to load audio clips');
+            this.notifyError('Audio Clips failed to load');
             return;
         }
         clips.forEach(clip => clip.addRef());
         AppCache.instance.AudioClips = clips;
+        this.notifySuccess('Audio Clips');
     }
 
     private async loadQuizConfig(): Promise<void> {
+        this.notifyLoading();
+        await this.wait(STEP_DELAY_MS);
         const json = await ResourceLoader.load(ResourcePaths.QUIZ_JSON, JsonAsset);
+        await this.wait(STEP_DELAY_MS);
         if (!json) {
-            console.warn('[SplashAssetLoader] Failed to load quiz config');
+            this.notifyError('Quiz Config failed to load');
             return;
         }
         json.addRef();
         AppCache.instance.QuizJson = json;
+        this.notifySuccess('Quiz Config');
     }
 
     private async fetchServerTime(): Promise<void> {
+        this.notifyLoading();
+        await this.wait(STEP_DELAY_MS);
         const result = await this._timeService.fetchCurrentTime();
+        await this.wait(STEP_DELAY_MS);
         if (ApiResult.isSuccess(result)) {
             this.cacheServerTime(result.data);
+            this.notifySuccess('Server Time');
         } else {
-            this.logServerTimeError(result);
+            const message = ApiResult.isError(result) ? result.message : result.status;
+            this.notifyError(`Server Time — ${message}`);
         }
     }
 
@@ -65,8 +87,19 @@ export class SplashAssetLoader implements IAssetLoader {
         };
     }
 
-    private logServerTimeError(result: ApiResult<Date>): void {
-        console.warn('[SplashAssetLoader] Failed to fetch server time.',
-            ApiResult.isError(result) ? result.message : result.status);
+    private notifyLoading(): void {
+        this.onAssetStatusChanged?.(ApiResult.loading());
+    }
+
+    private notifySuccess(assetName: string): void {
+        this.onAssetStatusChanged?.(ApiResult.success(assetName));
+    }
+
+    private notifyError(message: string): void {
+        this.onAssetStatusChanged?.(ApiResult.error(message));
+    }
+
+    private wait(milliseconds: number): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, milliseconds));
     }
 }
