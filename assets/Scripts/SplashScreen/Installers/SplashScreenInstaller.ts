@@ -21,10 +21,10 @@ export class SplashScreenInstaller extends Component {
     private _splashScreenController: SplashScreenController = null!;
 
     protected onLoad(): void {
-        const navigator   = new SceneNavigator();
+        const navigator = new SceneNavigator();
         const timeService = new TimeService();
         const assetLoader = new SplashAssetLoader(timeService);
-        const model       = new SplashScreenModel(this.Counter, assetLoader);
+        const model = new SplashScreenModel(this.Counter, assetLoader);
 
         this._splashScreenController = new SplashScreenController(navigator, model, this.SplashScreenView);
         this._splashScreenController.init();

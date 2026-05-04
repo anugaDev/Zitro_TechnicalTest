@@ -8,7 +8,7 @@ export class SlotGameController {
 
     constructor(
         private readonly model: ISlotGameModel,
-        private readonly view: ISlotGameView
+        private readonly view : ISlotGameView
     ) { }
 
     public init(): void {

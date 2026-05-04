@@ -1,8 +1,9 @@
-import { SpriteFrame, SpriteAtlas, resources } from 'cc';
+import { SpriteFrame, SpriteAtlas } from 'cc';
 import { SlotSymbolEnum } from '../Enums/SlotSymbolEnum';
 import { SlotGameConfiguration } from '../Configuration/SlotGameConfiguration';
 import { ResourcePaths } from 'db://assets/Scripts/Shared/ResourcePaths';
 import { AppCache } from 'db://assets/Scripts/Shared/AppCache';
+import { ResourceLoader } from 'db://assets/Scripts/Shared/ResourceLoader';
 
 export class SlotSymbolRepository {
 
@@ -12,14 +13,14 @@ export class SlotSymbolRepository {
         return this._frames;
     }
 
-    public load(onLoaded: () => void): void {
+    public async load(onLoaded: () => void): Promise<void> {
         const cachedAtlas = AppCache.instance.slotAtlas;
         if (cachedAtlas) {
             this.loadFromCache(cachedAtlas, onLoaded);
             return;
         }
 
-        this.loadFromResources(onLoaded);
+        await this.loadFromResources(onLoaded);
     }
 
     private loadFromCache(atlas: SpriteAtlas, onLoaded: () => void): void {
@@ -27,14 +28,10 @@ export class SlotSymbolRepository {
         onLoaded();
     }
 
-    private loadFromResources(onLoaded: () => void): void {
-        resources.load(ResourcePaths.SLOT_ATLAS, SpriteAtlas,
-            (error, atlas) => this.onAtlasLoaded(error, atlas, onLoaded));
-    }
-
-    private onAtlasLoaded(error: Error | null, atlas: SpriteAtlas | null, onLoaded: () => void): void {
-        if (error || !atlas) {
-            console.error('[SlotSymbolRepository] Failed to load atlas:', error);
+    private async loadFromResources(onLoaded: () => void): Promise<void> {
+        const atlas = await ResourceLoader.load(ResourcePaths.SLOT_ATLAS, SpriteAtlas);
+        if (!atlas) {
+            console.error('[SlotSymbolRepository] Failed to load atlas');
         } else {
             this.populateFrames(atlas);
         }
