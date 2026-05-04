@@ -16,7 +16,6 @@ const { ccclass, property } = _decorator;
 @ccclass('QuizGameInstaller')
 export class QuizGameInstaller extends Component
 {
-
     @property(QuizGameView)
     private quizView: QuizGameView = null!;
 

@@ -4,7 +4,7 @@ import { StatementFadeAnimation } from 'db://assets/Scripts/Core/Animations/Stat
 import { FadeInAnimation } from 'db://assets/Scripts/Core/Animations/FadeInAnimation';
 import { FadeOutAnimation } from 'db://assets/Scripts/Core/Animations/FadeOutAnimation';
 
-export class StatementAnimationController
+export class StatementAnimationHandler
 {
     private readonly _animations: AnimationController;
 

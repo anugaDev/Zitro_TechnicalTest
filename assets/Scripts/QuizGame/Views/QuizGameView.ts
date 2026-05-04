@@ -1,67 +1,43 @@
-import { _decorator, Component, Button, RichText, Node, Prefab, instantiate, UIOpacity } from 'cc';
+import { _decorator, Component } from 'cc';
 import { IQuizGameView } from './IQuizGameView';
-import { AnswerButtonView } from 'db://assets/Scripts/QuizGame/Views/AnswerButtonView';
-import { StatementAnimationController } from 'db://assets/Scripts/QuizGame/Controllers/StatementAnimationController';
+import { QuestionPanelView } from 'db://assets/Scripts/QuizGame/Views/QuestionPanelView';
+import { FeedbackPanelView } from 'db://assets/Scripts/QuizGame/Views/FeedbackPanelView';
+import { ResultsPanelView } from 'db://assets/Scripts/QuizGame/Views/ResultsPanelView';
+import { StatementAnimationHandler } from 'db://assets/Scripts/QuizGame/Views/Handlers/StatementAnimationHandler';
 
 const { ccclass, property } = _decorator;
 
 @ccclass('QuizGameView')
 export class QuizGameView extends Component implements IQuizGameView
 {
+    @property(QuestionPanelView)
+    public QuestionPanel: QuestionPanelView = null!;
 
-    @property(Node)
-    public QuizPanel: Node = null!;
+    @property(FeedbackPanelView)
+    public FeedbackPanel: FeedbackPanelView = null!;
 
-    @property(RichText)
-    public StatementText: RichText = null!;
-
-    @property(Node)
-    public AnswerLayout: Node = null!;
-
-    @property(Prefab)
-    public AnswerButtonPrefab: Prefab = null!;
-
-    @property(Node)
-    public FeedbackPanel: Node = null!;
-
-    @property(RichText)
-    public FeedbackText: RichText = null!;
-
-    @property(Button)
-    public NextButton: Button = null!;
-
-    @property(Node)
-    public ResultsPanel: Node = null!;
-
-    @property(RichText)
-    public ResultsText: RichText = null!;
-
-    @property(Button)
-    public PlayAgainButton: Button = null!;
+    @property(ResultsPanelView)
+    public ResultsPanel: ResultsPanelView = null!;
 
     public onAnswerSelected: ((index: number) => void) | null = null;
 
-    public onPlayAgainPressed: (() => void) | null = null;
-
     public onNextPressed: (() => boolean) | null = null;
 
-    private _animController: StatementAnimationController = null!;
+    public onPlayAgainPressed: (() => void) | null = null;
+
+    private _animController: StatementAnimationHandler = null!;
 
     protected onLoad(): void
     {
-        this.setButtonListeners();
-        this._animController = new StatementAnimationController(
-            this.StatementText.node,
-            this.AnswerLayout,
-            this.FeedbackPanel,
-            this.ResultsPanel
+        this._animController = new StatementAnimationHandler(
+            this.QuestionPanel.StatementText.node,
+            this.QuestionPanel.AnswerLayout,
+            this.FeedbackPanel.node,
+            this.ResultsPanel.node
         );
-    }
-
-    private setButtonListeners(): void
-    {
-        this.NextButton.node.on(Button.EventType.CLICK, this.handleNextClick, this);
-        this.PlayAgainButton.node.on(Button.EventType.CLICK, this.handlePlayAgainClick, this);
+        this.QuestionPanel.onAnswerSelected = (index) => this.onAnswerSelected?.(index);
+        this.FeedbackPanel.onNextClicked = () => this.handleNextClick();
+        this.ResultsPanel.onPlayAgainClicked = () => this.handlePlayAgainClick();
     }
 
     protected onDestroy(): void
@@ -71,109 +47,74 @@ export class QuizGameView extends Component implements IQuizGameView
 
     public showQuestion(statement: string, answers: string[]): void
     {
-        this.StatementText.string = statement;
-        this.AnswerLayout.removeAllChildren();
-        this.setAnswers(answers);
-    }
-
-    private setAnswers(answers: string[]): void
-    {
-        answers.forEach((text, index) => this.setAnswer(text, index));
-    }
-
-    private setAnswer(answerText: string, index: number): void
-    {
-        const node = instantiate(this.AnswerButtonPrefab);
-        const answerButtonView = node.getComponent(AnswerButtonView)!;
-        answerButtonView.Label.string = answerText;
-        this.setAnswerButtonListeners(answerButtonView, index)
-        this.AnswerLayout.addChild(node);
-    }
-    private setAnswerButtonListeners(answerButtonView: any, index: number): void
-    {
-        answerButtonView.Button.node.on(
-            Button.EventType.CLICK,
-            () => this.onAnswerSelected?.(index), this
-        );
+        this.QuestionPanel.show(statement, answers);
     }
 
     public showFeedback(wasCorrect: boolean, correctText: string): void
     {
-        this.QuizPanel.active = false;
-        this.FeedbackPanel.active = true;
-        this.resetOpacity(this.FeedbackPanel);
-        this.FeedbackText.string = wasCorrect
-            ? '<color=#44ff44><b>✓ Correct!</b></color>'
-            : `<color=#ff4444><b>✗ Wrong!</b></color><br/>` +
-            `<color=#ffffff>Correct answer: ${correctText}</color>`;
+        this.QuestionPanel.setActive(false);
+        this.FeedbackPanel.show(wasCorrect, correctText);
     }
 
     public showResults(score: number, total: number): void
     {
-        this.QuizPanel.active = false;
-        this.ResultsPanel.active = true;
-        this.ResultsText.string =
-            `<color=#ffffff><b>Quiz Finished!</b></color><br/>` +
-            `<color=#ffdd44>Score: ${score} / ${total}</color>`;
+        this.QuestionPanel.setActive(false);
+        this.ResultsPanel.show(score, total);
     }
 
     public showQuestionPanel(): void
     {
-        this.QuizPanel.active = true;
-        this.FeedbackPanel.active = false;
-        this.ResultsPanel.active = false;
+        this.QuestionPanel.setActive(true);
+        this.FeedbackPanel.setActive(false);
+        this.ResultsPanel.setActive(false);
     }
 
     public hideAllPanels(): void
     {
-        this.QuizPanel.active = false;
-        this.FeedbackPanel.active = false;
-        this.ResultsPanel.active = false;
+        this.QuestionPanel.setActive(false);
+        this.FeedbackPanel.setActive(false);
+        this.ResultsPanel.setActive(false);
     }
 
     public onSceneFadeInCompleted(): void
     {
         this.showQuestionPanel();
-        this.setAnswersInteractable(false);
-        this._animController.playStatementFade(() => this.setAnswersInteractable(true));
+        this.QuestionPanel.setInteractable(false);
+        this._animController.playStatementFade(() => this.QuestionPanel.setInteractable(true));
     }
 
     public unbindAll(): void
     {
-        this.removeEventListeners();
-        this.removeAllChildren();
+        if (this.FeedbackPanel?.isValid)
+        {
+            this.FeedbackPanel.unbind();
+        }
+        if (this.ResultsPanel?.isValid)
+        {
+            this.ResultsPanel.unbind();
+        }
+        if (this.QuestionPanel?.isValid)
+        {
+            this.QuestionPanel.clear();
+            this.QuestionPanel.onAnswerSelected = null;
+        }
         this.onAnswerSelected = null;
         this.onNextPressed = null;
         this.onPlayAgainPressed = null;
     }
 
-    private removeEventListeners(): void
-    {
-        this.NextButton?.node.off(Button.EventType.CLICK, this.handleNextClick, this);
-        this.PlayAgainButton?.node.off(Button.EventType.CLICK, this.handlePlayAgainClick, this);
-    }
-
-    private removeAllChildren(): void
-    {
-        if (!this.AnswerLayout?.isValid)
-        {
-            return;
-        }
-        this.AnswerLayout.removeAllChildren();
-    }
-
     private handleNextClick(): void
     {
-        this.NextButton.interactable = false;
+        this.FeedbackPanel.setNextInteractable(false);
         this._animController.playFeedbackFadeOut(() => this.onFeedbackFadeOutFinished());
     }
 
     private onFeedbackFadeOutFinished(): void
     {
-        this.FeedbackPanel.active = false;
+        this.FeedbackPanel.setActive(false);
         this.showQuestionPanel();
-        this.setAnswersInteractable(false);
         const hasMoreQuestions = this.onNextPressed?.() ?? false;
+        this.QuestionPanel.setInteractable(false);
 
         if (hasMoreQuestions)
         {
@@ -181,65 +122,41 @@ export class QuizGameView extends Component implements IQuizGameView
         }
         else
         {
-            this.PlayAgainButton.interactable = false;
+            this.ResultsPanel.setPlayAgainInteractable(false);
             this._animController.playResultsFadeIn(() => this.onResultsFadeInFinished());
         }
     }
 
     private onNextStatementFadeFinished(): void
     {
-        this.NextButton.interactable = true;
-        this.setAnswersInteractable(true);
+        this.FeedbackPanel.setNextInteractable(true);
+        this.QuestionPanel.setInteractable(true);
     }
 
     private onResultsFadeInFinished(): void
     {
-        this.NextButton.interactable = true;
-        this.PlayAgainButton.interactable = true;
+        this.FeedbackPanel.setNextInteractable(true);
+        this.ResultsPanel.setPlayAgainInteractable(true);
     }
 
     private handlePlayAgainClick(): void
     {
-        this.PlayAgainButton.interactable = false;
+        this.ResultsPanel.setPlayAgainInteractable(false);
         this._animController.playResultsFadeOut(() => this.onResultsFadeOutFinished());
     }
 
     private onResultsFadeOutFinished(): void
     {
-        this.ResultsPanel.active = false;
+        this.ResultsPanel.setActive(false);
         this.showQuestionPanel();
-        this.setAnswersInteractable(false);
         this.onPlayAgainPressed?.();
+        this.QuestionPanel.setInteractable(false);
         this._animController.playStatementFade(() => this.onPlayAgainStatementFadeFinished());
     }
 
     private onPlayAgainStatementFadeFinished(): void
     {
-        this.PlayAgainButton.interactable = true;
-        this.setAnswersInteractable(true);
-    }
-
-    private setAnswersInteractable(value: boolean): void
-    {
-        this.AnswerLayout.children.forEach(child => this.setAnswerButtonInteractable(child, value));
-    }
-    private setAnswerButtonInteractable(child: Node, value: boolean): void
-    {
-        const answerButton = child.getComponent(AnswerButtonView);
-        if (!answerButton?.Button?.isValid)
-        {
-            return;
-        }
-        answerButton.Button.interactable = value;
-    }
-
-    private resetOpacity(node: Node): void
-    {
-        const uiOpacity = node.getComponent(UIOpacity);
-        if (uiOpacity)
-        {
-            uiOpacity.opacity = 255;
-        }
-        node.children.forEach(child => this.resetOpacity(child));
+        this.ResultsPanel.setPlayAgainInteractable(true);
+        this.QuestionPanel.setInteractable(true);
     }
 }
