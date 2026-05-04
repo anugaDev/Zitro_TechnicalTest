@@ -8,6 +8,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass('SplashScreenView')
 export class SplashScreenView extends Component implements ISplashScreenView {
+    private static readonly FADE_OUT_DURATION : number = 0.5;
+
     @property(ProgressBar)
     public ProgressBar: ProgressBar = null!;
 
@@ -32,9 +34,7 @@ export class SplashScreenView extends Component implements ISplashScreenView {
     private _animations: AnimationController = null!;
 
     protected onLoad(): void {
-        this._animations = new AnimationController([
-            new FadeOutAnimation('fadeOut', this.node, 0.5),
-        ]);
+        this._animations = new AnimationController([new FadeOutAnimation('fadeOut', this.node, SplashScreenView.FADE_OUT_DURATION),]);
     }
 
     public setProgressBar(progress: number): void {
