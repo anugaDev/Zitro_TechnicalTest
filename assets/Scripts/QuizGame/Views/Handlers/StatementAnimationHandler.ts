@@ -6,15 +6,21 @@ import { FadeOutAnimation } from 'db://assets/Scripts/Core/Animations/FadeOutAni
 
 export class StatementAnimationHandler
 {
+    private static readonly RESULTS_FADE_IN_DURATION: number = 0.4;
+
+    private static readonly FEEDBACK_FADE_OUT_DURATION: number = 0.3;
+
+    private static readonly RESULTS_FADE_OUT_DURATION: number = 0.3;
+
     private readonly _animations: AnimationController;
 
     constructor(statementNode: Node, answersNode: Node, feedbackPanel: Node, resultsPanel: Node)
     {
         this._animations = new AnimationController([
             new StatementFadeAnimation('statementFade', statementNode, answersNode),
-            new FadeInAnimation('resultsFadeIn', resultsPanel, 0.4),
-            new FadeOutAnimation('feedbackFadeOut', feedbackPanel, 0.3),
-            new FadeOutAnimation('resultsFadeOut', resultsPanel, 0.3),
+            new FadeInAnimation('resultsFadeIn', resultsPanel, StatementAnimationHandler.RESULTS_FADE_IN_DURATION),
+            new FadeOutAnimation('feedbackFadeOut', feedbackPanel, StatementAnimationHandler. FEEDBACK_FADE_OUT_DURATION),
+            new FadeOutAnimation('resultsFadeOut', resultsPanel, StatementAnimationHandler.RESULTS_FADE_OUT_DURATION),
         ]);
     }
 
@@ -46,7 +52,11 @@ export class StatementAnimationHandler
     {
         this._animations.onFinished = (id) =>
         {
-            if (id !== animationId) return;
+            if (id !== animationId)
+            {
+                return;
+            }
+
             onCompleted();
         };
     }

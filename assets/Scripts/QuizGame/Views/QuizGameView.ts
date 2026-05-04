@@ -98,6 +98,7 @@ export class QuizGameView extends Component implements IQuizGameView
             this.QuestionPanel.clear();
             this.QuestionPanel.onAnswerSelected = null;
         }
+
         this.onAnswerSelected = null;
         this.onNextPressed = null;
         this.onPlayAgainPressed = null;
