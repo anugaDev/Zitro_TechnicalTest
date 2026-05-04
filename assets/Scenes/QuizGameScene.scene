@@ -821,6 +821,30 @@
     "NextButton": {
       "__id__": 43
     },
+    "correctLabel": "✓ Correct!",
+    "wrongLabel": "✗ Wrong!",
+    "correctAnswerPrefix": "Correct answer: ",
+    "correctColor": {
+      "__type__": "cc.Color",
+      "r": 68,
+      "g": 255,
+      "b": 68,
+      "a": 255
+    },
+    "wrongColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 68,
+      "b": 68,
+      "a": 255
+    },
+    "correctAnswerColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
     "_id": "99e2TsWB1LBpQ6KQMY8Bwo"
   },
   {
@@ -1320,6 +1344,22 @@
     },
     "PlayAgainButton": {
       "__id__": 57
+    },
+    "titleLabel": "Quiz Finished!",
+    "scorePrefix": "Score: ",
+    "titleColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "scoreColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 221,
+      "b": 68,
+      "a": 255
     },
     "_id": "c13zke/P5NYruwE1UmQW1k"
   },

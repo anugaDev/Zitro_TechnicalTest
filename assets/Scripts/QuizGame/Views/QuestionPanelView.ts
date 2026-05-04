@@ -26,10 +26,7 @@ export class QuestionPanelView extends Component {
         const node = instantiate(this.AnswerButtonPrefab);
         const answerButtonView = node.getComponent(AnswerButtonView)!;
         answerButtonView.Label.string = answerText;
-        answerButtonView.Button.node.on(
-            Button.EventType.CLICK,
-            () => this.onAnswerSelected?.(index), this
-        );
+        answerButtonView.Button.node.on(Button.EventType.CLICK, () => this.onAnswerSelected?.(index), this);
         this.AnswerLayout.addChild(node);
     }
 

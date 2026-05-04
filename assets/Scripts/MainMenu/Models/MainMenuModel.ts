@@ -1,10 +1,10 @@
-import { padZero } from '../../Utils/StringUtils';
-import { IMainMenuModel } from './IMainMenuModel';
-import { ITimeService } from './Services/ITimeService';
 import { ISceneNavigator } from '../../Core/ISceneNavigator';
 import { GlobalParameters } from '../../GlobalParameters';
 import { ApiResult } from '../../ResourceLoad/ApiResult';
 import { AppCache } from '../../ResourceLoad/AppCache';
+import { padZero } from '../../Core/Utils/StringUtils';
+import { ITimeService } from './Services/ITimeService';
+import { IMainMenuModel } from './IMainMenuModel';
 
 export class MainMenuModel implements IMainMenuModel {
     private static readonly TIMEOUT_SERVER_TIMEOUT = 1000;
