@@ -1,5 +1,5 @@
 import { _decorator, Component, Button, RichText, Node, Prefab, instantiate } from 'cc';
-import { AnswerButtonView } from 'db://assets/Scripts/QuizGame/Views/AnswerButtonView';
+import { AnswerButtonView } from './AnswerButtonView';
 
 const { ccclass, property } = _decorator;
 

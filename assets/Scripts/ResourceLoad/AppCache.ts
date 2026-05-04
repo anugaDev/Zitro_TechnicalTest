@@ -1,5 +1,5 @@
 import {AudioClip, JsonAsset, SpriteAtlas} from 'cc';
-import {ICachedTime} from "db://assets/Scripts/Shared/ICachedTime";
+import {ICachedTime} from "db://assets/Scripts/ResourceLoad/ICachedTime";
 
 export class AppCache
 {

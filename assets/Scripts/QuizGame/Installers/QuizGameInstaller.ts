@@ -8,8 +8,8 @@ import { GameSceneModel } from '../../GameScene/Models/GameSceneModel';
 import { GameSceneController } from '../../GameScene/Controllers/GameSceneController';
 import { SceneNavigator } from '../../Core/SceneNavigator';
 import { QuizQuestion } from '../Models/Entities/QuizQuestion';
-import { ResourcePaths } from 'db://assets/Scripts/Shared/ResourcePaths';
-import { AppCache } from 'db://assets/Scripts/Shared/AppCache';
+import { ResourcePaths } from '../../ResourceLoad/ResourcePaths';
+import { AppCache } from '../../ResourceLoad/AppCache';
 
 const { ccclass, property } = _decorator;
 

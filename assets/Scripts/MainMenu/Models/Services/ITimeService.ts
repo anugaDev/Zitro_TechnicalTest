@@ -1,4 +1,4 @@
-import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
+import { ApiResult } from '../../../ResourceLoad/ApiResult';
 
 export interface ITimeService
 {

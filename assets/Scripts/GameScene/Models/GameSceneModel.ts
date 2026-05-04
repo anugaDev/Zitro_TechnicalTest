@@ -1,4 +1,4 @@
-import { GlobalParameters } from 'db://assets/Scripts/GlobalParameters';
+import { GlobalParameters } from '../../GlobalParameters';
 import { ISceneNavigator } from '../../Core/ISceneNavigator';
 import { IGameSceneModel } from './IGameSceneModel';
 

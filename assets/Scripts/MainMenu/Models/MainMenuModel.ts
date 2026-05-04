@@ -1,10 +1,10 @@
 import { padZero } from '../../Utils/StringUtils';
 import { IMainMenuModel } from './IMainMenuModel';
-import { ITimeService } from 'db://assets/Scripts/MainMenu/Models/Services/ITimeService';
+import { ITimeService } from './Services/ITimeService';
 import { ISceneNavigator } from '../../Core/ISceneNavigator';
-import { GlobalParameters } from 'db://assets/Scripts/GlobalParameters';
-import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
-import { AppCache } from 'db://assets/Scripts/Shared/AppCache';
+import { GlobalParameters } from '../../GlobalParameters';
+import { ApiResult } from '../../ResourceLoad/ApiResult';
+import { AppCache } from '../../ResourceLoad/AppCache';
 
 export class MainMenuModel implements IMainMenuModel
 {

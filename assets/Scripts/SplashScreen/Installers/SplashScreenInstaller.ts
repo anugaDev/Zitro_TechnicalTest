@@ -3,9 +3,9 @@ import { SplashScreenModel } from '../Models/SplashScreenModel';
 import { SplashScreenView } from '../Views/SplashScreenView';
 import { SplashScreenController } from '../Controllers/SplashScreenController';
 import { SceneNavigator } from '../../Core/SceneNavigator';
-import { CounterCoroutine } from 'db://assets/Scripts/Core/CounterCoroutine';
+import { CounterCoroutine } from '../../Core/CounterCoroutine';
 import { SplashAssetLoader } from '../Models/SplashAssetLoader';
-import { TimeService } from 'db://assets/Scripts/MainMenu/Models/Services/TimeService';
+import { TimeService } from '../../MainMenu/Models/Services/TimeService';
 
 const { ccclass, property } = _decorator;
 

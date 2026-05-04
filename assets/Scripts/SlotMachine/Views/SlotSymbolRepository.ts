@@ -1,9 +1,9 @@
 import { SpriteFrame, SpriteAtlas } from 'cc';
 import { SlotSymbolEnum } from '../Enums/SlotSymbolEnum';
 import { SlotGameConfiguration } from '../Configuration/SlotGameConfiguration';
-import { ResourcePaths } from 'db://assets/Scripts/Shared/ResourcePaths';
-import { AppCache } from 'db://assets/Scripts/Shared/AppCache';
-import { ResourceLoader } from 'db://assets/Scripts/Shared/ResourceLoader';
+import { ResourcePaths } from '../../ResourceLoad/ResourcePaths';
+import { AppCache } from '../../ResourceLoad/AppCache';
+import { ResourceLoader } from '../../ResourceLoad/ResourceLoader';
 
 export class SlotSymbolRepository
 {

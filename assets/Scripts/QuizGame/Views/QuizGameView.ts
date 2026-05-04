@@ -1,9 +1,9 @@
 import { _decorator, Component } from 'cc';
 import { IQuizGameView } from './IQuizGameView';
-import { QuestionPanelView } from 'db://assets/Scripts/QuizGame/Views/QuestionPanelView';
-import { FeedbackPanelView } from 'db://assets/Scripts/QuizGame/Views/FeedbackPanelView';
-import { ResultsPanelView } from 'db://assets/Scripts/QuizGame/Views/ResultsPanelView';
-import { StatementAnimationHandler } from 'db://assets/Scripts/QuizGame/Views/Handlers/StatementAnimationHandler';
+import { QuestionPanelView } from './QuestionPanelView';
+import { FeedbackPanelView } from './FeedbackPanelView';
+import { ResultsPanelView } from './ResultsPanelView';
+import { StatementAnimationHandler } from './Handlers/StatementAnimationHandler';
 
 const { ccclass, property } = _decorator;
 

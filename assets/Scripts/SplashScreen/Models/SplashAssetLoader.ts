@@ -1,10 +1,10 @@
 import { SpriteAtlas, AudioClip, JsonAsset } from 'cc';
 import { IAssetLoader } from './IAssetLoader';
-import { ITimeService } from 'db://assets/Scripts/MainMenu/Models/Services/ITimeService';
-import { AppCache } from 'db://assets/Scripts/Shared/AppCache';
-import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
-import { ResourcePaths } from 'db://assets/Scripts/Shared/ResourcePaths';
-import { ResourceLoader } from 'db://assets/Scripts/Shared/ResourceLoader';
+import { ITimeService } from '../../MainMenu/Models/Services/ITimeService';
+import { AppCache } from '../../ResourceLoad/AppCache';
+import { ApiResult } from '../../ResourceLoad/ApiResult';
+import { ResourcePaths } from '../../ResourceLoad/ResourcePaths';
+import { ResourceLoader } from '../../ResourceLoad/ResourceLoader';
 
 const STEP_DELAY_MS = 100;
 

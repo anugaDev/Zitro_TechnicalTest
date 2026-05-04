@@ -1,7 +1,7 @@
 import { ITimeService } from './ITimeService';
-import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
-import { IWorldTimeApiOrgResponse } from 'db://assets/Scripts/MainMenu/Models/Entities/IWorldTimeApiOrgResponse';
-import { ITimeApiServiceResponse } from 'db://assets/Scripts/MainMenu/Models/Entities/ITimeApiServiceResponse';
+import { ApiResult } from '../../../ResourceLoad/ApiResult';
+import { IWorldTimeApiOrgResponse } from '../Entities/IWorldTimeApiOrgResponse';
+import { ITimeApiServiceResponse } from '../Entities/ITimeApiServiceResponse';
 
 export class TimeService implements ITimeService
 {

@@ -1,8 +1,8 @@
 import { _decorator, Component, Button, RichText } from 'cc';
 import { IMainMenuView } from './IMainMenuView';
-import { AnimationController } from 'db://assets/Scripts/Core/Animations/AnimationController';
-import { FadeInAnimation } from 'db://assets/Scripts/Core/Animations/FadeInAnimation';
-import { FadeOutAnimation } from 'db://assets/Scripts/Core/Animations/FadeOutAnimation';
+import { AnimationController } from '../../Core/Animations/AnimationController';
+import { FadeInAnimation } from '../../Core/Animations/FadeInAnimation';
+import { FadeOutAnimation } from '../../Core/Animations/FadeOutAnimation';
 
 const { ccclass, property } = _decorator;
 

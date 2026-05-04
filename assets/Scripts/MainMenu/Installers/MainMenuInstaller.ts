@@ -3,7 +3,7 @@ import { MainMenuModel } from '../Models/MainMenuModel';
 import { MainMenuView } from '../Views/MainMenuView';
 import { MainMenuController } from '../Controllers/MainMenuController';
 import { SceneNavigator } from '../../Core/SceneNavigator';
-import { TimeService } from 'db://assets/Scripts/MainMenu/Models/Services/TimeService';
+import { TimeService } from '../Models/Services/TimeService';
 
 const { ccclass, property } = _decorator;
 

@@ -1,8 +1,8 @@
 import { Node } from 'cc';
-import { AnimationController } from 'db://assets/Scripts/Core/Animations/AnimationController';
-import { StatementFadeAnimation } from 'db://assets/Scripts/Core/Animations/StatementFadeAnimation';
-import { FadeInAnimation } from 'db://assets/Scripts/Core/Animations/FadeInAnimation';
-import { FadeOutAnimation } from 'db://assets/Scripts/Core/Animations/FadeOutAnimation';
+import { AnimationController } from '../../../Core/Animations/AnimationController';
+import { StatementFadeAnimation } from '../../../Core/Animations/StatementFadeAnimation';
+import { FadeInAnimation } from '../../../Core/Animations/FadeInAnimation';
+import { FadeOutAnimation } from '../../../Core/Animations/FadeOutAnimation';
 
 export class StatementAnimationHandler
 {
@@ -20,7 +20,7 @@ export class StatementAnimationHandler
             new StatementFadeAnimation('statementFade', statementNode, answersNode),
             new FadeInAnimation('resultsFadeIn', resultsPanel, StatementAnimationHandler.RESULTS_FADE_IN_DURATION),
             new FadeOutAnimation('feedbackFadeOut', feedbackPanel, StatementAnimationHandler. FEEDBACK_FADE_OUT_DURATION),
-            new FadeOutAnimation('resultsFadeOut', resultsPanel, StatementAnimationHandler.RESULTS_FADE_OUT_DURATION),
+            new FadeOutAnimation('resultsFadeOut', resultsPanel, StatementAnimationHandler.RESULTS_FADE_OUT_DURATION)
         ]);
     }
 

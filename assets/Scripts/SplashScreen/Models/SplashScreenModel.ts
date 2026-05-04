@@ -1,7 +1,7 @@
 import { ISplashScreenModel } from './ISplashScreenModel';
-import { CounterCoroutine } from 'db://assets/Scripts/Core/CounterCoroutine';
+import { CounterCoroutine } from '../../Core/CounterCoroutine';
 import { IAssetLoader } from './IAssetLoader';
-import { ApiResult } from 'db://assets/Scripts/Shared/ApiResult';
+import { ApiResult } from '../../ResourceLoad/ApiResult';
 
 export class SplashScreenModel implements ISplashScreenModel
 {
