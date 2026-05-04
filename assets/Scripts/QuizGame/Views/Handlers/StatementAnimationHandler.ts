@@ -1,8 +1,8 @@
-import { Node } from 'cc';
 import { AnimationController } from '../../../Core/Animations/AnimationController';
 import { StatementFadeAnimation } from '../../../Core/Animations/StatementFadeAnimation';
 import { FadeInAnimation } from '../../../Core/Animations/FadeInAnimation';
 import { FadeOutAnimation } from '../../../Core/Animations/FadeOutAnimation';
+import { Node } from 'cc';
 
 export class StatementAnimationHandler
 {

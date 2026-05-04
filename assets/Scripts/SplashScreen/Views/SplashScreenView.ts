@@ -14,6 +14,21 @@ export class SplashScreenView extends Component implements ISplashScreenView {
     @property(Label)
     public AssetStatusLabel: Label = null!;
 
+    @property({ type: String })
+    public loadingText: string = 'Loading...';
+
+    @property({ type: String })
+    public standByText: string = 'Please stand by...';
+
+    @property({ type: String })
+    public startingGameText: string = 'Starting game...';
+
+    @property({ type: String })
+    public successPrefix: string = '\u2713 ';
+
+    @property({ type: String })
+    public errorPrefix: string = '\u2717 ';
+
     private _animations: AnimationController = null!;
 
     protected onLoad(): void {
@@ -27,33 +42,28 @@ export class SplashScreenView extends Component implements ISplashScreenView {
     }
 
     public showAssetStatus(result: ApiResult<string>): void {
-
-        if (!this.AssetStatusLabel) {
-            return;
-        }
-
         if (ApiResult.isSuccess(result)) {
-            this.AssetStatusLabel.string = `✓ ${result.data}`;
+            this.setStatusLabel(`${this.successPrefix}${result.data}`);
         } else if (ApiResult.isError(result)) {
-            this.AssetStatusLabel.string = `✗ ${result.message}`;
-        }
-        else {
-            this.AssetStatusLabel.string = 'Loading...';
+            this.setStatusLabel(`${this.errorPrefix}${result.message}`);
+        } else {
+            this.setStatusLabel(this.loadingText);
         }
     }
 
     public showStandBy(): void {
-        if (!this.AssetStatusLabel) {
-            return;
-        }
-        this.AssetStatusLabel.string = 'Please stand by...';
+        this.setStatusLabel(this.standByText);
     }
 
     public showStartingGame(): void {
+        this.setStatusLabel(this.startingGameText);
+    }
+
+    private setStatusLabel(text: string): void {
         if (!this.AssetStatusLabel) {
             return;
         }
-        this.AssetStatusLabel.string = 'Starting game...';
+        this.AssetStatusLabel.string = text;
     }
 
     public playFadeOut(onFinished: () => void): void {
