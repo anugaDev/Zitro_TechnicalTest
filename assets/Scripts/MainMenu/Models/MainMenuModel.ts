@@ -6,8 +6,9 @@ import { padZero } from '../../Core/Utils/StringUtils';
 import { ITimeService } from './Services/ITimeService';
 import { IMainMenuModel } from './IMainMenuModel';
 
-export class MainMenuModel implements IMainMenuModel {
-    private static readonly TIMEOUT_SERVER_TIMEOUT = 1000;
+export class MainMenuModel implements IMainMenuModel
+{
+    private static readonly SERVER_TIMEOUT_MS = 1000;
 
     private _intervalId: ReturnType<typeof setInterval> | null = null;
 
@@ -34,11 +35,11 @@ export class MainMenuModel implements IMainMenuModel {
 
     public startClock(onTick: (time: string) => void): void {
         this.stopClock();
-        this._intervalId = setInterval(() => this.getTick(onTick), MainMenuModel.TIMEOUT_SERVER_TIMEOUT);
+        this._intervalId = setInterval(() => this.getTick(onTick), MainMenuModel.SERVER_TIMEOUT_MS);
     }
 
     private getTick(onTick: (time: string) => void): void {
-        this._currentTime = new Date(this._currentTime.getTime() + MainMenuModel.TIMEOUT_SERVER_TIMEOUT);
+        this._currentTime = new Date(this._currentTime.getTime() + MainMenuModel.SERVER_TIMEOUT_MS);
         onTick(this.getCurrentTime());
     }
 
