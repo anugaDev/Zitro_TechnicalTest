@@ -76,12 +76,14 @@ export class QuizGameView extends Component implements IQuizGameView {
         const node = instantiate(this.AnswerButtonPrefab);
         const answerButtonView = node.getComponent(AnswerButtonView)!;
         answerButtonView.Label.string = answerText;
+        this.setButtonListeners(answerButtonView, index)
+        this.AnswerLayout.addChild(node);
+    }
+    private setButtonListeners(answerButtonView: any, index: number) : void {
         answerButtonView.Button.node.on(
             Button.EventType.CLICK,
-            () => this.onAnswerSelected?.(index),
-            this
+            () => this.onAnswerSelected?.(index), this
         );
-        this.AnswerLayout.addChild(node);
     }
 
     public showFeedback(wasCorrect: boolean, correctText: string): void {
@@ -121,61 +123,87 @@ export class QuizGameView extends Component implements IQuizGameView {
     }
 
     public unbindAll(): void {
-        this.NextButton?.node.off(Button.EventType.CLICK, this.handleNextClick, this);
-        this.PlayAgainButton?.node.off(Button.EventType.CLICK, this.handlePlayAgainClick, this);
-        if (this.AnswerLayout?.isValid) {
-            this.AnswerLayout.removeAllChildren();
-        }
-
+        this.removeEventListeners();
+        this.removeAllChildren();
         this.onAnswerSelected = null;
         this.onNextPressed = null;
         this.onPlayAgainPressed = null;
     }
 
+    private removeEventListeners(): void {
+        this.NextButton?.node.off(Button.EventType.CLICK, this.handleNextClick, this);
+        this.PlayAgainButton?.node.off(Button.EventType.CLICK, this.handlePlayAgainClick, this);
+    }
+
+    private removeAllChildren(): void {
+        if (!this.AnswerLayout?.isValid) {
+            return;
+        }
+        this.AnswerLayout.removeAllChildren();
+    }
+
     private handleNextClick(): void {
         this.NextButton.interactable = false;
-        this._animController.playFeedbackFadeOut(() => {
-            this.FeedbackPanel.active = false;
-            this.onNextPressed?.();
+        this._animController.playFeedbackFadeOut(() => this.onFeedbackFadeOutFinished());
+    }
 
-            if (!this.ResultsPanel.active) {
-                this.showQuestionPanel();
-                this.setAnswersInteractable(false);
-                this._animController.playStatementFade(() => {
-                    this.NextButton.interactable = true;
-                    this.setAnswersInteractable(true);
-                });
-            } else {
-                this.NextButton.interactable = true;
-                this._animController.playResultsFadeIn();
-            }
-        });
+    private onFeedbackFadeOutFinished(): void {
+        this.FeedbackPanel.active = false;
+        this.onNextPressed?.();
+
+        if (!this.ResultsPanel.active) {
+            this.showQuestionPanel();
+            this.setAnswersInteractable(false);
+            this._animController.playStatementFade(() => this.onNextStatementFadeFinished());
+        }
+        else {
+            this.PlayAgainButton.interactable = false;
+            this._animController.playResultsFadeIn(() => this.onResultsFadeInFinished());
+        }
+    }
+
+    private onNextStatementFadeFinished(): void {
+        this.NextButton.interactable = true;
+        this.setAnswersInteractable(true);
+    }
+
+    private onResultsFadeInFinished(): void {
+        this.NextButton.interactable = true;
+        this.PlayAgainButton.interactable = true;
     }
 
     private handlePlayAgainClick(): void {
         this.PlayAgainButton.interactable = false;
-        this._animController.playResultsFadeOut(() => {
-            this.ResultsPanel.active = false;
-            this.onPlayAgainPressed?.();
-            this.setAnswersInteractable(false);
-            this._animController.playStatementFade(() => {
-                this.PlayAgainButton.interactable = true;
-                this.setAnswersInteractable(true);
-            });
-        });
+        this._animController.playResultsFadeOut(() => this.onResultsFadeOutFinished());
+    }
+
+    private onResultsFadeOutFinished(): void {
+        this.ResultsPanel.active = false;
+        this.onPlayAgainPressed?.();
+        this.setAnswersInteractable(false);
+        this._animController.playStatementFade(() => this.onPlayAgainStatementFadeFinished());
+    }
+
+    private onPlayAgainStatementFadeFinished(): void {
+        this.PlayAgainButton.interactable = true;
+        this.setAnswersInteractable(true);
     }
 
     private setAnswersInteractable(value: boolean): void {
-        this.AnswerLayout.children.forEach(child => {
-            const answerBtn = child.getComponent(AnswerButtonView);
-            if (answerBtn?.Button?.isValid) {
-                answerBtn.Button.interactable = value;
-            }
-        });
+        this.AnswerLayout.children.forEach(child => this.setAnswerButtonInteractable(child, value));
+    }
+    private setAnswerButtonInteractable(child: Node, value: boolean): void {
+        const answerButton = child.getComponent(AnswerButtonView);
+        if (!answerButton?.Button?.isValid) {
+            return;
+        }
+        answerButton.Button.interactable = value;
     }
 
     private resetOpacity(node: Node): void {
         const uiOpacity = node.getComponent(UIOpacity);
-        if (uiOpacity) uiOpacity.opacity = 255;
+        if (uiOpacity){
+            uiOpacity.opacity = 255;
+        }
     }
 }

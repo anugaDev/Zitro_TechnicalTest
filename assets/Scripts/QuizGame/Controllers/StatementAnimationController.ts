@@ -23,30 +23,29 @@ export class StatementAnimationController {
     }
 
     public playStatementFade(onCompleted: () => void): void {
-        this._animations.onFinished = (id) => {
-            if (id !== 'statementFade') return;
-            onCompleted();
-        };
+        this.subscribeOnFinished('statementFade', onCompleted);
         this._animations.play('statementFade');
     }
 
     public playFeedbackFadeOut(onCompleted: () => void): void {
-        this._animations.onFinished = (id) => {
-            if (id !== 'feedbackFadeOut') return;
-            onCompleted();
-        };
+        this.subscribeOnFinished('feedbackFadeOut', onCompleted);
         this._animations.play('feedbackFadeOut');
     }
 
     public playResultsFadeOut(onCompleted: () => void): void {
-        this._animations.onFinished = (id) => {
-            if (id !== 'resultsFadeOut') return;
-            onCompleted();
-        };
+        this.subscribeOnFinished('resultsFadeOut', onCompleted);
         this._animations.play('resultsFadeOut');
     }
 
-    public playResultsFadeIn(): void {
+    public playResultsFadeIn(onCompleted: () => void): void {
+        this.subscribeOnFinished('resultsFadeIn', onCompleted);
         this._animations.play('resultsFadeIn');
+    }
+
+    private subscribeOnFinished(animationId: string, onCompleted: () => void): void {
+        this._animations.onFinished = (id) => {
+            if (id !== animationId) return;
+            onCompleted();
+        };
     }
 }

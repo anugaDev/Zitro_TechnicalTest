@@ -28,5 +28,5 @@ export class SplashScreenView extends Component implements ISplashScreenView {
         this._animations.play('fadeOut');
     }
 
-    public unbindAll(): void {}
+    public unbindAll(): void { }
 }

@@ -23,7 +23,7 @@ export class GameSceneView extends Component implements IGameSceneView {
         this.ExitButton.node.on(Button.EventType.CLICK, this.handleExitClick, this);
 
         this._animations = new AnimationController([
-            new FadeInAnimation ('fadeIn',  this.SceneRoot, 0.5),
+            new FadeInAnimation('fadeIn', this.SceneRoot, 0.5),
             new FadeOutAnimation('fadeOut', this.SceneRoot, 0.5),
         ]);
     }

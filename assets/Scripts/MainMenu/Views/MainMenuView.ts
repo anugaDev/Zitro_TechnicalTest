@@ -22,7 +22,7 @@ export class MainMenuView extends Component implements IMainMenuView {
 
     protected onLoad(): void {
         this._animations = new AnimationController([
-            new FadeInAnimation ('fadeIn',  this.node, 0.5),
+            new FadeInAnimation('fadeIn', this.node, 0.5),
             new FadeOutAnimation('fadeOut', this.node, 0.5),
         ]);
     }
