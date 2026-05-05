@@ -7,7 +7,8 @@ import { ApiResult } from '../../ResourceLoad/ApiResult';
 const { ccclass, property } = _decorator;
 
 @ccclass('SplashScreenView')
-export class SplashScreenView extends Component implements ISplashScreenView {
+export class SplashScreenView extends Component implements ISplashScreenView
+{
     private static readonly FADE_OUT_DURATION : number = 0.5;
 
     @property(ProgressBar)
@@ -35,49 +36,66 @@ export class SplashScreenView extends Component implements ISplashScreenView {
 
     private _isInitialized: boolean = false;
 
-    protected onLoad(): void {
+    protected onLoad(): void
+    {
         this.initialize();
     }
 
-    public initialize(): void {
-        if (this._isInitialized) { return; }
+    public initialize(): void
+    {
+        if (this._isInitialized)
+        {
+            return;
+        }
         this._isInitialized = true;
         this._animations = new AnimationController([new FadeOutAnimation('fadeOut', this.node, SplashScreenView.FADE_OUT_DURATION),]);
     }
 
-    public setProgressBar(progress: number): void {
+    public setProgressBar(progress: number): void
+    {
         this.ProgressBar.progress = progress;
     }
 
-    public showAssetStatus(result: ApiResult<string>): void {
-        if (ApiResult.isSuccess(result)) {
+    public showAssetStatus(result: ApiResult<string>): void
+    {
+        if (ApiResult.isSuccess(result))
+        {
             this.setStatusLabel(`${this.successPrefix}${result.data}`);
-        } else if (ApiResult.isError(result)) {
+        }
+        else if (ApiResult.isError(result))
+        {
             this.setStatusLabel(`${this.errorPrefix}${result.message}`);
-        } else {
+        }
+        else
+        {
             this.setStatusLabel(this.loadingText);
         }
     }
 
-    public showStandBy(): void {
+    public showStandBy(): void
+    {
         this.setStatusLabel(this.standByText);
     }
 
-    public showStartingGame(): void {
+    public showStartingGame(): void
+    {
         this.setStatusLabel(this.startingGameText);
     }
 
-    private setStatusLabel(text: string): void {
-        if (!this.AssetStatusLabel) {
+    private setStatusLabel(text: string): void
+    {
+        if (!this.AssetStatusLabel)
+        {
             return;
         }
         this.AssetStatusLabel.string = text;
     }
 
-    public playFadeOut(onFinished: () => void): void {
+    public playFadeOut(onFinished: () => void): void
+    {
         this._animations.onFinished = () => onFinished();
         this._animations.play('fadeOut');
     }
 
-    public unbindAll(): void { }
+    public unbindAll(): void {}
 }

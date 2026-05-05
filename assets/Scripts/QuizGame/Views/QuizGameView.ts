@@ -44,7 +44,10 @@ export class QuizGameView extends Component implements IQuizGameView
 
     public initialize(): void
     {
-        if (this._isInitialized) { return; }
+        if (this._isInitialized)
+        {
+            return;
+        }
         this._isInitialized = true;
         this._animationController = new StatementAnimationHandler(
             this.QuestionPanel.StatementText.node,

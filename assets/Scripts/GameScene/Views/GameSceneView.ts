@@ -27,7 +27,10 @@ export class GameSceneView extends Component implements IGameSceneView
 
     public initialize(): void
     {
-        if (this._isInitialized) { return; }
+        if (this._isInitialized)
+        {
+            return;
+        }
         this._isInitialized = true;
         this.ExitButton.node.on(Button.EventType.CLICK, this.handleExitClick, this);
 
