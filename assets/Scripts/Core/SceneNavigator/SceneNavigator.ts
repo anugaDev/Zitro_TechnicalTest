@@ -1,4 +1,4 @@
-import { director, game, system } from 'cc';
+import { director, game, sys } from 'cc';
 import { ISceneNavigator } from './ISceneNavigator';
 
 export class SceneNavigator implements ISceneNavigator
@@ -10,7 +10,7 @@ export class SceneNavigator implements ISceneNavigator
 
     public quit(): void
     {
-        if (!system.isNative)
+        if (!sys.isNative)
         {
             return;
         }
@@ -20,6 +20,6 @@ export class SceneNavigator implements ISceneNavigator
 
     public canQuit(): boolean
     {
-        return system.isNative;
+        return sys.isNative;
     }
 }
