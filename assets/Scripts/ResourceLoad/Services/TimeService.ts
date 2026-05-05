@@ -11,7 +11,7 @@ export class TimeService implements ITimeService
     private static readonly FALLBACK_URL =
         'https://timeapi.io/api/time/current/zone?timeZone=Europe/Madrid';
 
-    private static readonly TIMEOUT_MS = 8000;
+    private static readonly TIMEOUT_MILLISECONDS = 8000;
 
     private static readonly FETCH_HEADERS: HeadersInit = {
         'Accept': 'application/json',
@@ -91,7 +91,7 @@ export class TimeService implements ITimeService
         return new Promise<ApiResult<Date>>(resolve =>
             setTimeout(
                 () => resolve(ApiResult.error<Date>('Timeout')),
-                TimeService.TIMEOUT_MS
+                TimeService.TIMEOUT_MILLISECONDS
             )
         );
     }

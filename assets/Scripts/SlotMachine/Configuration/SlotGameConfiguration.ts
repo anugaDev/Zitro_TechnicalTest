@@ -12,7 +12,7 @@ export class SlotGameConfiguration
 
     static readonly REEL_COUNT = 3;
 
-    static readonly REEL_STAGGER_MS = 2000;
+    static readonly REEL_STAGGER_MILLISECONDS = 2000;
 
-    static readonly MIN_ALL_SPIN_MS = 3000;
+    static readonly MIN_ALL_SPIN_MILLISECONDS = 3000;
 }

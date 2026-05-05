@@ -13,14 +13,14 @@ export class AnimationController
 
     public play(id: string): void
     {
-        const anim = this._animations.get(id);
+        const animation = this._animations.get(id);
 
-        if (!anim)
+        if (!animation)
         {
             return;
         }
 
-        anim.onFinished = () => this.onFinished?.(id);
-        anim.play();
+        animation.onFinished = () => this.onFinished?.(id);
+        animation.play();
     }
 }

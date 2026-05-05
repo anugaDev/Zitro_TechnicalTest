@@ -47,20 +47,20 @@ export class SlotGameController
     {
         for (let i = 0; i < SlotGameConfiguration.REEL_COUNT; i++)
         {
-            this.delay(SlotGameConfiguration.REEL_STAGGER_MS * i, () => this.view.startReelSpin(i));
+            this.delay(SlotGameConfiguration.REEL_STAGGER_MILLISECONDS * i, () => this.view.startReelSpin(i));
         }
     }
 
     private scheduleReelStops(): void
     {
-        const stopBase = SlotGameConfiguration.REEL_STAGGER_MS * (SlotGameConfiguration.REEL_COUNT - 1) + SlotGameConfiguration.MIN_ALL_SPIN_MS;
+        const stopBase = SlotGameConfiguration.REEL_STAGGER_MILLISECONDS * (SlotGameConfiguration.REEL_COUNT - 1) + SlotGameConfiguration.MIN_ALL_SPIN_MILLISECONDS;
 
         for (let reelIndex = 0; reelIndex < SlotGameConfiguration.REEL_COUNT - 1; reelIndex++)
         {
-            this.delay(stopBase + SlotGameConfiguration.REEL_STAGGER_MS * reelIndex, () => this.stopReel(reelIndex));
+            this.delay(stopBase + SlotGameConfiguration.REEL_STAGGER_MILLISECONDS * reelIndex, () => this.stopReel(reelIndex));
         }
 
-        this.delay(stopBase + SlotGameConfiguration.REEL_STAGGER_MS * (SlotGameConfiguration.REEL_COUNT - 1), () => this.stopLastReel());
+        this.delay(stopBase + SlotGameConfiguration.REEL_STAGGER_MILLISECONDS * (SlotGameConfiguration.REEL_COUNT - 1), () => this.stopLastReel());
     }
 
     private stopReel(reelIndex: number, onStopped: () => void = () => { }): void
@@ -80,9 +80,9 @@ export class SlotGameController
         this.view.setSpinButtonInteractable(true);
     }
 
-    private delay(ms: number, callback: () => void): void
+    private delay(milliseconds: number, callback: () => void): void
     {
-        const id = setTimeout(callback, ms);
+        const id = setTimeout(callback, milliseconds);
         this._pendingTimers.push(id);
     }
 }

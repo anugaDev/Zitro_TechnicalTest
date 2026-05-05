@@ -2,12 +2,12 @@ import { ISceneNavigator } from '../../Core/SceneNavigator/ISceneNavigator';
 import { GlobalParameters } from '../../GlobalParameters';
 import { ApiResult } from '../../ResourceLoad/ApiResult';
 import { AppCache } from '../../ResourceLoad/AppCache';
-import { padZero } from '../../Core/Utils/StringUtils';
+import { padToTwoDigits } from '../../Core/Utils/StringUtils';
 import { IMainMenuModel } from './IMainMenuModel';
 
 export class MainMenuModel implements IMainMenuModel
 {
-    private static readonly SERVER_TIMEOUT_MS = 1000;
+    private static readonly SERVER_TIMEOUT_MILLISECONDS = 1000;
 
     private _intervalId: ReturnType<typeof setInterval> | null = null;
 
@@ -26,11 +26,11 @@ export class MainMenuModel implements IMainMenuModel
 
     public startClock(onTick: (time: string) => void): void {
         this.stopClock();
-        this._intervalId = setInterval(() => this.getTick(onTick), MainMenuModel.SERVER_TIMEOUT_MS);
+        this._intervalId = setInterval(() => this.getTick(onTick), MainMenuModel.SERVER_TIMEOUT_MILLISECONDS);
     }
 
     private getTick(onTick: (time: string) => void): void {
-        this._currentTime = new Date(this._currentTime.getTime() + MainMenuModel.SERVER_TIMEOUT_MS);
+        this._currentTime = new Date(this._currentTime.getTime() + MainMenuModel.SERVER_TIMEOUT_MILLISECONDS);
         onTick(this.getCurrentTime());
     }
 
@@ -43,9 +43,9 @@ export class MainMenuModel implements IMainMenuModel
     }
 
     public getCurrentTime(): string {
-        const hours = padZero(this._currentTime.getHours());
-        const minutes = padZero(this._currentTime.getMinutes());
-        const seconds = padZero(this._currentTime.getSeconds());
+        const hours = padToTwoDigits(this._currentTime.getHours());
+        const minutes = padToTwoDigits(this._currentTime.getMinutes());
+        const seconds = padToTwoDigits(this._currentTime.getSeconds());
         return `${hours}:${minutes}:${seconds}`;
     }
 

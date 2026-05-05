@@ -33,7 +33,7 @@ export class QuizGameView extends Component implements IQuizGameView
 
     public onResultsFadeOutCompleted: (() => void) | null = null;
 
-    private _animController: StatementAnimationHandler = null!;
+    private _animationController: StatementAnimationHandler = null!;
 
     private _isInitialized: boolean = false;
 
@@ -46,7 +46,7 @@ export class QuizGameView extends Component implements IQuizGameView
     {
         if (this._isInitialized) { return; }
         this._isInitialized = true;
-        this._animController = new StatementAnimationHandler(
+        this._animationController = new StatementAnimationHandler(
             this.QuestionPanel.StatementText.node,
             this.QuestionPanel.AnswerLayout,
             this.FeedbackPanel.node,
@@ -103,22 +103,22 @@ export class QuizGameView extends Component implements IQuizGameView
 
     public playFeedbackFadeOut(): void
     {
-        this._animController.playFeedbackFadeOut(() => this.onFeedbackFadeOutCompleted?.());
+        this._animationController.playFeedbackFadeOut(() => this.onFeedbackFadeOutCompleted?.());
     }
 
     public playStatementFade(): void
     {
-        this._animController.playStatementFade(() => this.onStatementFadeCompleted?.());
+        this._animationController.playStatementFade(() => this.onStatementFadeCompleted?.());
     }
 
     public playResultsFadeIn(): void
     {
-        this._animController.playResultsFadeIn(() => this.onResultsFadeInCompleted?.());
+        this._animationController.playResultsFadeIn(() => this.onResultsFadeInCompleted?.());
     }
 
     public playResultsFadeOut(): void
     {
-        this._animController.playResultsFadeOut(() => this.onResultsFadeOutCompleted?.());
+        this._animationController.playResultsFadeOut(() => this.onResultsFadeOutCompleted?.());
     }
 
     public setAnswerButtonsInteractable(value: boolean): void
