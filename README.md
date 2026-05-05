@@ -88,6 +88,7 @@ SplashScreen → MainMenu → QuizGame | SlotMachine
 | `ReelView` | Per-reel motion, update loop, stop tween |
 | `ReelStripBuilder` | Builds the symbol strip node hierarchy at runtime |
 | `SlotSymbolRepository` | Resolves `SpriteFrame`s from the atlas by `SlotSymbolEnum` |
+
 ---
 
 ## Optionals Summary
@@ -196,10 +197,11 @@ A looped `AnimationClip` created in the Cocos Creator timeline animates the Win 
   as the view and controller layers do not depend on how the statements are generated — they only receive the ones in use during gameplay.
 
 - Currently, the win condition in the slot is too rare. I would add more winning conditions with different combinations, partial wins (two matching)
-  and new symbols like multipliers. The clear separation between the game logic in the model and the reel strip built dynamically via configuration script
+  and new mechanics like multipliers. The clear separation between the game logic in the model and the reel strip built dynamically via configuration script
   would allow me to implement it quickly.
   
 - For a more designer-friendly approach, I would also expose reel configuration as Inspector `@property` fields to allow quick iteration during gameplay testing.
+
 ---
 
 *Adrián Núñez Garrido — 2026*
