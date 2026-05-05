@@ -56,8 +56,7 @@ SplashScreen → MainMenu → QuizGame | SlotMachine
 - Entrance animation: statement fades in → answers fade in with delay (`StatementFadeAnimation`).
 - Answer buttons disabled during animation, enabled on fade complete.
 - Correct/incorrect feedback with color-coded `RichText` labels.
-- Wrong answer shows the correct answer text.
-- Final score panel with Play Again option.
+- Wrong answer shows the correct answer text. On all questions answered, final panel shows score with Play Again option.
 - All feedback and result labels serializable from the Inspector.
 - Segmented view with different scripts each related to their own responsibility.
 
@@ -77,8 +76,7 @@ SplashScreen → MainMenu → QuizGame | SlotMachine
 - 3×3 grid with dynamically built reel strips from a `SpriteAtlas`.
 - Reel flow and order implemented in the controller for clear responsibility isolation in each layer.
 - Frame-by-frame tween animation driven by the reel's update loop.
-- All reel dimensions centralised in `SlotGameConfiguration` (single-file resizing).
-- Assets read from `AppCache` — no runtime loading in game scenes.
+- All reel dimensions centralised in `SlotGameConfiguration`.
 - Sounds: spin start, spin loop, stop per reel, win.
 
 ---
