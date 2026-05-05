@@ -78,7 +78,16 @@ SplashScreen → MainMenu → QuizGame | SlotMachine
 - Frame-by-frame tween animation driven by the reel's update loop.
 - All reel dimensions centralised in `SlotGameConfiguration`.
 - Sounds: spin start, spin loop, stop per reel, win.
+- Segmented view following the same principle as the Quiz — each component is named and scoped to a single responsibility.
 
+**View architecture:**
+
+| Component | Responsibility |
+|---|---|
+| `SlotGameView` | Scene orchestrator — spin button, audio, win panel |
+| `ReelView` | Per-reel motion, update loop, stop tween |
+| `ReelStripBuilder` | Builds the symbol strip node hierarchy at runtime |
+| `SlotSymbolRepository` | Resolves `SpriteFrame`s from the atlas by `SlotSymbolEnum` |
 ---
 
 ## Optionals Summary
