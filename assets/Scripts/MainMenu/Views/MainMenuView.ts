@@ -88,4 +88,10 @@ export class MainMenuView extends Component implements IMainMenuView {
             this.ExitButton.node.off(Button.EventType.CLICK);
         }
     }
+
+    public setExitButtonVisible(visible: boolean): void {
+        if (this.ExitButton?.isValid) {
+            this.ExitButton.node.active = visible;
+        }
+    }
 }

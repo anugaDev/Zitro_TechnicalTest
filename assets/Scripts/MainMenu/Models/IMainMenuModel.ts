@@ -2,6 +2,8 @@ import { ApiResult } from '../../ResourceLoad/ApiResult';
 
 export interface IMainMenuModel
 {
+    canQuit(): boolean;
+
     initializeTime(): ApiResult<Date>;
 
     startClock(onTick: (time: string) => void): void;

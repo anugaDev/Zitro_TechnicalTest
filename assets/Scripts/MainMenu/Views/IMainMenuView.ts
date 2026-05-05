@@ -17,4 +17,6 @@ export interface IMainMenuView
     playFadeOut(onFinished: () => void): void;
 
     unbindAll(): void;
+
+    setExitButtonVisible(visible: boolean): void;
 }

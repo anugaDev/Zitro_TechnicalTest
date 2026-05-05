@@ -49,6 +49,11 @@ export class MainMenuModel implements IMainMenuModel
         return `${hours}:${minutes}:${seconds}`;
     }
 
+    public canQuit(): boolean
+    {
+        return this.navigator.canQuit();
+    }
+
     public goToQuiz(): void {
         this.navigator.goTo(GlobalParameters.SCENE_QUIZ);
     }
