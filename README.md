@@ -75,9 +75,9 @@ SplashScreen → MainMenu → QuizGame | SlotMachine
 
 ### Slot Machine
 - 3×3 grid with dynamically built reel strips from a `SpriteAtlas`.
-- Reel order and flow implemented in the controller for clear responsability isolation in each layer.
+- Reel flow and order implemented in the controller for clear responsibility isolation in each layer.
 - Frame-by-frame tween animation driven by the reel's update loop.
-- All reel dimensions centralised in `SlotGameConfiguration` (single-file resizing)
+- All reel dimensions centralised in `SlotGameConfiguration` (single-file resizing).
 - Assets read from `AppCache` — no runtime loading in game scenes.
 - Sounds: spin start, spin loop, stop per reel, win.
 
@@ -158,7 +158,7 @@ A looped `AnimationClip` created in the Cocos Creator timeline animates the Win 
 
 ### Animation Controller
 - Strategy + Registry pattern — animations registered by ID and triggered by name.
--  `IAnimation` interface as template for future animation implementations — open/closed in practice.
+- `IAnimation` interface as template for future animation implementations — open/closed in practice.
 - Allows single or multi-step sequences without modifying the core `AnimationController`.
 
 ### Game Scene
@@ -192,7 +192,7 @@ A looped `AnimationClip` created in the Cocos Creator timeline animates the Win 
   and new symbols like multipliers. The clear separation between the game logic in the model and the reel strip built dynamically via configuration script
   would allow me to implement it quickly.
   
-- For a more designer-friendly approach, I would also expose reel configuration as Inspector @property fields to allow quick iteration during gameplay testing.
+- For a more designer-friendly approach, I would also expose reel configuration as Inspector `@property` fields to allow quick iteration during gameplay testing.
 ---
 
 *Adrián Núñez Garrido — 2026*
